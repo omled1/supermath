@@ -1,0 +1,25 @@
+{% extends "sheetmaker/layout.html" %}
+
+{% block title %}
+    Home Page 
+{% endblock %} 
+
+{% block body %} 
+    <div class="container home">
+        <div>
+            <a href="{% url 'multiplication' %}">
+                <button type="button" class="btn btn-danger sheet-button">Multiplication</button> 
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'division' %}">
+                <button type="button" class="btn btn-primary sheet-button">Division</button> 
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'arithmetic' %}">
+                <button type="button" class="btn btn-success sheet-button">Addition/Subtraction</button> 
+            </a>
+        </div>
+    </div>
+{% endblock %}

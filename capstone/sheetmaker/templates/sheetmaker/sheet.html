@@ -1,0 +1,34 @@
+{% extends "sheetmaker/layout.html" %}
+
+{% block title %}
+    {{ sheet_type }}
+{% endblock %}
+
+{% block body %}
+    <div class="problem-sheet">
+        {% if sheet_type == "Multiplication" %} 
+            <ol>
+                {% for problem in problems %}
+                    <li>{{ problem.first }} x {{ problem.second }} = {{ problem.answer }}</li>
+                {% endfor %}
+            </ol>
+        {% elif sheet_type == "Division" %} 
+            <ol>
+                {% for problem in problems %}
+                    <li>{{ problem.first }} / {{ problem.second }} = {{ problem.answer }}</li>
+                {% endfor %}
+            </ol>
+        {% elif sheet_type == "Addition/Subtraction" %} 
+            <ol>
+                {% for problem in problems %}
+                    <li>
+                        {% for number in problem.numbers %} 
+                            <span>{{ number }}, </span>
+                        {% endfor %}
+                        <span>{{ problem.answer }}</span>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+{% endblock %}

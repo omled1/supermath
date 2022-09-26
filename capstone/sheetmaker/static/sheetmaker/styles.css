@@ -1,0 +1,25 @@
+.user-label {
+    justify-content: right
+}
+
+.login, .register, .home {
+    padding: 17em;
+}
+
+.home {
+    justify-content: center;
+    text-align: center;
+}
+
+.sheet-button {
+    margin: 5px 0px 5px 0px;
+}
+
+.problem-sheet {
+    text-align: center;
+}
+
+ol {
+    display: table;
+    margin: 0 auto;
+}
