@@ -163,6 +163,27 @@ $().ready(() => {
         hiddenAnswer.value = answerValue
     })
 
+    $('.grid.editing td.a_expression input').keyup((e) => {
+        let currentInput = e.currentTarget
+        let parentEl = currentInput.closest('.a_expression')
+        let tdAnswer = parentEl.querySelector('td.answer')
+        let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
+        let numberInputs = parentEl.querySelectorAll('input[type="number"]')
+
+        let total = 0
+        numberInputs.forEach(item => {
+            total += utils.toNumber(item.value)
+        })
+        hiddenAnswer.value = total
+        tdAnswer.innerText = total
+
+        if (total < 0) {
+            $(parentEl).addClass('bg-danger')
+        } else {
+            $(parentEl).removeClass('bg-danger')
+        }
+    })
+
     $('#M_printSheetEl').click((e) => {
         console.log(e)
         let url = `/multiplication/${e.currentTarget.dataset.sheet_id}/print`

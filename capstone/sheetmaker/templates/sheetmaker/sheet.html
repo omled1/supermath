@@ -102,16 +102,50 @@
             </tbody>
         </table>
         {% elif sheet_type == "Addition/Subtraction" %} 
-            <ol>
-                {% for problem in problems %}
-                    <li>
-                        {% for number in problem.numbers %} 
-                            <span>{{ number }}, </span>
-                        {% endfor %}
-                        <span>{{ problem.answer }}</span>
-                    </li>
-                {% endfor %}
-            </ol>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th colspan="5" class="create-col">
+                        <div>
+                            <form action="{% url 'createArithmetic' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-plus-square"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sheet Name</th>
+                    <th scope="col">Created Date</th>
+                    <th scope="col">Modified Date</th>
+                    <th scope="col" class="action-col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sheet in sheets %}
+                <tr>
+                    <td>{{ sheet.id }}</td>
+                    <td class="text-start">{{ sheet.sheet_name }}</td>
+                    <td>{{ sheet.created }}</td>
+                    <td>{{ sheet.modified }}</td>
+                    <td class="action-col">
+                        <a href="/arithmetic/{{ sheet.id }}/view" class="btn btn-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <form action="{% url 'deleteArithmetic' %}" method="POST">
+                            {% csrf_token %}
+                            <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                    {% endfor %}
+            </tbody>
+        </table>
         {% endif %}
     </div>
 {% endblock %}

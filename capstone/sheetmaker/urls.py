@@ -17,4 +17,9 @@ urlpatterns = [
     path('deleteDivision', views.deleteDivisionSet, name='deleteDivision'),
     path('editDivision', views.editDivisionSet, name='editDivision'),
     path('arithmetic', views.arithmetic, name='arithmetic'),
+    path('arithmetic/<int:id>/<str:action>', views.arithmetic_view, name='arithmetic_view'),
+    path('createArithmetic', views.createNewArithmeticSet, name='createArithmetic'),
+    path('deleteArithmetic', views.deleteArithmeticSet, name='deleteArithmetic'),
+    path('editArithmetic', views.editArithmeticSet, name='editArithmetic'),
+    path('problems', views.arithmetic_problems, name="arithmetic_problems")
 ]

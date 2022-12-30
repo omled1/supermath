@@ -400,7 +400,7 @@ def division(request):
         "sheets": sheets
     }) 
 
-# showing the sheet view of the multiplication sheet
+# showing the sheet view of the division sheet
 @login_required(login_url="/login")
 @xframe_options_sameorigin
 def division_view(request, id, action):
@@ -433,9 +433,204 @@ def division_view(request, id, action):
         "sheet_print_data_2": printData2
     })
 
+# create arithmetic set
+@login_required(login_url="/login")
+def createNewArithmeticSet(request):
+    user = request.user.id
+    data = newArithmeticData()
+    new_sheet = Sheet(user_id=user, problem_data=data, sheet_type="arithmetic")
+    new_sheet.save()
+    sheet_id = new_sheet.id 
+    return redirect(f"/arithmetic/{sheet_id}/view")
+
+# delete arithmetic set
+@login_required(login_url="/login")
+def deleteArithmeticSet(request):
+    if request.method == "POST":
+        sheet_id = request.POST.get("sheet_id")
+        sheet = Sheet.objects.get(id=sheet_id)
+        sheet.delete()
+        return redirect("/arithmetic")
+
+# edit arithmetic set todo
+@login_required(login_url="/login")
+@require_http_methods(["POST"])
+def editArithmeticSet(request):
+    pass
+    # if request.method == "POST":
+    #     sheet_id = request.POST.get("sheet_id")
+    #     current_sheet = Sheet.objects.get(id=sheet_id)
+    #     new_sheet_name = request.POST.get("sheet_name")
+
+    #     first_numbers = request.POST.getlist('first')
+    #     second_numbers = request.POST.getlist('second')
+    #     answer_numbers = request.POST.getlist('answer')
+
+    #     def spliceData(start, end):
+    #         data = []
+    #         for i in range(start, end):
+    #             data.append({
+    #                 "number": i+1,
+    #                 "first": first_numbers[i],
+    #                 "second": second_numbers[i],
+    #                 "answer": answer_numbers[i]
+    #             })
+    #         return data
+
+    #     level1Data = spliceData(0,20)
+    #     level2Data = spliceData(20,40)
+    #     level3Data = spliceData(40,60)
+    #     level4Data = spliceData(60,80)
+    #     level5Data = spliceData(80,100)
+
+    #     jsonData = [
+    #         { 
+    #             'levelName': 'Level 1',
+    #             'numberSet': level1Data
+    #         },
+    #         { 
+    #             'levelName': 'Level 2',
+    #             'numberSet': level2Data
+    #         },
+    #         { 
+    #             'levelName': 'Level 3',
+    #             'numberSet': level3Data
+    #         },
+    #         { 
+    #             'levelName': 'Level 4',
+    #             'numberSet': level4Data
+    #         },
+    #         { 
+    #             'levelName': 'Level 5',
+    #             'numberSet': level5Data
+    #         }
+    #     ]
+
+    #     current_sheet.problem_data = jsonData
+    #     current_sheet.sheet_name = new_sheet_name
+    #     current_sheet.modified = datetime.now()
+    #     current_sheet.save()
+
+    #     return redirect(f"division/{sheet_id}/view")
+
+# creating the arithmetic data
 NEGATIVE_MAX_COUNT = 2
+def newArithmeticData():
+    problems = []
+    dupcheck = {}
+    a_config = config["arithmetic"]
+    config_keys = list(a_config.keys())
+    counter = 0
+    problem_counter = 0
+    for key in config_keys:
+        current_set = a_config[key]
+        while len(problems) < (counter + current_set["set_problems"]):
+            new_problem = dict()
+            new_problem["number"] = problem_counter + 1
+            number_list = []
+            negative_numbers = 0
+            for i in range(0, current_set["number_count"]):
+                if i > 0:
+                    random_int = random.randint(0, current_set["max"])
+                    if random_int < current_set["negative_percent"] and negative_numbers < NEGATIVE_MAX_COUNT and sum(number_list) >= current_set["min"]:
+                        negative_numbers += 1
+                        negative_int = random.randint(current_set["min"], current_set["max"])
+                        if (sum(number_list) - negative_int) < 0: 
+                            while (sum(number_list) - negative_int) < 0:
+                                negative_int = random.randint(current_set["min"], current_set["max"])
+                            number_list.append(negative_int * -1)
+                        else:
+                            number_list.append(negative_int * -1)
+                    else:
+                        number_list.append(random.randint(current_set["min"], current_set["max"]))
+                else:
+                    number_list.append(random.randint(current_set["min"], current_set["max"]))
+            new_problem["numbers"] = number_list
+            new_problem["answer"] = sum(number_list)
+            key_query = ""
+            for number in number_list:
+                key_query += str(number)
+            key_query += str(new_problem["answer"])
+            if not dupcheck.get(key_query):   
+                problems.append(new_problem)
+                dupcheck[key_query] = True
+                problem_counter += 1
+        counter += current_set["set_problems"]  
+        data = [
+            { 
+                'levelName': 'Level 1',
+                'numberSet': problems[0:10]
+            },
+            { 
+                'levelName': 'Level 2',
+                'numberSet': problems[10:40]
+            },
+            { 
+                'levelName': 'Level 3',
+                'numberSet': problems[40:60]
+            },
+            { 
+                'levelName': 'Level 4',
+                'numberSet': problems[60:70]
+            },
+            { 
+                'levelName': 'Level 5',
+                'numberSet': problems[70:80]
+            },
+            {
+                'levelName': 'Level 6',
+                'numberSet': problems[80:100]
+            }
+        ]
+    return data
+
+# showing all user's arithmetic sheets
 @login_required(login_url="/login")
 def arithmetic(request):
+    sheets = Sheet.objects.filter(sheet_type="arithmetic", user_id=request.user.id)
+    return render(request, "sheetmaker/sheet.html", {
+        "sheet_type": "Addition/Subtraction",
+        "sheets": sheets
+    }) 
+
+# showing the sheet view of the arithmetic sheet
+@login_required(login_url="/login")
+@xframe_options_sameorigin
+def arithmetic_view(request, id, action):
+    pageTemplate = "sheetmaker/sheet_item.html"
+    flat_list = []
+    printData1 = []
+    printData2 = []
+    sheet = Sheet.objects.get(id=id)
+    data = sheet
+
+    if action == "edit":
+        pageTemplate = "sheetmaker/sheet_item_edit.html"
+
+    if action == "print":
+        pageTemplate = "sheetmaker/sheet_item_print.html"
+        for problem in data.problem_data:
+            flat_list += problem["numberSet"]
+        
+        # TO DO
+        for i in range(0, 25):
+            printData1.append([flat_list[i], flat_list[i+25]])
+        
+        for i in range(50, 75):
+            printData2.append([flat_list[i], flat_list[i+25]])
+        # TO DO
+    
+    return render(request, pageTemplate, {
+        "sheet_type": "Addition/Subtraction",
+        "breadcrumb": "Addition/Subtraction",
+        "sheet_data": data,
+        "sheet_print_data_1": printData1,
+        "sheet_print_data_2": printData2
+    })
+
+NEGATIVE_MAX_COUNT = 2
+@login_required(login_url="/login")
+def arithmetic_problems(request):
     problems = []
     dupcheck = {}
     a_config = config["arithmetic"]

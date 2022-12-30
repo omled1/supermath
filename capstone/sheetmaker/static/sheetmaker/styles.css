@@ -107,6 +107,7 @@ html, body {
 
 .problem-sheet {
     text-align: center;
+    margin-top: 60px;
     /* overflow: auto; */
 }
 .problem-sheet > div {
@@ -114,6 +115,16 @@ html, body {
     flex-direction: column;
 }
 
+.problem-sheet div.grid.item-detail-panel {
+    margin-bottom: 80px;
+}
+.problem-sheet div.footer-action-panel {
+    height: 80px;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background: #f2f2f2;
+}
 .problem-sheet table.table thead tr th.create-col {
     text-align: right;
 }
@@ -174,22 +185,41 @@ table, th, td, tr{
     padding-right: 0.5em;
 }
 
-/* .grid table tbody tr td:last-child {
-    /* background-color: yellow; */
+.grid table tbody tr td {
+    white-space: nowrap;
+}
+
+.grid table tbody tr td:last-child {
+    text-align: right;
+}
 
 .grid table tbody tr td:last-child span {
     text-align: right;
     display: inline-block;
 }
-.grid table tbody tr td:last-child span:nth-child(1){
+.grid table tbody tr td:last-child > span:nth-child(1) {
     text-align: right;
 }
-.grid table tbody tr td:last-child span:nth-child(2){
+.grid table tbody tr td:last-child > span:nth-child(2){
     text-align: center;
     width: 20px;
 }
-.grid table tbody tr td:last-child span:nth-child(3){
+.grid table tbody tr td:last-child > span:nth-child(3){
     text-align: left;
+    min-width: 65px;
+}
+.grid table tbody tr td:last-child > table,
+.grid table tbody tr td:last-child > table tr,
+.grid table tbody tr td:last-child > table td {
+    border-collapse: collapse;
+    border: none;
+}
+
+.grid table tbody tr td:last-child > table td.equal {
+    width: 15px;
+}
+.grid table tbody tr td:last-child > table td.answer {
+    min-width: 35px;
 }
 
 .grid.editing table tbody td.expression {
@@ -198,7 +228,8 @@ table, th, td, tr{
     padding: 0.25em;
 }
 .grid.editing table tbody td input {
-    width: 60px;
+    /* width: 60px; */
+    text-align: right;
 }
 div.for-printing {
     font-size: 1.25em;

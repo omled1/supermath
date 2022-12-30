@@ -15,7 +15,7 @@
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
             <div>
-                <div class='grid editing'>
+                <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
                     <div class="animate__animated animate__fadeIn">
                         <table>
@@ -49,7 +49,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div style="height: 100px; ">
+                <div class="footer-action-panel">
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
                         <div class="col-6">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
@@ -74,7 +74,7 @@
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
 
             <div>
-                <div class='grid editing'>
+                <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
                     <div class="animate__animated animate__fadeIn">
                         <table>
@@ -108,7 +108,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div style="height: 100px; ">
+                <div class="footer-action-panel">
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
                         <div class="col-6">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
@@ -128,7 +128,67 @@
             </div>
         </form>
         {% elif sheet_type == "Addition/Subtraction" %} 
-            <div>Addition/Subtraction</div>
+        <form class="form-editing arithmetic" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
+            <div>
+                <div class='grid item-detail-panel editing'>
+                    {% for data in sheet_data.problem_data %}
+                    <div class="animate__animated animate__fadeIn">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for problem in data.numberSet %}
+                                <tr>
+                                    <td>{{ problem.number }}</td>
+                                    <td class="a_expression">
+                                        <table>
+                                            <tr>
+                                                {% for num in problem.numbers %}
+                                                <td class="px-2">
+                                                    <input type="number" name="{{data.levelName}}_numbers" value="{{num}}" min="-99999" max="99999" />
+                                                </td>
+                                                {% endfor %}
+                                                <td class="equal">=</td>
+                                                <td class="answer">{{ problem.answer }}</td>
+                                                <input type="hidden" name="{{data.levelName}}_answer" value="{{ problem.answer }}" />
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                
+                            </tbody>
+                        </table>
+        
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="footer-action-panel">
+                    <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
+                        <div class="col-6">
+                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
+                                value="{{sheet_data.sheet_name}}">
+                        </div>
+                        <div class="flex-none w-auto">
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
+                            </button>
+                            <a class="btn btn-danger" href="/arithmetic/{{ sheet_data.id }}/view">
+                                <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
+                            </a>
+                        </div>
+                    </div>
+                    <div id="alertContainerForArithmeticEl"></div>
+                </div>
+            </div>
+        </form>
         {% endif %}
     </div>
 {% endblock %}
