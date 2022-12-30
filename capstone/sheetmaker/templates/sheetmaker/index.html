@@ -6,20 +6,19 @@
 
 {% block body %} 
     <div class="container home">
-        <div>
-            <a href="{% url 'multiplication' %}">
-                <button type="button" class="btn btn-danger sheet-button">Multiplication</button> 
-            </a>
+        <div class="menu-item btn btn-danger d-flex align-items-center justify-content-center">
+            <a href="{% url 'multiplication' %}">x</a>
         </div>
-        <div>
-            <a href="{% url 'division' %}">
-                <button type="button" class="btn btn-primary sheet-button">Division</button> 
-            </a>
+        <div class="menu-item btn btn-primary d-flex align-items-center justify-content-center">
+            <a href="{% url 'division' %}">÷</a>
         </div>
-        <div>
-            <a href="{% url 'arithmetic' %}">
-                <button type="button" class="btn btn-success sheet-button">Addition/Subtraction</button> 
-            </a>
+        <div class="menu-item btn btn-success d-flex align-items-center justify-content-center">
+            <a href="{% url 'arithmetic' %}">+ / -</a>
         </div>
+    </div>
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
     </div>
 {% endblock %}

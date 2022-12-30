@@ -1,0 +1,120 @@
+{% extends "sheetmaker/layout.html" %}
+
+{% block title %}
+    {{ sheet_type }}
+{% endblock %}
+
+{% block subtitle %}
+    <span class="sub-title"><span class="px-1">/</span><a class="text-decoration-none text-nowrap text-dark" href="/{{breadcrumb}}">{{ sheet_type }}</a><span class="px-1">/</span><span class="text-nowrap">{{ sheet_data.sheet_name}}</span></span>
+{% endblock %}
+
+{% block body %}
+    <div class="problem-sheet">
+        {% if sheet_type == "Multiplication" %} 
+        <div>
+            <div class='grid'>
+                {% for data in sheet_data.problem_data %}
+                <div class="animate__animated animate__fadeIn">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for problem in data.numberSet %}
+                            <tr>
+                                <td>
+                                    {{ problem.number }}
+                                </td>
+                                <td>
+                                    <span>
+                                        {{ problem.first }} x {{ problem.second }}
+                                    </span>
+                                    <span>=</span>
+                                    <span>{{ problem.answer }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                {% endfor %}
+            </div>
+            <div style="height: 100px; ">
+                <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
+                    <!-- <div class="col-6">
+                        <input type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name" value="{{sheet_data.sheet_name}}">
+                    </div> -->
+                    <div class="flex-none w-auto">
+                        <a class="btn btn-primary" href="/multiplication/{{ sheet_data.id }}/edit">
+                            <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
+                        </a>
+                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" id="M_printSheetEl">
+                            <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
+                        </button>
+                        <button class="btn btn-info">
+                            <i class="bi bi-download"></i>&nbsp;&nbsp;Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% elif sheet_type == "Division" %} 
+        <div>
+            <div class='grid'>
+                {% for data in sheet_data.problem_data %}
+                <div class="animate__animated animate__fadeIn">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for problem in data.numberSet %}
+                            <tr>
+                                <td>
+                                    {{ problem.number }}
+                                </td>
+                                <td>
+                                    <span>
+                                        {{ problem.first }} ÷ {{ problem.second }}
+                                    </span>
+                                    <span>=</span>
+                                    <span>{{ problem.answer }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                {% endfor %}
+            </div>
+            <div style="height: 100px; ">
+                <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
+                    <!-- <div class="col-6">
+                        <input type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name" value="{{sheet_data.sheet_name}}">
+                    </div> -->
+                    <div class="flex-none w-auto">
+                        <a class="btn btn-primary" href="/division/{{ sheet_data.id }}/edit">
+                            <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
+                        </a>
+                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" id="D_printSheetEl">
+                            <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
+                        </button>
+                        <button class="btn btn-info">
+                            <i class="bi bi-download"></i>&nbsp;&nbsp;Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% elif sheet_type == "Addition/Subtraction" %} 
+            <div>Addition/Subtraction</div>
+        {% endif %}
+    </div>
+{% endblock %}

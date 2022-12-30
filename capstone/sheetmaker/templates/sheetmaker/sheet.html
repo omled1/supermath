@@ -4,20 +4,103 @@
     {{ sheet_type }}
 {% endblock %}
 
+{% block subtitle %}
+    <span class="sub-title">/&nbsp;{{ sheet_type }}</span>
+{% endblock %}
+
 {% block body %}
     <div class="problem-sheet">
-        {% if sheet_type == "Multiplication" %} 
-            <ol>
-                {% for problem in problems %}
-                    <li>{{ problem.first }} x {{ problem.second }} = {{ problem.answer }}</li>
-                {% endfor %}
-            </ol>
+        {% if sheet_type == "Multiplication" %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="5" class="create-col">
+                            <div>
+                                <form action="{% url 'createMultiplication' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-plus-square"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Sheet Name</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Modified Date</th>
+                        <th scope="col" class="action-col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sheet in sheets %}
+                    <tr>
+                        <td>{{ sheet.id }}</td>
+                        <td class="text-start">{{ sheet.sheet_name }}</td>
+                        <td>{{ sheet.created }}</td>
+                        <td>{{ sheet.modified }}</td>
+                        <td class="action-col">
+                            <a href="/multiplication/{{ sheet.id }}/view" class="btn btn-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <form action="{% url 'deleteMultiplication' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>   
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
         {% elif sheet_type == "Division" %} 
-            <ol>
-                {% for problem in problems %}
-                    <li>{{ problem.first }} / {{ problem.second }} = {{ problem.answer }}</li>
-                {% endfor %}
-            </ol>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th colspan="5" class="create-col">
+                        <div>
+                            <form action="{% url 'createDivision' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-plus-square"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sheet Name</th>
+                    <th scope="col">Created Date</th>
+                    <th scope="col">Modified Date</th>
+                    <th scope="col" class="action-col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sheet in sheets %}
+                <tr>
+                    <td>{{ sheet.id }}</td>
+                    <td class="text-start">{{ sheet.sheet_name }}</td>
+                    <td>{{ sheet.created }}</td>
+                    <td>{{ sheet.modified }}</td>
+                    <td class="action-col">
+                        <a href="/division/{{ sheet.id }}/view" class="btn btn-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <form action="{% url 'deleteDivision' %}" method="POST">
+                            {% csrf_token %}
+                            <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                    {% endfor %}
+            </tbody>
+        </table>
         {% elif sheet_type == "Addition/Subtraction" %} 
             <ol>
                 {% for problem in problems %}

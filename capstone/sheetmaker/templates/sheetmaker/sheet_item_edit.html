@@ -1,0 +1,134 @@
+{% extends "sheetmaker/layout.html" %}
+
+{% block title %}
+    {{ sheet_type }}
+{% endblock %}
+
+{% block subtitle %}
+    <span class="sub-title"><span class="px-1">/</span><a class="text-decoration-none text-nowrap text-dark" href="/{{breadcrumb}}">{{ sheet_type }}</a><span class="px-1">/</span><span class="text-nowrap">{{ sheet_data.sheet_name}}</span></span>
+{% endblock %}
+
+{% block body %}
+    <div class="problem-sheet">
+        {% if sheet_type == "Multiplication" %} 
+        <form class="form-editing" method="POST" action="{% url 'editMultiplication' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
+            <div>
+                <div class='grid editing'>
+                    {% for data in sheet_data.problem_data %}
+                    <div class="animate__animated animate__fadeIn">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for problem in data.numberSet %}
+                                <tr>
+                                    <td>
+                                        {{ problem.number }}
+                                    </td>
+                                    <td class="m_expression">
+                                        <span>
+                                            <input type="number" name="first" value="{{problem.first}}" min="0" max="99999" />
+                                            x
+                                            <input type="number" name="second" value="{{problem.second}}" min="0" max="99999" />
+                                        </span>
+                                        <span>=</span>
+                                        <span class="answer">{{ problem.answer }}</span>
+                                        <input type="hidden" name="answer" value="{{ problem.answer }}" />
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+        
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="height: 100px; ">
+                    <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
+                        <div class="col-6">
+                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
+                                value="{{sheet_data.sheet_name}}">
+                        </div>
+                        <div class="flex-none w-auto">
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
+                            </button>
+                            <a class="btn btn-danger" href="/multiplication/{{ sheet_data.id }}/view">
+                                <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {% elif sheet_type == "Division" %} 
+        <form class="form-editing division" onsubmit="return utils.validateDivisionForm(this)" method="POST" action="{% url 'editDivision' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
+
+            <div>
+                <div class='grid editing'>
+                    {% for data in sheet_data.problem_data %}
+                    <div class="animate__animated animate__fadeIn">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for problem in data.numberSet %}
+                                <tr>
+                                    <td>
+                                        {{ problem.number }}
+                                    </td>
+                                    <td class="d_expression">
+                                        <span>
+                                            <input type="number" name="first" value="{{problem.first}}" min="0" max="99999" />
+                                            ÷
+                                            <input type="number" name="second" value="{{problem.second}}" min="0" max="99999" />
+                                        </span>
+                                        <span>=</span>
+                                        <span class="answer">{{ problem.answer }}</span>
+                                        <input type="hidden" name="answer" value="{{ problem.answer }}" />
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+        
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="height: 100px; ">
+                    <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
+                        <div class="col-6">
+                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
+                                value="{{sheet_data.sheet_name}}">
+                        </div>
+                        <div class="flex-none w-auto">
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
+                            </button>
+                            <a class="btn btn-danger" href="/division/{{ sheet_data.id }}/view">
+                                <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
+                            </a>
+                        </div>
+                    </div>
+                    <div id="alertContainerForDivisionEl"></div>
+                </div>
+            </div>
+        </form>
+        {% elif sheet_type == "Addition/Subtraction" %} 
+            <div>Addition/Subtraction</div>
+        {% endif %}
+    </div>
+{% endblock %}

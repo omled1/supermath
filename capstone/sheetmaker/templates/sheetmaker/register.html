@@ -5,30 +5,37 @@
 {% endblock %}
 
 {% block body %}
-    <div class="register">
-        <h2>Register</h2>
-        {% if message %}
+
+<div class="container sub-main">
+    <div class="card" style="width: 25rem;">
+        <div class="card-body">
+            <h5 class="card-title">Register</h5>
+            {% if message %}
             <div>{{ message }}</div>
-        {% endif %}
+            {% endif %}
 
-        <form action="{% url 'register' %}" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="email" name="email" placeholder="Email Address">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-            </div>
-            <input class="btn btn-primary" type="submit" value="Register">
-        </form>
-
-        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Register">
+            </form>
+            <p class='pt-4'>
+                Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+            </p>
+        </div>
     </div>
+</div>
+
 
 {% endblock %}
