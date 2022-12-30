@@ -30,6 +30,28 @@ const utils = (() => {
         })
         $("body").prepend(_iframe)
     }
+    const _downloadSheet = () => {
+        let downloadFrame = _iframe.get(0)
+        try {
+            downloadFrame.contentWindow.downloadPDF()
+        } catch(e) {
+            console.log('unable to download ...')
+        }
+    }
+    const _download = (url) => {
+        _url = url
+        console.log('download', url);
+
+        if (_iframe) _iframe.remove()
+
+        _iframe = $('<iframe>', {
+            class: 'print',
+            id: 'iframeDownload',
+            src: url,
+            onload: "utils.downloadSheet()"
+        })
+        $("body").prepend(_iframe)
+    }
     const _toNumber = (val) => {
         if (!val) return 0
         return parseInt(val)
@@ -84,6 +106,8 @@ const utils = (() => {
     return {
         print: _print,
         printSheet: _printSheet,
+        download: _download,
+        downloadSheet: _downloadSheet,
         toNumber: _toNumber,
         validateDivisionForm: _validateDivisionForm,
         alertMessage: _alertMessage
@@ -195,6 +219,13 @@ $().ready(() => {
         let url = `/division/${e.currentTarget.dataset.sheet_id}/print`
         utils.print(url);
     })
+
+    $('.btn-download-pdf').click((e) => {
+        const {sheet_id, sheet_type} = e.currentTarget.dataset
+        let url = `/${sheet_type}/${sheet_id}/print`
+        utils.download(url);
+    })
+
 })
 
 
