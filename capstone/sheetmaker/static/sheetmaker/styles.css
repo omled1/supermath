@@ -231,21 +231,20 @@ table, th, td, tr{
     /* width: 60px; */
     text-align: right;
 }
+
 div.for-printing {
     font-size: 1.25em;
     font-family: Arial, Helvetica, sans-serif;
 }
-div.for-printing h1 {
+
+/* div.for-printing h1 {
    text-align: center; 
    font-weight: normal;
-}
+} */
 
-div.for-printing div.answer-page {
-    font-size: .6em;
-}
-div.for-printing div.answer-page > table {
-    border-collapse: collapse;
-    border: none;
+div.for-printing h3 {
+   text-align: center; 
+   font-weight: lighter;
 }
 
 div.for-printing .table-for-print {
@@ -270,6 +269,83 @@ div.for-printing .table-for-print thead {
 div.for-printing .table-for-print thead th {
     text-align: center;
 }
+
+div.for-printing h3 {
+    margin-block-end: 0.25em;
+    font-size: 1.4em;
+}
+div.for-printing h3,
+div.for-printing h4  {
+    margin-block-start: 0.25em;
+    font-weight: lighter;
+    text-align: center;
+}
+
+div.for-printing.arithmetic h3 {
+    margin-block-end: 0.25em;
+    font-size: 1.4em;
+}
+div.for-printing.arithmetic h3,
+div.for-printing.arithmetic h4  {
+    margin-block-start: 0.25em;
+    font-weight: lighter;
+    text-align: left;
+}
+
+div.for-printing.arithmetic table  {
+    border-spacing: 0px;
+    padding: 0px;
+    border: none;
+}
+
+div.for-printing.arithmetic .table-for-print {
+    margin-bottom: 10px;
+}
+
+div.for-printing.arithmetic .table-for-print td {
+    padding: 0px;
+}
+
+div.for-printing.arithmetic .table-for-print  .table-cell {
+    width: 100px;
+}
+
+div.for-printing.arithmetic .table-for-print  .table-cell td {
+    padding: 5px;
+}
+div.for-printing.arithmetic .table-for-print  .table-cell .number {
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+div.for-printing.arithmetic .table-for-print  .table-cell .number-list {
+    text-align: right;
+    font-family: monospace;
+    font-size: 1.25em;
+    font-weight: 100;
+}
+
+div.for-printing.arithmetic .table-for-print  .table-cell .number-list div {
+    padding: 3px;
+}
+
+div.for-printing div.answer-page h3 {
+    text-align: center;
+}
+div.for-printing div.answer-page .table-for-print {
+    border-collapse: collapse;
+    border: none;
+}
+
+div.for-printing div.answer-page .table-for-print td {
+    padding: 5px;
+}
+
+/* div.for-printing.arithmetic .table-for-print  .table-cell .number-list div {
+    margin-right: 3px;
+} */
 
 @media print {
     @page {

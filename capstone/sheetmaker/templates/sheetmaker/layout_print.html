@@ -1,4 +1,5 @@
 {% load static %}
+{% load tz %}
 {% load humanize %}
 
 <!DOCTYPE html>
@@ -25,9 +26,9 @@
     function downloadPDF() {
         let opt = {
             margin: 0.5,
-            filename: 'SuperMathCorrespondenceForm.pdf',
+            filename: `SuperMathCorrespondenceForm-${'{% now "SHORT_DATE_FORMAT" %}'}.pdf`,
             image: { type: 'jpeg', quality: 1.0 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
         };
         html2pdf().set(opt).from(document.body).save();
         // console.log('download PDF')

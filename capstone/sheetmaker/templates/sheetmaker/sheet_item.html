@@ -48,7 +48,7 @@
                         <a class="btn btn-primary" href="/multiplication/{{ sheet_data.id }}/edit">
                             <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                         </a>
-                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" id="M_printSheetEl">
+                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="printSheetEl">
                             <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                         </button>
                         <button class="btn btn-info btn-download-pdf" data-sheet_type="multiplication" data-sheet_id="{{ sheet_data.id }}">
@@ -97,7 +97,7 @@
                         <a class="btn btn-primary" href="/division/{{ sheet_data.id }}/edit">
                             <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                         </a>
-                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" id="D_printSheetEl">
+                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="division" id="printSheetEl">
                             <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                         </button>
                         <button class="btn btn-info btn-download-pdf" data-sheet_type="division" data-sheet_id="{{ sheet_data.id }}">
@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        {% elif sheet_type == "Addition/Subtraction" %} 
+        {% elif sheet_type == "Arithmetic" %} 
         <div>
             <div class='grid item-detail-panel'>
                 {% for data in sheet_data.problem_data %}
@@ -147,7 +147,7 @@
                         <a class="btn btn-primary" href="/arithmetic/{{ sheet_data.id }}/edit">
                             <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                         </a>
-                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" id="D_printSheetEl">
+                        <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="arithmetic" id="printSheetEl">
                             <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                         </button>
                         <button class="btn btn-info btn-download-pdf" data-sheet_type="arithmetic" data-sheet_id="{{ sheet_data.id }}">

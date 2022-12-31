@@ -1,5 +1,3 @@
-
-
 const utils = (() => {
     let _iframe = null
     let _url = ''
@@ -16,6 +14,7 @@ const utils = (() => {
             printWindow.print();
         }
     }
+
     const _print = (url) => {
         _url = url
         console.log('print', url);
@@ -30,6 +29,7 @@ const utils = (() => {
         })
         $("body").prepend(_iframe)
     }
+
     const _downloadSheet = () => {
         let downloadFrame = _iframe.get(0)
         try {
@@ -38,6 +38,7 @@ const utils = (() => {
             console.log('unable to download ...')
         }
     }
+
     const _download = (url) => {
         _url = url
         console.log('download', url);
@@ -52,22 +53,17 @@ const utils = (() => {
         })
         $("body").prepend(_iframe)
     }
+
     const _toNumber = (val) => {
         if (!val) return 0
         return parseInt(val)
     }
+
     const _validateDivisionForm = (frm) => {
         console.log(frm)
         // get all the answers..
         const answers = frm.elements['answer']
         let formValid = true
-        // for(let idx=0; idx<answers.length;idx++) {
-        //     const item = answers[idx]
-        //     if (['0', 'Infinity'].indexOf(item.value) !== -1 ) {
-        //         formValid = false
-        //         break
-        //     }
-        // }
         answers.forEach((item) => {
             const expContainer = item.closest('.d_expression')
             if (['0', 'Infinity'].indexOf(item.value) !== -1 ) {
@@ -79,7 +75,6 @@ const utils = (() => {
                 $(expContainer).removeClass('bg-danger')
             }
         })
-
         if (formValid) {
             _alertMessage('alertContainerForDivisionEl', '', '')    
         } else {
@@ -87,6 +82,30 @@ const utils = (() => {
         } 
         return formValid        
     }
+
+    const _validateArithmeticForm = (frm) => {
+        console.log(frm)
+        let formValid = true
+        for (let idx=0; idx<6; idx++) {
+            const answers = frm.elements[`Level ${idx+1}_answer`]
+            answers.forEach((item) => {
+                const expContainer = item.closest('.a_expression')
+                if (['-Infinity'].indexOf(item.value) !== -1) {
+                    formValid = false
+                    $(expContainer).addClass('bg-danger')
+                } else {
+                    $(expContainer).removeClass('bg-danger')
+                }
+            })
+        } 
+        if (formValid) {
+            _alertMessage('alertContainerForArithmeticEl', '', '')
+        } else {
+            _alertMessage('alertContainerForArithmeticEl', 'Invalid entries!', 'danger')
+        }
+        return formValid
+    }
+
     const _alertMessage = (alertContainerId, message, type) => {
         const alertContainer = document.querySelector('#' + alertContainerId)
         if (!message) {
@@ -103,6 +122,7 @@ const utils = (() => {
             alertContainer.append(wrapper)
         }
     }
+
     return {
         print: _print,
         printSheet: _printSheet,
@@ -110,6 +130,7 @@ const utils = (() => {
         downloadSheet: _downloadSheet,
         toNumber: _toNumber,
         validateDivisionForm: _validateDivisionForm,
+        validateArithmeticForm: _validateArithmeticForm,
         alertMessage: _alertMessage
     }
 })()
@@ -171,16 +192,31 @@ $().ready(() => {
 
         let answerValue = 0
         if (inputName2 === "first") {
-            answerValue = Math.floor(input2Value / input1Value)
+            if ((input2Value % input1Value) !== 0) {
+                answerValue = 0
+            }
+            else {
+                answerValue = (input2Value / input1Value)
+            }
         }
         else {
-            answerValue = Math.floor(input1Value / input2Value)
+            if ((input1Value % input2Value) !== 0) {
+                answerValue = 0
+            }
+            else {
+                answerValue = Math.floor(input1Value / input2Value)
+            }
         }
 
         if (answerValue === 0 || answerValue === Infinity) {
             $(parentEl).addClass('bg-danger')
         } else {
             $(parentEl).removeClass('bg-danger')
+
+            // form validation ...
+            // validate form ...
+            const frm = input1.closest('form')
+            utils.validateDivisionForm(frm)
         }
 
         spanAnswer.innerText = answerValue
@@ -188,6 +224,7 @@ $().ready(() => {
     })
 
     $('.grid.editing td.a_expression input').keyup((e) => {
+        console.log(e)
         let currentInput = e.currentTarget
         let parentEl = currentInput.closest('.a_expression')
         let tdAnswer = parentEl.querySelector('td.answer')
@@ -198,26 +235,29 @@ $().ready(() => {
         numberInputs.forEach(item => {
             total += utils.toNumber(item.value)
         })
-        hiddenAnswer.value = total
-        tdAnswer.innerText = total
+
+        if (total < 0) {
+            total = -Infinity
+        }
 
         if (total < 0) {
             $(parentEl).addClass('bg-danger')
         } else {
             $(parentEl).removeClass('bg-danger')
+
+            // validate form ...
+            const frm = currentInput.closest('form')
+            utils.validateArithmeticForm(frm)
         }
+
+        hiddenAnswer.value = total
+        tdAnswer.innerText = total
     })
 
-    $('#M_printSheetEl').click((e) => {
-        console.log(e)
-        let url = `/multiplication/${e.currentTarget.dataset.sheet_id}/print`
-        utils.print(url);
-    })
-
-    $('#D_printSheetEl').click((e) => {
-        console.log(e)
-        let url = `/division/${e.currentTarget.dataset.sheet_id}/print`
-        utils.print(url);
+    $('#printSheetEl').click((e) => {
+        const {sheetType, sheet_id} = e.currentTarget.dataset
+        let url  = `/${sheetType}/${sheet_id}/print`
+        utils.print(url)
     })
 
     $('.btn-download-pdf').click((e) => {
@@ -227,14 +267,3 @@ $().ready(() => {
     })
 
 })
-
-
-// Vanilla javascript
-// window.addEventListener('popstate',  () => {
-//     // var state = e.state;
-//     // if (state !== null) {
-//     //     //load content with ajax
-//     // }
-//     console.log('kyle popstate')
-// });
-

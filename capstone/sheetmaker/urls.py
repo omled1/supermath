@@ -20,6 +20,5 @@ urlpatterns = [
     path('arithmetic/<int:id>/<str:action>', views.arithmetic_view, name='arithmetic_view'),
     path('createArithmetic', views.createNewArithmeticSet, name='createArithmetic'),
     path('deleteArithmetic', views.deleteArithmeticSet, name='deleteArithmetic'),
-    path('editArithmetic', views.editArithmeticSet, name='editArithmetic'),
-    path('problems', views.arithmetic_problems, name="arithmetic_problems")
+    path('editArithmetic', views.editArithmeticSet, name='editArithmetic')
 ]

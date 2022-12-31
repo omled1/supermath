@@ -7,7 +7,8 @@
 {% block body %}
 {% if sheet_type == "Multiplication" %}
 <div class="for-printing">
-    <h1>{{sheet_data.sheet_name}}</h1>
+    <h3>{{sheet_data.sheet_name}}</h3>
+    <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
             {% for problem in sheet_print_data_1 %}
@@ -23,7 +24,8 @@
 
     <div class="pagebreak"></div>
 
-    <h1>{{sheet_data.sheet_name}}</h1>
+    <h3>{{sheet_data.sheet_name}}</h3>
+    <h4>sub-title</h4>
     <table class="table-for-print">
         <tbody>
             {% for problem in sheet_print_data_2 %}
@@ -40,7 +42,7 @@
     <div class="pagebreak"></div>
 
     <div class="answer-page">
-        <h1>Answer Sheet</h1>
+        <h3>Answer Sheet (X)</h3>
         <table>
             <tr>
                 <td>
@@ -78,7 +80,8 @@
 </div>
 {% elif sheet_type == "Division" %}
 <div class="for-printing">
-    <h1>{{sheet_data.sheet_name}}</h1>
+    <h3>{{sheet_data.sheet_name}}</h3>
+    <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
             {% for problem in sheet_print_data_1 %}
@@ -94,7 +97,8 @@
 
     <div class="pagebreak"></div>
 
-    <h1>{{sheet_data.sheet_name}}</h1>
+    <h3>{{sheet_data.sheet_name}}</h3>
+    <h4>sub-title</h4>
     <table class="table-for-print">
         <tbody>
             {% for problem in sheet_print_data_2 %}
@@ -111,7 +115,7 @@
     <div class="pagebreak"></div>
     
     <div class="answer-page">
-        <h1>Answer Sheet</h1>
+        <h3>Answer Sheet (÷)</h3>
         <table>
             <tr>
                 <td>
@@ -147,5 +151,326 @@
 
     </div>
 </div>
+{% elif sheet_type == "Arithmetic" %} 
+<div class="for-printing arithmetic">
+    <h3>{{sheet_data.sheet_name}}</h3>
+    <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data1 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data2 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data3 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data4 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data5 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data6 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+
+    <div class="pagebreak"></div>
+
+    <h3>{{sheet_data.sheet_name}}</h3>
+    <h4>Time Limit 4 minutes</h4>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data7 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data8 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data9 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <table class="table-for-print">
+        <tbody>
+                <tr>
+                    {% for problem in sheet_print_data10 %}
+                    <td>
+                        <table class="table-cell">
+                            <tr>
+                                <td class="number">{{problem.number}}</td>
+                            </tr>
+                            <tr>
+                                <td class="number-list">
+                                    {% for number in problem.numbers %}
+                                        <div>
+                                            {{ number }}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+
+    <div class="pagebreak"></div>
+
+    <div class="answer-page">
+        <h3>Answer Sheet (+/-)</h3>
+        <table>
+            <tr>
+                <td>
+                    <table class="table-for-print">
+                        <tbody>
+                            {% for problem in sheet_answer_data1 %}
+                            <tr>
+                                <td class="number">{{problem.0.number}}</td>
+                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="number">{{problem.1.number}}</td>
+                                <td class="expression">{{problem.1.answer}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <table class="table-for-print">
+                        <tbody>
+                            {% for problem in sheet_answer_data2 %}
+                            <tr>
+                                <td class="number">{{problem.0.number}}</td>
+                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="number">{{problem.1.number}}</td>
+                                <td class="expression">{{problem.1.answer}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
 {% endif %}
 {% endblock %}

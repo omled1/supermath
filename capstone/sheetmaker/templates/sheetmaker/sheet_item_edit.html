@@ -51,9 +51,13 @@
                 </div>
                 <div class="footer-action-panel">
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                        <div class="col-6">
+                        <div class="col-5">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
                                 value="{{sheet_data.sheet_name}}">
+                        </div>
+                        <div class="col-3">
+                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle" aria-label="Subtitle"
+                                value="{{sheet_data.sheet_subname}}">
                         </div>
                         <div class="flex-none w-auto">
                             <button class="btn btn-success" type="submit">
@@ -74,6 +78,7 @@
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
 
             <div>
+                <div id="alertContainerForDivisionEl"></div>
                 <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
                     <div class="animate__animated animate__fadeIn">
@@ -110,9 +115,13 @@
                 </div>
                 <div class="footer-action-panel">
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                        <div class="col-6">
+                        <div class="col-5">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
                                 value="{{sheet_data.sheet_name}}">
+                        </div>
+                        <div class="col-3">
+                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle" aria-label="Subtitle"
+                                value="{{sheet_data.sheet_subname}}">
                         </div>
                         <div class="flex-none w-auto">
                             <button class="btn btn-success" type="submit">
@@ -123,15 +132,16 @@
                             </a>
                         </div>
                     </div>
-                    <div id="alertContainerForDivisionEl"></div>
+                    <!-- alert container was here -->
                 </div>
             </div>
         </form>
-        {% elif sheet_type == "Addition/Subtraction" %} 
+        {% elif sheet_type == "Arithmetic" %} 
         <form class="form-editing arithmetic" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}">
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
             <div>
+                <div id="alertContainerForArithmeticEl"></div>
                 <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
                     <div class="animate__animated animate__fadeIn">
@@ -161,20 +171,21 @@
                                         </table>
                                     </td>
                                 </tr>
-                                {% endfor %}
-
-                                
+                                {% endfor %}  
                             </tbody>
                         </table>
-        
                     </div>
                     {% endfor %}
                 </div>
                 <div class="footer-action-panel">
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                        <div class="col-6">
+                        <div class="col-5">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
                                 value="{{sheet_data.sheet_name}}">
+                        </div>
+                        <div class="col-3">
+                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle" aria-label="Subtitle"
+                                value="{{sheet_data.sheet_subname}}">
                         </div>
                         <div class="flex-none w-auto">
                             <button class="btn btn-success" type="submit">
@@ -185,7 +196,6 @@
                             </a>
                         </div>
                     </div>
-                    <div id="alertContainerForArithmeticEl"></div>
                 </div>
             </div>
         </form>

@@ -98,6 +98,7 @@ def editMultiplicationSet(request):
         sheet_id = request.POST.get("sheet_id")
         current_sheet = Sheet.objects.get(id=sheet_id)
         new_sheet_name = request.POST.get("sheet_name")
+        new_sheet_subname = request.POST.get("sheet_subname")
 
         first_numbers = request.POST.getlist('first')
         second_numbers = request.POST.getlist('second')
@@ -145,7 +146,8 @@ def editMultiplicationSet(request):
 
         current_sheet.problem_data = jsonData
         current_sheet.sheet_name = new_sheet_name
-        current_sheet.modified = datetime.now()
+        current_sheet.sheet_subname = new_sheet_subname
+        current_sheet.modified = datetime.utcnow()
         current_sheet.save()
 
         return redirect(f"multiplication/{sheet_id}/view")
@@ -265,6 +267,7 @@ def editDivisionSet(request):
         sheet_id = request.POST.get("sheet_id")
         current_sheet = Sheet.objects.get(id=sheet_id)
         new_sheet_name = request.POST.get("sheet_name")
+        new_sheet_subname = request.POST.get("sheet_subname")
 
         first_numbers = request.POST.getlist('first')
         second_numbers = request.POST.getlist('second')
@@ -312,7 +315,8 @@ def editDivisionSet(request):
 
         current_sheet.problem_data = jsonData
         current_sheet.sheet_name = new_sheet_name
-        current_sheet.modified = datetime.now()
+        current_sheet.sheet_subname = new_sheet_subname
+        current_sheet.modified = datetime.utcnow()
         current_sheet.save()
 
         return redirect(f"division/{sheet_id}/view")
@@ -456,62 +460,60 @@ def deleteArithmeticSet(request):
 @login_required(login_url="/login")
 @require_http_methods(["POST"])
 def editArithmeticSet(request):
-    pass
-    # if request.method == "POST":
-    #     sheet_id = request.POST.get("sheet_id")
-    #     current_sheet = Sheet.objects.get(id=sheet_id)
-    #     new_sheet_name = request.POST.get("sheet_name")
+    if request.method == "POST":
+        sheet_id = request.POST.get("sheet_id")
+        current_sheet = Sheet.objects.get(id=sheet_id)
+        new_sheet_name = request.POST.get("sheet_name")
+        new_sheet_subname = request.POST.get("sheet_subname")
+        levels = [[] for i in range(0, 6)]
 
-    #     first_numbers = request.POST.getlist('first')
-    #     second_numbers = request.POST.getlist('second')
-    #     answer_numbers = request.POST.getlist('answer')
+        # length of answers / length of numbers to figure out the step
+        problem_counter = 1
+        for i in range(0, len(levels)):
+            current_level_numbers = request.POST.getlist(f"Level {i+1}_numbers")
+            current_level_answers = request.POST.getlist(f"Level {i+1}_answer")
+            splice = int(len(current_level_numbers) / len(current_level_answers))
+            for j in range(0, len(current_level_answers)):
+                problem_numbers = current_level_numbers[splice*j:splice*(j+1)]
+                problem_answer = current_level_answers[j]
+                problem = {"number": problem_counter, "numbers": problem_numbers, "answer": problem_answer}
+                levels[i].append(problem)
+                problem_counter += 1
 
-    #     def spliceData(start, end):
-    #         data = []
-    #         for i in range(start, end):
-    #             data.append({
-    #                 "number": i+1,
-    #                 "first": first_numbers[i],
-    #                 "second": second_numbers[i],
-    #                 "answer": answer_numbers[i]
-    #             })
-    #         return data
+        jsonData = [
+            {
+                'levelName': 'Level 1',
+                'numberSet': levels[0]
+            },
+            {
+                'levelName': 'Level 2',
+                'numberSet': levels[1]
+            },
+            {
+                'levelName': 'Level 3',
+                'numberSet': levels[2]
+            },
+            {
+                'levelName': 'Level 4',
+                'numberSet': levels[3]
+            },
+            {
+                'levelName': 'Level 5',
+                'numberSet': levels[4]
+            },
+            {
+                'levelName': 'Level 6',
+                'numberSet': levels[5]
+            }
+        ]
 
-    #     level1Data = spliceData(0,20)
-    #     level2Data = spliceData(20,40)
-    #     level3Data = spliceData(40,60)
-    #     level4Data = spliceData(60,80)
-    #     level5Data = spliceData(80,100)
+        current_sheet.problem_data = jsonData
+        current_sheet.sheet_name = new_sheet_name
+        current_sheet.sheet_subname = new_sheet_subname
+        current_sheet.modified = datetime.utcnow()
+        current_sheet.save()
 
-    #     jsonData = [
-    #         { 
-    #             'levelName': 'Level 1',
-    #             'numberSet': level1Data
-    #         },
-    #         { 
-    #             'levelName': 'Level 2',
-    #             'numberSet': level2Data
-    #         },
-    #         { 
-    #             'levelName': 'Level 3',
-    #             'numberSet': level3Data
-    #         },
-    #         { 
-    #             'levelName': 'Level 4',
-    #             'numberSet': level4Data
-    #         },
-    #         { 
-    #             'levelName': 'Level 5',
-    #             'numberSet': level5Data
-    #         }
-    #     ]
-
-    #     current_sheet.problem_data = jsonData
-    #     current_sheet.sheet_name = new_sheet_name
-    #     current_sheet.modified = datetime.now()
-    #     current_sheet.save()
-
-    #     return redirect(f"division/{sheet_id}/view")
+        return redirect(f"arithmetic/{sheet_id}/view")
 
 # creating the arithmetic data
 NEGATIVE_MAX_COUNT = 2
@@ -589,7 +591,7 @@ def newArithmeticData():
 def arithmetic(request):
     sheets = Sheet.objects.filter(sheet_type="arithmetic", user_id=request.user.id)
     return render(request, "sheetmaker/sheet.html", {
-        "sheet_type": "Addition/Subtraction",
+        "sheet_type": "Arithmetic",
         "sheets": sheets
     }) 
 
@@ -609,23 +611,38 @@ def arithmetic_view(request, id, action):
 
     if action == "print":
         pageTemplate = "sheetmaker/sheet_item_print.html"
+        flat_list = []
         for problem in data.problem_data:
             flat_list += problem["numberSet"]
-        
-        # TO DO
+
         for i in range(0, 25):
             printData1.append([flat_list[i], flat_list[i+25]])
-        
+    
         for i in range(50, 75):
             printData2.append([flat_list[i], flat_list[i+25]])
-        # TO DO
+
+        return render(request, pageTemplate, {
+            "sheet_type": "Arithmetic",
+            "breadcrumb": "arithmetic",
+            "sheet_data": data,
+            "sheet_print_data1": flat_list[0:10],
+            "sheet_print_data2": flat_list[10:20],
+            "sheet_print_data3": flat_list[20:30],
+            "sheet_print_data4": flat_list[30:40],
+            "sheet_print_data5": flat_list[40:50],
+            "sheet_print_data6": flat_list[50:60],
+            "sheet_print_data7": flat_list[60:70],
+            "sheet_print_data8": flat_list[70:80],
+            "sheet_print_data9": flat_list[80:90],
+            "sheet_print_data10": flat_list[90:100],
+            "sheet_answer_data1": printData1,
+            "sheet_answer_data2": printData2
+        })
     
     return render(request, pageTemplate, {
-        "sheet_type": "Addition/Subtraction",
-        "breadcrumb": "Addition/Subtraction",
-        "sheet_data": data,
-        "sheet_print_data_1": printData1,
-        "sheet_print_data_2": printData2
+        "sheet_type": "Arithmetic",
+        "breadcrumb": "arithmetic",
+        "sheet_data": data
     })
 
 NEGATIVE_MAX_COUNT = 2
@@ -669,7 +686,7 @@ def arithmetic_problems(request):
                 dupcheck[key_query] = True
         counter += current_set["set_problems"]
     return render(request, "sheetmaker/sheet.html", {
-        "sheet_type": "Addition/Subtraction",
+        "sheet_type": "Arithmetic",
         "problems": problems
     })
 
