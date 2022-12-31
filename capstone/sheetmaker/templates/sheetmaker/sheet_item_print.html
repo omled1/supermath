@@ -7,7 +7,7 @@
 {% block body %}
 {% if sheet_type == "Multiplication" %}
 <div class="for-printing">
-    <h3>{{sheet_data.sheet_name}}</h3>
+    <h3>{{sheet_data.sheet_name}} (X-1)</h3>
     <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
@@ -24,8 +24,8 @@
 
     <div class="pagebreak"></div>
 
-    <h3>{{sheet_data.sheet_name}}</h3>
-    <h4>sub-title</h4>
+    <h3>{{ sheet_data.sheet_name }} (X-2)</h3>
+    <h4>{{ sheet_data.sheet_subname }} </h4>
     <table class="table-for-print">
         <tbody>
             {% for problem in sheet_print_data_2 %}
@@ -80,7 +80,7 @@
 </div>
 {% elif sheet_type == "Division" %}
 <div class="for-printing">
-    <h3>{{sheet_data.sheet_name}}</h3>
+    <h3>{{sheet_data.sheet_name}} (÷-1)</h3>
     <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
@@ -97,8 +97,8 @@
 
     <div class="pagebreak"></div>
 
-    <h3>{{sheet_data.sheet_name}}</h3>
-    <h4>sub-title</h4>
+    <h3>{{sheet_data.sheet_name}} (÷-2)</h3>
+    <h4>{{sheet_data.sheet_subname}}</h4>
     <table class="table-for-print">
         <tbody>
             {% for problem in sheet_print_data_2 %}
@@ -153,7 +153,7 @@
 </div>
 {% elif sheet_type == "Arithmetic" %} 
 <div class="for-printing arithmetic">
-    <h3>{{sheet_data.sheet_name}}</h3>
+    <h3>{{sheet_data.sheet_name}} (1)</h3>
     <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
@@ -320,8 +320,8 @@
 
     <div class="pagebreak"></div>
 
-    <h3>{{sheet_data.sheet_name}}</h3>
-    <h4>Time Limit 4 minutes</h4>
+    <h3>{{sheet_data.sheet_name}} (2)</h3>
+    <h4>{{sheet_data.sheet_subname}}</h4>
     <table class="table-for-print">
         <tbody>
                 <tr>
