@@ -1,5 +1,6 @@
 {% extends "sheetmaker/layout.html" %}
 {% load tz %}
+{% load custom_tags %}
 
 {% block title %}
     {{ sheet_type }}
@@ -41,8 +42,10 @@
                         <td>{{ sheet.id }}</td>
                         <td class="text-start">{{ sheet.sheet_name }}</td>
                         <td class="text-start">{{ sheet.sheet_subname }}</td>
-                        <td>{{ sheet.created|timezone:'America/Los_Angeles' }}</td>
-                        <td>{{ sheet.modified|timezone:'America/Los_Angeles' }}</td>
+                        {% localtime on %}
+                            <td class="datetime">{{ sheet.created }}</td>
+                            <td class="datetime">{{ sheet.modified }}</td>
+                        {% endlocaltime %}
                         <td class="action-col">
                             <a href="/multiplication/{{ sheet.id }}/view" class="btn btn-primary">
                                 <i class="bi bi-eye"></i>
