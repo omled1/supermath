@@ -43,8 +43,8 @@
                         <td class="text-start">{{ sheet.sheet_name }}</td>
                         <td class="text-start">{{ sheet.sheet_subname }}</td>
                         {% localtime on %}
-                            <td class="datetime">{{ sheet.created }}</td>
-                            <td class="datetime">{{ sheet.modified }}</td>
+                            <td class="datetime">{{ sheet.created|timezone:localtimezone }}</td>
+                            <td class="datetime">{{ sheet.modified|timezone:localtimezone }}</td>
                         {% endlocaltime %}
                         <td class="action-col">
                             <a href="/multiplication/{{ sheet.id }}/view" class="btn btn-primary">
@@ -92,8 +92,8 @@
                     <td>{{ sheet.id }}</td>
                     <td class="text-start">{{ sheet.sheet_name }}</td>
                     <td class="text-start">{{ sheet.sheet_subname }}</td>
-                    <td>{{ sheet.created|timezone:'America/Los_Angeles' }}</td>
-                    <td>{{ sheet.modified|timezone:'America/Los_Angeles' }}</td>
+                    <td>{{ sheet.created|timezone:localtimezone }}</td>
+                    <td>{{ sheet.modified|timezone:localtimezone }}</td>
                     <td class="action-col">
                         <a href="/division/{{ sheet.id }}/view" class="btn btn-primary">
                             <i class="bi bi-eye"></i>
@@ -139,8 +139,8 @@
                     <td>{{ sheet.id }}</td>
                     <td class="text-start">{{ sheet.sheet_name }}</td>
                     <td class="text-start">{{ sheet.sheet_subname }}</td>
-                    <td>{{ sheet.created|timezone:'America/Los_Angeles' }}</td>
-                    <td>{{ sheet.modified|timezone:'America/Los_Angeles' }}</td>
+                    <td>{{ sheet.created|timezone:localtimezone }}</td>
+                    <td>{{ sheet.modified|timezone:localtimezone }}</td>
                     <td class="action-col">
                         <a href="/arithmetic/{{ sheet.id }}/view" class="btn btn-primary">
                             <i class="bi bi-eye"></i>

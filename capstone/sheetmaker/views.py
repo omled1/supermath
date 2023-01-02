@@ -28,12 +28,14 @@ def login_view(request):
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
+        timezone = request.POST["localtimezone"]
         user = authenticate(request, username=username, password=password)
 
         # Check if authentication successful
         if user is not None:
             if username in authenticated_users:
                 login(request, user)
+                request.session['localtimezone'] = timezone
                 return HttpResponseRedirect(reverse("index"))
             else:
                 return render(request, "sheetmaker/login.html", {
@@ -209,7 +211,8 @@ def multiplication(request):
     sheets = Sheet.objects.filter(sheet_type="multiplication", user_id=request.user.id)
     return render(request, "sheetmaker/sheet.html", {
         "sheet_type": "Multiplication",
-        "sheets": sheets
+        "sheets": sheets,
+        "localtimezone": request.session["localtimezone"]
     })
 
 # showing the sheet view of the multiplication sheet

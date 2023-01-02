@@ -142,6 +142,8 @@ $().ready(() => {
         window.location.reload()
     }
 
+    $('#localTimezoneName').val(Intl.DateTimeFormat().resolvedOptions().timeZone)
+
     $('.problem-sheet form.form-editing').bind("keypress", function (e) {
         if (e.keyCode == 13) {
             e.preventDefault();
