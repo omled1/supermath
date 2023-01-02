@@ -11,7 +11,7 @@
         <div class="card-body">
             <h5 class="card-title">Register</h5>
             {% if message %}
-            <div>{{ message }}</div>
+            <div class="text-danger pb-3">{{ message }}</div>
             {% endif %}
 
             <form action="{% url 'register' %}" method="post">

@@ -22,6 +22,7 @@ def index(request):
     return render(request, "sheetmaker/index.html")
 
 def login_view(request):
+    authenticated_users = ["kyledelmo", "mwatanabe"]
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -31,8 +32,13 @@ def login_view(request):
 
         # Check if authentication successful
         if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            if username in authenticated_users:
+                login(request, user)
+                return HttpResponseRedirect(reverse("index"))
+            else:
+                return render(request, "sheetmaker/login.html", {
+                    "message": "Unauthorized user."
+                })
         else:
             return render(request, "sheetmaker/login.html", {
                 "message": "Invalid username and/or password."
@@ -48,7 +54,7 @@ def logout_view(request):
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
-        email = request.POST["email"]
+        email = request.POST["email"] 
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -66,8 +72,7 @@ def register(request):
             return render(request, "sheetmaker/register.html", {
                 "message": "Username already taken."
             })
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("login"))
     else:
         return render(request, "sheetmaker/register.html")
 
