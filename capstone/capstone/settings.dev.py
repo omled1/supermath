@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=w_-g*lz+efeib)ba2f#p5=vvmo6bm68$fwkvejtb85f6yoa0r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["bigbrainmath.pythonanywhere.com", "127.0.0.1:8000", "127.0.0.1"]
 
