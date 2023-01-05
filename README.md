@@ -10,59 +10,59 @@ DISTINCTIVENESS AND COMPLEXITY
 
 WHAT’S CONTAINED IN EACH FILE
 
-- Settings.dev.py
-    A copy of settings.py except DEBUG is set to “True.” I replace settings.py with the contents of this file when I am running the web application locally on my computer.
+    - Settings.dev.py
+        - A copy of settings.py except DEBUG is set to “True.” I replace settings.py with the contents of this file when I am running the web application locally on my computer.
 
-- Settings.prod.py
-    A copy of settings.py except DEBUG is set to “False.” I replace settings.py with the contents of this file when I push the changes to Git and pull the new changes on PythonAnywhere, the website I am hosting my web application on.
+    - Settings.prod.py
+        - A copy of settings.py except DEBUG is set to “False.” I replace settings.py with the contents of this file when I push the changes to Git and pull the new changes on PythonAnywhere, the website I am hosting my web application on.
 
-- Sheetmaker.js
-    Contains all of the JavaScript for the application.
+    - Sheetmaker.js
+        - Contains all of the JavaScript for the application.
 
-- Styles.css
-    Contains all of the styling for the application.
+    - Styles.css 
+        - Contains all of the styling for the application.
 
-- Index.html
-    Contains the HTML for the home page.
+    - Index.html 
+        - Contains the HTML for the home page.
 
-- Layout_print.html
-    Serves as a layout template for sheet_item_print.html.
+    - Layout_print.html
+        - Serves as a layout template for sheet_item_print.html.
 
-- Layout.html
-    Serves as a layout template for index.html, login.html, register.html, sheet_item_edit.html, sheet_item.html, and sheet.html.
+    - Layout.html
+        - Serves as a layout template for index.html, login.html, register.html, sheet_item_edit.html, sheet_item.html, and sheet.html.
 
-- Login.html
-    Contains the form for existing users to log in.
+    - Login.html
+        - Contains the form for existing users to log in.
 
-- Register.html
-    Contains the form for visitors to register.
+    - Register.html 
+        - Contains the form for visitors to register.
 
-- Sheet_item_edit.html
-    Contains the page where users can edit the numbers on the page, the sheet name, and, optionally, the sheet subname.
+    - Sheet_item_edit.html 
+        - Contains the page where users can edit the numbers on the page, the sheet name, and, optionally, the sheet subname.
 
-- Sheet_item_print.html
-    Contains a page that formats the data from the sheet to be suited for printing (A4 or standard printing size) and/or saving as a PDF.
+    - Sheet_item_print.html 
+        - Contains a page that formats the data from the sheet to be suited for printing (A4 or standard printing size) and/or saving as a PDF.
 
-- Sheet_item.html
-    Contains a page of the sheet and its details: the problem data, its name, and its subname. It also contains the buttons to print and edit the sheet.
+    - Sheet_item.html 
+        - Contains a page of the sheet and its details: the problem data, its name, and its subname. It also contains the buttons to print and edit the sheet.
 
-- Sheet.html
-    Contains a page that displays a list of the user’s created sheets for that specific section (Multiplication, Division, Arithmetic). It presents the sheet’s IDs, name, when it was created, when it was modified, and buttons that allow users to view the sheets or delete them.
+    - Sheet.html 
+        - Contains a page that displays a list of the user’s created sheets for that specific section (Multiplication, Division, Arithmetic). It presents the sheet’s IDs, name, when it was created, when it was modified, and buttons that allow users to view the sheets or delete them.
 
-- Models.py
-    Contains the User model and the Sheet model.
+    - Models.py 
+        - Contains the User model and the Sheet model.
 
-- Urls.py
-    Contains all paths that are used in the application.
+    - Urls.py 
+        - Contains all paths that are used in the application.
 
-- Views.py
-    Contains all of the functions that handle HTTP requests and returns HTTP responses or renders templates. Also contains the business logic for creating, storing, editing, and deleting the problem sheets.
+    - Views.py 
+        - Contains all of the functions that handle HTTP requests and returns HTTP responses or renders templates. Also contains the business logic for creating, storing, editing, and deleting the problem sheets.
 
-- .gitignore
-    Contains what files to ignore when pushing and pulling to Git. Since the data and caches on my local system are different from PythonAnywhere, I specify that when I push these changes, these files get ignored to prevent creating conflicts.
-    
-- Requirements.txt
-    Contains all of the required libraries needed to run this application.
+    - .gitignore 
+        - Contains what files to ignore when pushing and pulling to Git. Since the data and caches on my local system are different from PythonAnywhere, I specify that when I push these changes, these files get ignored to prevent creating conflicts.
+        
+    - Requirements.txt 
+        - Contains all of the required libraries needed to run this application.
 
 HOW TO RUN THE APPLICATION
 1. Ensure that all of the libraries are installed through “pip install -r requirements.txt”
