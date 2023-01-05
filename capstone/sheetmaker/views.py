@@ -462,6 +462,8 @@ def division_view(request, id, action):
         for i in range(50, 75):
             printData2.append([flat_list[i], flat_list[i+25]])
     
+    x = "" - 0
+    
     return render(request, pageTemplate, {
         "sheet_type": "Division",
         "breadcrumb": "division", # Shown in the nav bar
