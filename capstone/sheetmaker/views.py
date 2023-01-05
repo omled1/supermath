@@ -30,7 +30,7 @@ def index(request):
 
 # Log in page
 def login_view(request):
-    authenticated_users = ["kyledelmo", "mwatanabe", "cs50w", "ldelmo"] # Only restricting access to this program to myself, the SuperMath founder, and CS50 grader(s)
+    authenticated_users = ["kyledelmo", "mwatanabe", "cs50w", "ldelmo", "demo"] # Only restricting access to this program to myself, the SuperMath founder, and CS50 grader(s)
     if request.method == "POST":
 
         # Attempt to sign user in
