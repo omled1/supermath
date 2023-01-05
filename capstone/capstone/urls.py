@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import settings
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('sheetmaker.urls'))
-]
+if settings.ADMIN_ENABLED:
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('sheetmaker.urls'))
+    ]
+else:
+    urlpatterns = [
+        path('', include('sheetmaker.urls'))
+    ]

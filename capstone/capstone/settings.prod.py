@@ -141,3 +141,4 @@ LOGGING = {
     }
 }
 
+ADMIN_ENABLED = False
