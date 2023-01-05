@@ -1,5 +1,11 @@
+# File to specify the rules for generating the problems for each of the problem sheets (multiplication, division, arithmetic)
+
+# Dictionary that contains the rules for each of the aspects of a problem on a sheet for each level
 config = dict()
 
+# Multiplication configuration (each set is a level)
+# First min and max represents the minimum and maximum value of the first number for that level respectively
+# Second min and max represents the minimum and maximum value of the second number for that level respectively
 config["multiplication"] = {
     "first_set": {
         "first_min": 10,
@@ -33,6 +39,10 @@ config["multiplication"] = {
     }
 }
 
+# Division configuration (each set is a level)
+# First min and max represents the minimum and maximum value of the first number for that level respectively
+# Second min and max represents the minimum and maximum value of the second number for that level respectively
+# Outlier count represents the number of "outliers" or easier problems that are found within a level
 config["division"] = {
     "first_set": {
         "first_min": 100,
@@ -71,6 +81,11 @@ config["division"] = {
     }
 }
 
+# Arithmetic configuration (each set is a level)
+# Set problems represents the number of problems for the level
+# Number count represents the number of numbers per problem
+# Min and max represent the maximum and minimum for each of the numbers in a problem
+# Negative percent represents the chance of a negative number should appear
 config["arithmetic"] = {
     "first_set": {
         "set_problems": 10,
@@ -112,6 +127,6 @@ config["arithmetic"] = {
         "number_count": 7,
         "min": 100,
         "max": 999,
-        "negative_percent": 100
+        "negative_percent": 100 # It's 100 because it's based off the digits of the numbers in the level which is three digits in this case
     }
 }

@@ -1,7 +1,7 @@
 {% extends "sheetmaker/layout_print.html" %}
 
 {% block title %}
-    {{ sheet_type }}
+    {{ sheet_type }} - {{ sheet_data.sheet_name }} - Print
 {% endblock %}
 
 {% block body %}
@@ -80,7 +80,7 @@
 </div>
 {% elif sheet_type == "Division" %}
 <div class="for-printing">
-    <h3>{{sheet_data.sheet_name}} (÷-1)</h3>
+    <h3>{{sheet_data.sheet_name}} (D-1)</h3>
     <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
@@ -97,7 +97,7 @@
 
     <div class="pagebreak"></div>
 
-    <h3>{{sheet_data.sheet_name}} (÷-2)</h3>
+    <h3>{{sheet_data.sheet_name}} (D-2)</h3>
     <h4>{{sheet_data.sheet_subname}}</h4>
     <table class="table-for-print">
         <tbody>
@@ -115,7 +115,7 @@
     <div class="pagebreak"></div>
     
     <div class="answer-page">
-        <h3>Answer Sheet (÷)</h3>
+        <h3>Answer Sheet (D)</h3>
         <table>
             <tr>
                 <td>

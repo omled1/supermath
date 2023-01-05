@@ -1,9 +1,9 @@
 const utils = (() => {
     let _iframe = null
     let _url = ''
+
+    // Function to print the sheet
     const _printSheet = () => {
-        //
-        console.log('printSheet function', _iframe)
         let printFrame = _iframe.get(0)
 
         try {
@@ -15,9 +15,9 @@ const utils = (() => {
         }
     }
 
+    // Function to make the printing process on the same window
     const _print = (url) => {
         _url = url
-        console.log('print', url);
 
         if (_iframe) _iframe.remove()
 
@@ -30,48 +30,26 @@ const utils = (() => {
         $("body").prepend(_iframe)
     }
 
-    const _downloadSheet = () => {
-        let downloadFrame = _iframe.get(0)
-        try {
-            downloadFrame.contentWindow.downloadPDF()
-        } catch(e) {
-            console.log('unable to download ...')
-        }
-    }
-
-    const _download = (url) => {
-        _url = url
-        console.log('download', url);
-
-        if (_iframe) _iframe.remove()
-
-        _iframe = $('<iframe>', {
-            class: 'print',
-            id: 'iframeDownload',
-            src: url,
-            onload: "utils.downloadSheet()"
-        })
-        $("body").prepend(_iframe)
-    }
-
+    // Parsing to an integer to apply mathematical operations
     const _toNumber = (val) => {
         if (!val) return 0
         return parseInt(val)
     }
 
+    // Checking if the edits to the division sheet are valid
+    // Does not let the user submit if:
+    //  The second number and first number can't be zero
+    //  Marked the problems that produce a zero or an undefined number 
     const _validateDivisionForm = (frm) => {
-        console.log(frm)
-        // get all the answers..
+        // Getting all the answers
         const answers = frm.elements['answer']
         let formValid = true
         answers.forEach((item) => {
             const expContainer = item.closest('.d_expression')
             if (['0', 'Infinity'].indexOf(item.value) !== -1 ) {
                 formValid = false
-                // expContainer.classList.add('bg-danger')
                 $(expContainer).addClass('bg-danger')
             } else {
-                // expContainer.classList.remove('bg-danger')
                 $(expContainer).removeClass('bg-danger')
             }
         })
@@ -83,8 +61,10 @@ const utils = (() => {
         return formValid        
     }
 
+    // Checking if the edits to the arithmetic form are valid
+    // Does not let the user submit if:
+    //  The answer is negative
     const _validateArithmeticForm = (frm) => {
-        console.log(frm)
         let formValid = true
         for (let idx=0; idx<6; idx++) {
             const answers = frm.elements[`Level ${idx+1}_answer`]
@@ -106,6 +86,7 @@ const utils = (() => {
         return formValid
     }
 
+    // Function to append an an alert message to the top of the edit page to signal if there are any invalid expressions
     const _alertMessage = (alertContainerId, message, type) => {
         const alertContainer = document.querySelector('#' + alertContainerId)
         if (!message) {
@@ -126,8 +107,6 @@ const utils = (() => {
     return {
         print: _print,
         printSheet: _printSheet,
-        download: _download,
-        downloadSheet: _downloadSheet,
         toNumber: _toNumber,
         validateDivisionForm: _validateDivisionForm,
         validateArithmeticForm: _validateArithmeticForm,
@@ -137,13 +116,16 @@ const utils = (() => {
 
 
 $().ready(() => {
-    // browser's forward and back button is pressed
+    // When the forward or backward button is pressed, the window reloads to show the new data
     if (window.performance.navigation.type === 2) {
         window.location.reload()
     }
 
+    // To get the user's timezone
     $('#localTimezoneName').val(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
+    // Preventing pressing the enter key from submitting the edited form
+    // Pressing enter is used to update the number box when the user has entered a new number
     $('.problem-sheet form.form-editing').bind("keypress", function (e) {
         if (e.keyCode == 13) {
             e.preventDefault();
@@ -151,32 +133,36 @@ $().ready(() => {
         }
     });
 
+    // When the user inputs a number in the multiplicaion edit screen
+    // Prevents all numbers less than zero from being entered
+    // Dynamically updates the answer to the expression
     $('.grid.editing td.m_expression input').keyup((e) => {
-        console.log(e)
-        // get the current target's name
-        let input1 = e.currentTarget
-        let parentEl = input1.closest('.m_expression')
+        let input1 = e.currentTarget // Can either be the first or second number
+        let parentEl = input1.closest('.m_expression') // Container of the expression
         let inputName1 = input1.attributes['name'].value
         let inputName2 = (inputName1 === 'first') ? 'second' : 'first'
         let input2 = parentEl.querySelector(`input[name=${inputName2}]`)
         let spanAnswer = parentEl.querySelector('span.answer')
         let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
 
+        // Getting integer values of the first and second operands
         const input1Value = utils.toNumber(input1.value)
         if (input1Value < 0) {
             input1.value = 0
             return
         }
         const input2Value = utils.toNumber(input2.value)
-        const answerValue = input1Value * input2Value
+        const answerValue = input1Value * input2Value // Obtaining the answer
 
+        // Changing the answer that is being shown and the answer that is being accessed when the form is submitted
         spanAnswer.innerText = answerValue
         hiddenAnswer.value = answerValue
     })
 
+    // When the user inputs a number in the division edit screen
+    // Prevents both first and second numbers from becoming 0
+    // Dynamically updates the answer to the expression
     $('.grid.editing td.d_expression input').keyup((e) => {
-        console.log(e)
-        // get the current target's name
         let input1 = e.currentTarget
         let parentEl = input1.closest('.d_expression')
         let inputName1 = input1.attributes['name'].value
@@ -185,13 +171,16 @@ $().ready(() => {
         let spanAnswer = parentEl.querySelector('span.answer')
         let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
 
+        // Not letting either number be equal to 0; changing it to 1
         const input1Value = utils.toNumber(input1.value)
-        if (input1Value < 0) {
-            input1.value = 0
+        if (input1Value <= 0) {
+            input1.value = 1
             return
         }
+
         const input2Value = utils.toNumber(input2.value)
 
+        // Integer answers only; non integers are flagged by setting the answer to zero
         let answerValue = 0
         if (inputName2 === "first") {
             if ((input2Value % input1Value) !== 0) {
@@ -210,62 +199,78 @@ $().ready(() => {
             }
         }
 
-        if (answerValue === 0 || answerValue === Infinity) {
+        // Adding styling as a visual flag that the problem is invalid
+        if (answerValue === 0) {
             $(parentEl).addClass('bg-danger')
         } else {
             $(parentEl).removeClass('bg-danger')
 
-            // form validation ...
-            // validate form ...
+            // Form validation (calling the validation form function)
             const frm = input1.closest('form')
             utils.validateDivisionForm(frm)
         }
 
+        // Changing the displayed and hidden answer
         spanAnswer.innerText = answerValue
         hiddenAnswer.value = answerValue
     })
 
+    // When the user inputs a number in the arithmetic edit screen
+    // Prevents the answer from being less than 0
+    // Dynamically updates the answer to the expression
     $('.grid.editing td.a_expression input').keyup((e) => {
-        console.log(e)
         let currentInput = e.currentTarget
         let parentEl = currentInput.closest('.a_expression')
         let tdAnswer = parentEl.querySelector('td.answer')
         let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
-        let numberInputs = parentEl.querySelectorAll('input[type="number"]')
+        let numberInputs = parentEl.querySelectorAll('input[type="number"]') // Because there is not just a first or second number
 
+        // Gettting the total number
         let total = 0
         numberInputs.forEach(item => {
             total += utils.toNumber(item.value)
         })
 
+        // Answer cannot be negative; answer is changed to negative infinity to flag it if it is
         if (total < 0) {
             total = -Infinity
         }
 
+        // Adding styling as a visual flag that the problem is invalid
         if (total < 0) {
             $(parentEl).addClass('bg-danger')
         } else {
             $(parentEl).removeClass('bg-danger')
 
-            // validate form ...
+            // Validating form
             const frm = currentInput.closest('form')
             utils.validateArithmeticForm(frm)
         }
 
+        // Changing the displayed and hidden anwer
         hiddenAnswer.value = total
         tdAnswer.innerText = total
     })
 
+    // On-click event listener for the print buttons for the sheets
     $('#printSheetEl').click((e) => {
         const {sheetType, sheet_id} = e.currentTarget.dataset
         let url  = `/${sheetType}/${sheet_id}/print`
         utils.print(url)
     })
 
-    $('.btn-download-pdf').click((e) => {
-        const {sheet_id, sheet_type} = e.currentTarget.dataset
-        let url = `/${sheet_type}/${sheet_id}/print`
-        utils.download(url);
-    })
+    // For registering and logging in to force the users to input all fields of the form
+    let forms = document.querySelectorAll('form.needs-validation')
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
 
 })

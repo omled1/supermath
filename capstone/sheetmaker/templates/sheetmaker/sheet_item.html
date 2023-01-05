@@ -1,7 +1,7 @@
 {% extends "sheetmaker/layout.html" %}
 
 {% block title %}
-    {{ sheet_type }}
+    {{ sheet_type }} - {{ sheet_data.sheet_name }}
 {% endblock %}
 
 {% block subtitle %}
@@ -52,9 +52,6 @@
                         <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="printSheetEl">
                             <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                         </button>
-                        <button class="btn btn-info btn-download-pdf d-none" data-sheet_type="multiplication" data-sheet_id="{{ sheet_data.id }}">
-                            <i class="bi bi-download"></i>&nbsp;&nbsp;Download
-                        </button>
                     </div>
                 </div>
             </div>
@@ -100,9 +97,6 @@
                         </a>
                         <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="division" id="printSheetEl">
                             <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
-                        </button>
-                        <button class="btn btn-info btn-download-pdf d-none" data-sheet_type="division" data-sheet_id="{{ sheet_data.id }}">
-                            <i class="bi bi-download"></i>&nbsp;&nbsp;Download
                         </button>
                     </div>
                 </div>
@@ -150,9 +144,6 @@
                         </a>
                         <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="arithmetic" id="printSheetEl">
                             <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
-                        </button>
-                        <button class="btn btn-info btn-download-pdf d-none" data-sheet_type="arithmetic" data-sheet_id="{{ sheet_data.id }}">
-                            <i class="bi bi-download"></i>&nbsp;&nbsp;Download
                         </button>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 {% extends "sheetmaker/layout.html" %}
 
 {% block title %}
-    {{ sheet_type }}
+    {{ sheet_type }} - {{ sheet_data.sheet_name }} - Edit
 {% endblock %}
 
 {% block subtitle %}
@@ -11,7 +11,7 @@
 {% block body %}
     <div class="problem-sheet">
         {% if sheet_type == "Multiplication" %} 
-        <form class="form-editing" method="POST" action="{% url 'editMultiplication' %}">
+        <form class="form-editing needs-validation" method="POST" action="{% url 'editMultiplication' %}" novalidate>
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
             <div>
@@ -53,7 +53,7 @@
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
                         <div class="col-5">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
-                                value="{{sheet_data.sheet_name}}">
+                                value="{{sheet_data.sheet_name}}" required>
                         </div>
                         <div class="col-3">
                             <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle" aria-label="Subtitle"
@@ -73,7 +73,7 @@
         </form>
 
         {% elif sheet_type == "Division" %} 
-        <form class="form-editing division" onsubmit="return utils.validateDivisionForm(this)" method="POST" action="{% url 'editDivision' %}">
+        <form class="form-editing division needs-validation" onsubmit="return utils.validateDivisionForm(this)" method="POST" action="{% url 'editDivision' %}" novalidate>
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
 
@@ -117,7 +117,7 @@
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
                         <div class="col-5">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
-                                value="{{sheet_data.sheet_name}}">
+                                value="{{sheet_data.sheet_name}}" required>
                         </div>
                         <div class="col-3">
                             <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle" aria-label="Subtitle"
@@ -132,12 +132,11 @@
                             </a>
                         </div>
                     </div>
-                    <!-- alert container was here -->
                 </div>
             </div>
         </form>
         {% elif sheet_type == "Arithmetic" %} 
-        <form class="form-editing arithmetic" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}">
+        <form class="form-editing arithmetic needs-validation" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}" novalidate>
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
             <div>
@@ -181,7 +180,7 @@
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
                         <div class="col-5">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name" aria-label="Sheet name"
-                                value="{{sheet_data.sheet_name}}">
+                                value="{{sheet_data.sheet_name}}" required>
                         </div>
                         <div class="col-3">
                             <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle" aria-label="Subtitle"

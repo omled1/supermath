@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-=w_-g*lz+efeib)ba2f#p5=vvmo6bm68$fwkvejtb85f6yoa0r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Valid links
 ALLOWED_HOSTS = ["bigbrainmath.pythonanywhere.com", "127.0.0.1:8000", "127.0.0.1"]
 
 # Application definition
@@ -38,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    # 'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -49,36 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
-    # 'django.middleware.common.CommonMiddleware'
 ]
-
-# CORS_ORIGIN_ALLOW_ALL = True
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://127.0.0.1:8000'
-# ]
-
-# CORS_ALLOW_METHODS = [
-#     'DELETE',
-#     'GET',
-#     'OPTIONS',
-#     'PATCH',
-#     'POST',
-#     'PUT',
-# ]
-
-# CORS_ALLOW_HEADERS = [
-#     'accept',
-#     'accept-encoding',
-#     'authorization',
-#     'content-type',
-#     'dnt',
-#     'origin',
-#     'user-agent',
-#     'x-csrftoken',
-#     'x-requested-with',
-# ]
 
 ROOT_URLCONF = 'capstone.urls'
 
@@ -138,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Los_Angeles'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
