@@ -49,6 +49,12 @@ I think my program satisfies the distinctiveness and complexity requirement beca
 - Sheet.html 
     - Contains a page that displays a list of the user’s created sheets for that specific section (Multiplication, Division, Arithmetic). It presents the sheet’s IDs, name, when it was created, when it was modified, and buttons that allow users to view the sheets or delete them.
 
+- 404.html
+    - Contains a page that displays a 404 NOT FOUND message if the path is not found.
+
+- 505.html
+    - Contains a page that displays a 505 SERVER ERROR message if there is a server error during runtime.
+
 - Models.py 
     - Contains the User model and the Sheet model.
 
