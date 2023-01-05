@@ -52,7 +52,7 @@ I think my program satisfies the distinctiveness and complexity requirement beca
 - 404.html
     - Contains a page that displays a 404 NOT FOUND message if the path is not found.
 
-- 505.html
+- 500.html
     - Contains a page that displays a 505 SERVER ERROR message if there is a server error during runtime.
 
 - Models.py 
