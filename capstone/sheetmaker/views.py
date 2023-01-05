@@ -5,6 +5,7 @@ from django.urls import reverse
 from .models import User, Sheet
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
 from .config import config
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.http import require_http_methods
@@ -16,6 +17,12 @@ import logging
 logger = logging.getLogger('django')
 
 # Creating views
+
+def error_404_view(request, exception):
+    return render(request, 'sheetmaker/404.html')
+
+def error_500_view(request):
+    return render(request, 'sheetmaker/500.html')
 
 # Home page
 def index(request):

@@ -26,3 +26,6 @@ else:
     urlpatterns = [
         path('', include('sheetmaker.urls'))
     ]
+
+handler404 = 'sheetmaker.views.error_404_view'
+handler500 = 'sheetmaker.views.error_500_view'
