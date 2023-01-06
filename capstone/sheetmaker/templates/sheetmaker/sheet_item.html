@@ -8,6 +8,14 @@
     <span class="sub-title"><span class="px-1">/</span><a class="text-decoration-none text-nowrap text-dark" href="/{{breadcrumb}}">{{ sheet_type }}</a><span class="px-1">/</span><span class="text-nowrap">{{ sheet_data.sheet_name}}</span></span>
 {% endblock %}
 
+{% block style %}
+<style>
+    html, body {
+        overflow: hidden;
+  }
+</style>
+{% endblock %}
+
 {% block body %}
     <div class="problem-sheet">
         {% if sheet_type == "Multiplication" %} 

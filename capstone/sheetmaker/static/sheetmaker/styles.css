@@ -3,6 +3,42 @@ html, body {
     margin: 0;
     min-height: 100%;
     background-color: #f2f2f2;
+}
+
+/* scrollbars total width */
+::-webkit-scrollbar {
+    background-color: rgba(0,0,0,0);
+    width: 8px;
+    height: 8px;
+    z-index: 999999;
+  }
+  
+  /* background of the scrollbar except button or resizer */
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+  }
+  
+  /* scrollbar itself */
+  ::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 8px;
+    border: 1px solid #fff;
+  }
+  
+  /* set button(top and bottom of the scrollbar) */
+  ::-webkit-scrollbar-button {
+    display:none;
+  }
+  
+  :hover::-webkit-scrollbar-thumb {
+    background-color: #a0a0a5; 
+    border:1px solid #fff;
+  }
+  
+  /* scrollbar when scrollbar is hovered */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a5;
+    border: 1px solid #f4f4f4
   }
   
   /* Waves on the home screen */
@@ -121,6 +157,9 @@ html, body {
 .problem-sheet {
     text-align: center;
     margin-top: 60px;
+    padding-bottom: 20px;
+    overflow: scroll;
+    height: calc(100vh - 140px);
 }
 
 .problem-sheet > div {
@@ -174,7 +213,6 @@ table, th, td, tr{
     gap: 1rem;
     grid-auto-flow: column;
     grid-template-columns: auto auto auto auto auto;
-    overflow: auto;
   }
 
   .grid table {
