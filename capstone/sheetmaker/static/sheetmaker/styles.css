@@ -284,12 +284,12 @@ table, th, td, tr{
 div.for-printing {
     font-size: 1.25em;
     font-family: Arial, Helvetica, sans-serif;
-    padding-top: 1em;
 }
 
 div.for-printing h3 {
    text-align: center; 
    font-weight: lighter;
+   padding-top: 1em;
 }
 
 div.for-printing .table-for-print {
