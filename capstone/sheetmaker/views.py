@@ -117,6 +117,7 @@ def editMultiplicationSet(request):
         current_sheet = Sheet.objects.get(id=sheet_id)
         new_sheet_name = request.POST.get("sheet_name")
         new_sheet_subname = request.POST.get("sheet_subname")
+        new_answer_sheet_name = request.POST.get("sheet_answer_name")
 
         # Updating problem data
         first_numbers = request.POST.getlist('first')
@@ -168,6 +169,7 @@ def editMultiplicationSet(request):
         current_sheet.problem_data = jsonData
         current_sheet.sheet_name = new_sheet_name
         current_sheet.sheet_subname = new_sheet_subname
+        current_sheet.sheet_answer_name = new_answer_sheet_name
         current_sheet.modified = datetime.utcnow()
         current_sheet.save()
 
@@ -222,7 +224,10 @@ def newMultiplicationData():
 # Showing all the user's multiplication sheets
 @login_required(login_url="/login")
 def multiplication(request):
-    sheets = Sheet.objects.filter(sheet_type="multiplication", user_id=request.user.id)
+    if request.user.id == 2:
+        sheets = Sheet.objects.filter(sheet_type="multiplication")
+    else:  
+        sheets = Sheet.objects.filter(sheet_type="multiplication", user_id=request.user.id)
     return render(request, "sheetmaker/sheet.html", {
         "sheet_type": "Multiplication",
         "sheets": reversed(sheets),
@@ -240,6 +245,7 @@ def multiplication_view(request, id, action):
     printData2 = []
     sheet = Sheet.objects.get(id=id)
     data = sheet # For clarity
+    answer_sheet_name = data.sheet_answer_name
 
     if action == "edit":
         pageTemplate = "sheetmaker/sheet_item_edit.html"
@@ -261,7 +267,8 @@ def multiplication_view(request, id, action):
         "breadcrumb": "multiplication", # Shown in the nav bar
         "sheet_data": data,
         "sheet_print_data_1": printData1,
-        "sheet_print_data_2": printData2
+        "sheet_print_data_2": printData2,
+        "answer_sheet": answer_sheet_name
     })
 
 # Create a division sheet
@@ -294,6 +301,7 @@ def editDivisionSet(request):
         current_sheet = Sheet.objects.get(id=sheet_id)
         new_sheet_name = request.POST.get("sheet_name")
         new_sheet_subname = request.POST.get("sheet_subname")
+        new_answer_sheet_name = request.POST.get("sheet_answer_name")
 
         # Updating problem data
         first_numbers = request.POST.getlist('first')
@@ -345,6 +353,7 @@ def editDivisionSet(request):
         current_sheet.problem_data = jsonData
         current_sheet.sheet_name = new_sheet_name
         current_sheet.sheet_subname = new_sheet_subname
+        current_sheet.sheet_answer_name = new_answer_sheet_name
         current_sheet.modified = datetime.utcnow()
         current_sheet.save()
 
@@ -428,7 +437,10 @@ def newDivisionData():
 # Showing all the user's division sheets
 @login_required(login_url="/login")
 def division(request):
-    sheets = Sheet.objects.filter(sheet_type="division", user_id=request.user.id)
+    if request.user.id == 2:
+        sheets = Sheet.objects.filter(sheet_type="division")
+    else:
+        sheets = Sheet.objects.filter(sheet_type="division", user_id=request.user.id)
     return render(request, "sheetmaker/sheet.html", {
         "sheet_type": "Division",
         "sheets": reversed(sheets),
@@ -446,6 +458,7 @@ def division_view(request, id, action):
     printData2 = []
     sheet = Sheet.objects.get(id=id)
     data = sheet # For clarity
+    answer_sheet_name = data.sheet_answer_name
 
     if action == "edit":
         pageTemplate = "sheetmaker/sheet_item_edit.html"
@@ -467,7 +480,8 @@ def division_view(request, id, action):
         "breadcrumb": "division", # Shown in the nav bar
         "sheet_data": data,
         "sheet_print_data_1": printData1,
-        "sheet_print_data_2": printData2
+        "sheet_print_data_2": printData2,
+        "answer_sheet": answer_sheet_name
     })
 
 # Create an arithmetic sheet
@@ -499,6 +513,7 @@ def editArithmeticSet(request):
         current_sheet = Sheet.objects.get(id=sheet_id)
         new_sheet_name = request.POST.get("sheet_name")
         new_sheet_subname = request.POST.get("sheet_subname")
+        new_answer_sheet_name = request.POST.get("sheet_answer_name")
         # Different number of levels and different problems to multiplicaion and division 
         levels = [[] for i in range(0, 6)]
 
@@ -548,6 +563,7 @@ def editArithmeticSet(request):
         current_sheet.problem_data = jsonData
         current_sheet.sheet_name = new_sheet_name
         current_sheet.sheet_subname = new_sheet_subname
+        current_sheet.sheet_answer_name = new_answer_sheet_name
         current_sheet.modified = datetime.utcnow()
         current_sheet.save()
 
@@ -629,7 +645,10 @@ def newArithmeticData():
 # Showing all the user's arithmetic sheets
 @login_required(login_url="/login")
 def arithmetic(request):
-    sheets = Sheet.objects.filter(sheet_type="arithmetic", user_id=request.user.id)
+    if request.user.id == 2:
+        sheets = Sheet.objects.filter(sheet_type="arithmetic")
+    else:   
+        sheets = Sheet.objects.filter(sheet_type="arithmetic", user_id=request.user.id)
     return render(request, "sheetmaker/sheet.html", {
         "sheet_type": "Arithmetic",
         "sheets": reversed(sheets),
@@ -647,6 +666,7 @@ def arithmetic_view(request, id, action):
     printData2 = []
     sheet = Sheet.objects.get(id=id)
     data = sheet # For clarity
+    answer_sheet_name = data.sheet_answer_name
 
     if action == "edit":
         pageTemplate = "sheetmaker/sheet_item_edit.html"
@@ -681,7 +701,8 @@ def arithmetic_view(request, id, action):
             "sheet_print_data9": flat_list[80:90],
             "sheet_print_data10": flat_list[90:100],
             "sheet_answer_data1": printData1,
-            "sheet_answer_data2": printData2
+            "sheet_answer_data2": printData2,
+            "answer_sheet": answer_sheet_name
         })
     
     return render(request, pageTemplate, {

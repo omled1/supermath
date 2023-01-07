@@ -12,6 +12,7 @@ class Sheet(models.Model):
     user_id = models.PositiveIntegerField() # Which user created this sheet
     sheet_name = models.CharField(max_length=50, default="SuperMath Correspondence Contest") # Name for the sheet
     sheet_subname = models.CharField(max_length=50, default="Time Limit: 4 Minutes") # Subtitles for the sheet
+    sheet_answer_name = models.CharField(max_length=50, default="Answer Sheet") # Name for answer sheet
     problem_data = models.JSONField() # All of the problem data of the sheet
     sheet_type = models.CharField(max_length=20) # Type of sheet (multiplication, division, arithmetic)
     created = models.DateTimeField(default=datetime.utcnow()) # Time sheet was created

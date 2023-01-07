@@ -42,7 +42,7 @@
     <div class="pagebreak"></div>
 
     <div class="answer-page">
-        <h3>Answer Sheet (X)</h3>
+        <h3>{{ answer_sheet }} (X)</h3>
         <table>
             <tr>
                 <td>
@@ -115,7 +115,7 @@
     <div class="pagebreak"></div>
     
     <div class="answer-page">
-        <h3>Answer Sheet (D)</h3>
+        <h3>{{ answer_sheet }} (D)</h3>
         <table>
             <tr>
                 <td>
@@ -153,7 +153,7 @@
 </div>
 {% elif sheet_type == "Arithmetic" %} 
 <div class="for-printing arithmetic">
-    <h3>{{sheet_data.sheet_name}} (1)</h3>
+    <h3>{{sheet_data.sheet_name}} (M-1)</h3>
     <h4>{{sheet_data.sheet_subname}}&nbsp;</h4>
     <table class="table-for-print">
         <tbody>
@@ -320,7 +320,7 @@
 
     <div class="pagebreak"></div>
 
-    <h3>{{sheet_data.sheet_name}} (2)</h3>
+    <h3>{{sheet_data.sheet_name}} (M-2)</h3>
     <h4>{{sheet_data.sheet_subname}}</h4>
     <table class="table-for-print">
         <tbody>
@@ -434,7 +434,7 @@
     <div class="pagebreak"></div>
 
     <div class="answer-page">
-        <h3>Answer Sheet (+/-)</h3>
+        <h3>{{ answer_sheet }} (+/-)</h3>
         <table>
             <tr>
                 <td>
