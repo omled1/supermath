@@ -12,20 +12,23 @@
 {% block body %}
     <div class="problem-sheet">
         {% if sheet_type == "Multiplication" %}
+            <div class="table-action-top-panel shadow-sm">
+                <div class="container d-flex justify-content-between align-items-end">
+                    <div>
+                        <a href="/" class="btn">
+                            <i class="bi bi-chevron-left"></i>&nbsp;Back
+                        </a>
+                    </div>
+                    <form action="{% url 'createMultiplication' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-plus-square"></i>&nbsp;Create New Sheet
+                        </button>
+                    </form>
+                </div>
+            </div>
             <table class="table table-hover">
                 <thead>
-                    <tr>
-                        <th colspan="6" class="create-col">
-                            <div>
-                                <form action="{% url 'createMultiplication' %}" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="bi bi-plus-square"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </th>
-                    </tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Sheet Name</th>
@@ -38,7 +41,7 @@
                 <tbody>
                     {% for sheet in sheets %}
                     <tr>
-                        <td>{{ sheet.id }}</td>
+                        <td scope="row">{{ sheet.id }}</td>
                         <td class="text-start">{{ sheet.sheet_name }}</td>
                         <td class="text-start">{{ sheet.sheet_subname }}</td>
                         {% localtime on %}
@@ -62,99 +65,113 @@
             </table>
         
         {% elif sheet_type == "Division" %} 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th colspan="6" class="create-col">
-                        <div>
-                            <form action="{% url 'createDivision' %}" method="POST">
+            <div class="table-action-top-panel shadow-sm">
+                <div class="container d-flex justify-content-between align-items-end">
+                    <div>
+                        <a href="/" class="btn">
+                            <i class="bi bi-chevron-left"></i>&nbsp;Back
+                        </a>
+                    </div>
+                    <form action="{% url 'createDivision' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-plus-square"></i>&nbsp;Create New Sheet
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Sheet Name</th>
+                        <th scope="col">Subtitle</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Modified Date</th>
+                        <th scope="col" class="action-col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sheet in sheets %}
+                    <tr>
+                        <td>{{ sheet.id }}</td>
+                        <td class="text-start">{{ sheet.sheet_name }}</td>
+                        <td class="text-start">{{ sheet.sheet_subname }}</td>
+                        <td>{{ sheet.created|timezone:localtimezone }}</td>
+                        <td>{{ sheet.modified|timezone:localtimezone }}</td>
+                        <td class="action-col">
+                            <a href="/division/{{ sheet.id }}/view" class="btn btn-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <form action="{% url 'deleteDivision' %}" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-success">
-                                    <i class="bi bi-plus-square"></i>
+                                <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </form>
-                        </div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Sheet Name</th>
-                    <th scope="col">Subtitle</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Modified Date</th>
-                    <th scope="col" class="action-col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sheet in sheets %}
-                <tr>
-                    <td>{{ sheet.id }}</td>
-                    <td class="text-start">{{ sheet.sheet_name }}</td>
-                    <td class="text-start">{{ sheet.sheet_subname }}</td>
-                    <td>{{ sheet.created|timezone:localtimezone }}</td>
-                    <td>{{ sheet.modified|timezone:localtimezone }}</td>
-                    <td class="action-col">
-                        <a href="/division/{{ sheet.id }}/view" class="btn btn-primary">
-                            <i class="bi bi-eye"></i>
-                        </a>
-                        <form action="{% url 'deleteDivision' %}" method="POST">
-                            {% csrf_token %}
-                            <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                    {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        {% endfor %}
+                </tbody>
+            </table>
         {% elif sheet_type == "Arithmetic" %} 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th colspan="6" class="create-col">
-                        <div>
-                            <form action="{% url 'createArithmetic' %}" method="POST">
+            <div class="table-action-top-panel shadow-sm">
+                <div class="container d-flex justify-content-between align-items-end">
+                    <div>
+                        <a href="/" class="btn">
+                            <i class="bi bi-chevron-left"></i>&nbsp;Back
+                        </a>
+                    </div>
+                    <form action="{% url 'createArithmetic' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex gap-1">
+                            <select name="subtype" class="form-select d-inline-block" style="width: 200px;" aria-label="Default select example">
+                                <option value="Mitori">Mitori</option>
+                                <option value="Mitori Addition">Mitori Addition</option>
+                                <option value="Challenged">Challenge</option>
+                                <option value="Challenged Addition">Challenge Addition</option>
+                              </select>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-plus-square"></i>&nbsp;Create New Sheet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                   <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Sheet Name</th>
+                        <th scope="col">Subtitle</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Modified Date</th>
+                        <th scope="col" class="action-col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sheet in sheets %}
+                    <tr>
+                        <td>{{ sheet.id }}</td>
+                        <td class="text-start">{{ sheet.sheet_name }}</td>
+                        <td class="text-start">{{ sheet.sheet_subname }}</td>
+                        <td>{{ sheet.created|timezone:localtimezone }}</td>
+                        <td>{{ sheet.modified|timezone:localtimezone }}</td>
+                        <td class="action-col">
+                            <a href="/arithmetic/{{ sheet.id }}/view" class="btn btn-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <form action="{% url 'deleteArithmetic' %}" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-success">
-                                    <i class="bi bi-plus-square"></i>
+                                <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </form>
-                        </div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Sheet Name</th>
-                    <th scope="col">Subtitle</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Modified Date</th>
-                    <th scope="col" class="action-col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sheet in sheets %}
-                <tr>
-                    <td>{{ sheet.id }}</td>
-                    <td class="text-start">{{ sheet.sheet_name }}</td>
-                    <td class="text-start">{{ sheet.sheet_subname }}</td>
-                    <td>{{ sheet.created|timezone:localtimezone }}</td>
-                    <td>{{ sheet.modified|timezone:localtimezone }}</td>
-                    <td class="action-col">
-                        <a href="/arithmetic/{{ sheet.id }}/view" class="btn btn-primary">
-                            <i class="bi bi-eye"></i>
-                        </a>
-                        <form action="{% url 'deleteArithmetic' %}" method="POST">
-                            {% csrf_token %}
-                            <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                    {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
     </div>
 {% endblock %}

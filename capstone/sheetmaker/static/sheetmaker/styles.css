@@ -2,7 +2,7 @@
 html, body {
     margin: 0;
     min-height: 100%;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
 }
 
 /* scrollbars total width */
@@ -156,10 +156,10 @@ html, body {
 
 .problem-sheet {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 115px;
     padding-bottom: 20px;
-    overflow: scroll;
-    height: calc(100vh - 140px);
+    /* overflow: scroll;
+    height: calc(100vh - 140px); */
 }
 
 .problem-sheet > div {
@@ -176,7 +176,6 @@ html, body {
     position: fixed;
     bottom: 0px;
     width: 100%;
-    background: #f2f2f2;
 }
 
 .problem-sheet table.table thead tr th.create-col {
@@ -185,17 +184,37 @@ html, body {
 
 .problem-sheet table.table thead tr th.action-col,
 .problem-sheet table.table tbody tr td.action-col {
-    width: 105px;
+    /* width: 105px; */
 }
 
 .problem-sheet table.table tbody tr td.action-col {
-    display: flex;
-    flex-direction: row;
-    box-shadow: none;
-    border: none;
-    align-items: center;
-    gap: 0.25em;
+    white-space: nowrap;
 }
+
+.problem-sheet table.table td.action-col form {
+    display: inline-block;
+}
+
+.problem-sheet .table-action-top-panel {
+    top: 59px;
+    left: 0px;
+    right: 0px;
+    position:fixed;
+    height: 54px;
+    padding: 0.5em 0px;
+    background-color: var(--bs-body-bg);
+    z-index: 2;
+}
+
+.problem-sheet .table-action-top-panel > div {
+   padding-right: 1.7rem;
+}
+
+/* .problem-sheet table.table.fixed-table-head tbody {
+    height: 200px;
+    display: table-caption;
+    overflow-y: scroll;
+} */
 
 iframe.print {
     position: absolute;
@@ -204,7 +223,10 @@ iframe.print {
     visibility: hidden;
 }
 
-table, th, td, tr{
+.grid table, 
+.grid th, 
+.grid td, 
+.grid tr {
     border:1px solid black;
 }
 
@@ -395,6 +417,7 @@ div.for-printing div.answer-page .table-for-print {
 div.for-printing div.answer-page .table-for-print td {
     padding: 5px;
 }
+
 
 @media print {
     @page {

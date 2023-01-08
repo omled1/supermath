@@ -8,20 +8,45 @@
     <span class="sub-title"><span class="px-1">/</span><a class="text-decoration-none text-nowrap text-dark" href="/{{breadcrumb}}">{{ sheet_type }}</a><span class="px-1">/</span><span class="text-nowrap">{{ sheet_data.sheet_name}}</span></span>
 {% endblock %}
 
-{% block style %}
-<style>
-    html, body {
-        overflow: hidden;
-  }
-</style>
-{% endblock %}
-
 {% block body %}
     <div class="problem-sheet">
         {% if sheet_type == "Multiplication" %} 
         <form class="form-editing needs-validation" method="POST" action="{% url 'editMultiplication' %}" novalidate>
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
+        
+            <div class="table-action-top-panel shadow-sm">
+                <div class="container d-flex justify-content-between">
+                    <div>
+                        <a href="/multiplication/{{ sheet_data.id }}/view" class="btn">
+                            <i class="bi bi-chevron-left"></i>&nbsp;Back
+                        </a>
+                    </div>
+                    <div id="sheetNameContainer" class="d-flex gap-1">
+                        <div class="col">
+                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)"
+                                aria-label="Sheet name" value="{{sheet_data.sheet_name}}" required>
+                        </div>
+                        <div class="col">
+                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)"
+                                aria-label="Subtitle" value="{{sheet_data.sheet_subname}}">
+                        </div>
+                        <div class="col-2">
+                            <input name="sheet_answer_name" type="text" class="form-control"
+                                placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
+                                value="{{sheet_data.sheet_answer_name}}">
+                        </div>
+                        <div class="flex-none w-auto">
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
+                            </button>
+                            <a class="btn btn-danger" href="/multiplication/{{ sheet_data.id }}/view">
+                                <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div>
                 <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
@@ -57,104 +82,145 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="footer-action-panel">
-                    <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                        <div class="col-4">
-                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)" aria-label="Sheet name"
-                                value="{{sheet_data.sheet_name}}" required>
-                        </div>
-                        <div class="col-2">
-                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)" aria-label="Subtitle"
-                                value="{{sheet_data.sheet_subname}}">
-                        </div>
-                        <div class="col-2">
-                            <input name="sheet_answer_name" type="text" class="form-control" placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
-                                value="{{sheet_data.sheet_answer_name}}">
-                        </div>
-                        <div class="flex-none w-auto">
-                            <button class="btn btn-success" type="submit">
-                                <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
-                            </button>
-                            <a class="btn btn-danger" href="/multiplication/{{ sheet_data.id }}/view">
-                                <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <!-- <div class="footer-action-panel">
+                            <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
+                                <div class="col-4">
+                                    <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)" aria-label="Sheet name"
+                                        value="{{sheet_data.sheet_name}}" required>
+                                </div>
+                                <div class="col-2">
+                                    <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)" aria-label="Subtitle"
+                                        value="{{sheet_data.sheet_subname}}">
+                                </div>
+                                <div class="col-2">
+                                    <input name="sheet_answer_name" type="text" class="form-control" placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
+                                        value="{{sheet_data.sheet_answer_name}}">
+                                </div>
+                                <div class="flex-none w-auto">
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
+                                    </button>
+                                    <a class="btn btn-danger" href="/multiplication/{{ sheet_data.id }}/view">
+                                        <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div> -->
             </div>
         </form>
 
         {% elif sheet_type == "Division" %} 
-        <form class="form-editing division needs-validation" onsubmit="return utils.validateDivisionForm(this)" method="POST" action="{% url 'editDivision' %}" novalidate>
+            <form class="form-editing division needs-validation" onsubmit="return utils.validateDivisionForm(this)" method="POST" action="{% url 'editDivision' %}" novalidate>
+                {% csrf_token %}
+                <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
+
+                <div class="table-action-top-panel shadow-sm">
+                    <div class="container d-flex justify-content-between">
+                        <div>
+                            <a href="/division/{{ sheet_data.id }}/view" class="btn">
+                                <i class="bi bi-chevron-left"></i>&nbsp;Back
+                            </a>
+                        </div>
+                        <div id="sheetNameContainer" class="d-flex gap-1">
+                            <div class="col">
+                                <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)"
+                                    aria-label="Sheet name" value="{{sheet_data.sheet_name}}" required>
+                            </div>
+                            <div class="col">
+                                <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)"
+                                    aria-label="Subtitle" value="{{sheet_data.sheet_subname}}">
+                            </div>
+                            <div class="col-2">
+                                <input name="sheet_answer_name" type="text" class="form-control"
+                                    placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
+                                    value="{{sheet_data.sheet_answer_name}}">
+                            </div>
+                            <div class="flex-none w-auto">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
+                                </button>
+                                <a class="btn btn-danger" href="/division/{{ sheet_data.id }}/view">
+                                    <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="alertContainerForDivisionEl"></div>
+                    <div class='grid item-detail-panel editing'>
+                        {% for data in sheet_data.problem_data %}
+                        <div class="animate__animated animate__fadeIn">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for problem in data.numberSet %}
+                                    <tr>
+                                        <td>
+                                            {{ problem.number }}
+                                        </td>
+                                        <td class="d_expression">
+                                            <span>
+                                                <input type="number" name="first" value="{{problem.first}}" min="0" max="99999" />
+                                                ÷
+                                                <input type="number" name="second" value="{{problem.second}}" min="0" max="99999" />
+                                            </span>
+                                            <span>=</span>
+                                            <span class="answer">{{ problem.answer }}</span>
+                                            <input type="hidden" name="answer" value="{{ problem.answer }}" />
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+            
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </form>
+        {% elif sheet_type == "Arithmetic" %} 
+        <form class="form-editing arithmetic needs-validation" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}" novalidate>
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
-
-            <div>
-                <div id="alertContainerForDivisionEl"></div>
-                <div class='grid item-detail-panel editing'>
-                    {% for data in sheet_data.problem_data %}
-                    <div class="animate__animated animate__fadeIn">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for problem in data.numberSet %}
-                                <tr>
-                                    <td>
-                                        {{ problem.number }}
-                                    </td>
-                                    <td class="d_expression">
-                                        <span>
-                                            <input type="number" name="first" value="{{problem.first}}" min="0" max="99999" />
-                                            ÷
-                                            <input type="number" name="second" value="{{problem.second}}" min="0" max="99999" />
-                                        </span>
-                                        <span>=</span>
-                                        <span class="answer">{{ problem.answer }}</span>
-                                        <input type="hidden" name="answer" value="{{ problem.answer }}" />
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-        
+            <div class="table-action-top-panel shadow-sm">
+                <div class="container d-flex justify-content-between">
+                    <div>
+                        <a href="/arithmetic/{{ sheet_data.id }}/view" class="btn">
+                            <i class="bi bi-chevron-left"></i>&nbsp;Back
+                        </a>
                     </div>
-                    {% endfor %}
-                </div>
-                <div class="footer-action-panel">
-                    <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                        <div class="col-4">
-                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)" aria-label="Sheet name"
-                                value="{{sheet_data.sheet_name}}" required>
+                    <div id="sheetNameContainer" class="d-flex gap-1">
+                        <div class="col">
+                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)"
+                                aria-label="Sheet name" value="{{sheet_data.sheet_name}}" required>
+                        </div>
+                        <div class="col">
+                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)"
+                                aria-label="Subtitle" value="{{sheet_data.sheet_subname}}">
                         </div>
                         <div class="col-2">
-                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)" aria-label="Subtitle"
-                                value="{{sheet_data.sheet_subname}}">
-                        </div>
-                        <div class="col-2">
-                            <input name="sheet_answer_name" type="text" class="form-control" placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
+                            <input name="sheet_answer_name" type="text" class="form-control"
+                                placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
                                 value="{{sheet_data.sheet_answer_name}}">
                         </div>
                         <div class="flex-none w-auto">
                             <button class="btn btn-success" type="submit">
                                 <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
                             </button>
-                            <a class="btn btn-danger" href="/division/{{ sheet_data.id }}/view">
+                            <a class="btn btn-danger" href="/arithmetic/{{ sheet_data.id }}/view">
                                 <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-        {% elif sheet_type == "Arithmetic" %} 
-        <form class="form-editing arithmetic needs-validation" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}" novalidate>
-            {% csrf_token %}
-            <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
             <div>
                 <div id="alertContainerForArithmeticEl"></div>
                 <div class='grid item-detail-panel editing'>
@@ -192,7 +258,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="footer-action-panel">
+                <!-- <div class="footer-action-panel">
                     <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
                         <div class="col-4">
                             <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)" aria-label="Sheet name"
@@ -215,7 +281,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </form>
         {% endif %}
