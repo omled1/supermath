@@ -488,8 +488,19 @@ def division_view(request, id, action):
 @login_required(login_url="/login")
 def createNewArithmeticSet(request):
     user = request.user.id
-    data = newArithmeticData() # Generating problem data
-    new_sheet = Sheet(user_id=user, problem_data=data, sheet_type="arithmetic")
+
+    # Generating problem data based on subtype
+    subtype = request.POST.get("subtype")
+    if subtype == "Mitori":
+        data = newArithmeticData()
+    elif subtype == "Mitori Addition":
+        data = newArithmeticAdditionData()
+    elif subtype == "Challenged":
+        data = newChallengedData()
+    elif subtype == "Challenged Addition":
+        data = newChallengedAdditionData()
+
+    new_sheet = Sheet(user_id=user, problem_data=data, sheet_type="arithmetic", sheet_subtype=subtype)
     new_sheet.save()
     sheet_id = new_sheet.id 
     return redirect(f"/arithmetic/{sheet_id}/view")
@@ -642,6 +653,255 @@ def newArithmeticData():
         ]
     return data
 
+# Creating the arithmetic data where there is only positive numbers(random problems generated with guidelines)
+ADDITION_NEGATIVE_MAX_COUNT = 0 # No negative numbers
+def newArithmeticAdditionData():
+    problems = []
+    dupcheck = {} # Dictionary for checking for duplicates
+    a_config = config["arithmetic"] # Going into config.py and obtaining the rules for generating the arithmetic problems
+    config_keys = list(a_config.keys())
+    counter = 0 # Level counter
+    problem_counter = 0 # Problem counter
+    for key in config_keys:
+        current_set = a_config[key] # Current level
+        while len(problems) < (counter + current_set["set_problems"]):
+            new_problem = dict()
+            new_problem["number"] = problem_counter + 1
+            number_list = []
+            negative_numbers = 0
+            for i in range(0, current_set["number_count"]): # Generating the list of numbers for the problem
+                if i > 0:
+                    random_int = random.randint(0, current_set["max"])
+                    # Randomizing for chances of getting a negative number and making sure that it doesn't make the sum of the problem negative
+                    if random_int < current_set["negative_percent"] and negative_numbers < ADDITION_NEGATIVE_MAX_COUNT and sum(number_list) >= current_set["min"]:
+                        negative_numbers += 1
+                        negative_int = random.randint(current_set["min"], current_set["max"])
+                        if (sum(number_list) - negative_int) < 0: 
+                            while (sum(number_list) - negative_int) < 0:
+                                negative_int = random.randint(current_set["min"], current_set["max"])
+                            number_list.append(negative_int * -1)
+                        else:
+                            number_list.append(negative_int * -1)
+                    else:
+                        number_list.append(random.randint(current_set["min"], current_set["max"]))
+                else:
+                    # First number can't be a negative number
+                    number_list.append(random.randint(current_set["min"], current_set["max"]))
+            new_problem["numbers"] = number_list
+            new_problem["answer"] = sum(number_list) # Answer
+            key_query = ""
+            for number in number_list:
+                key_query += str(number)
+            key_query += str(new_problem["answer"]) # Create a unique query to log in the problem to prevent duplicates
+            if not dupcheck.get(key_query):   
+                problems.append(new_problem)
+                dupcheck[key_query] = True
+                problem_counter += 1
+        counter += current_set["set_problems"]  
+        data = [
+            { 
+                'levelName': 'Level 1',
+                'numberSet': problems[0:10]
+            },
+            { 
+                'levelName': 'Level 2',
+                'numberSet': problems[10:40]
+            },
+            { 
+                'levelName': 'Level 3',
+                'numberSet': problems[40:60]
+            },
+            { 
+                'levelName': 'Level 4',
+                'numberSet': problems[60:70]
+            },
+            { 
+                'levelName': 'Level 5',
+                'numberSet': problems[70:80]
+            },
+            {
+                'levelName': 'Level 6',
+                'numberSet': problems[80:100]
+            }
+        ]
+    return data
+
+# Creating the arithmetic data for the challenged group (random problems generated with guidelines)
+CHALLENGED_NEGATIVE_MAX_COUNT = 2
+def newChallengedData():
+    problems = []
+    dupcheck = {}
+    c_config = config["challenged"]
+    config_keys = list(c_config.keys())
+    counter = 0
+    problem_counter = 0
+    for key in config_keys:
+        current_set = c_config[key]
+        negative_numbers = 0
+        while len(problems) < (counter + current_set["set_problems"]):
+            new_problem = dict()
+            new_problem["number"] = problem_counter + 1
+
+            number_list = []
+            valid_problem = False
+            while valid_problem == False:
+                numbers = []
+                for i in range(0, current_set["number_count"]):
+                    numbers.append(random.randint(10, current_set["max"]))
+                number_lis = []
+                for number in numbers:
+                    number_lis.append(get_pos_nums(number))
+                tens_sum = 0
+                ones_sum = 0
+                for lis in number_lis:
+                    ones_sum += lis[0]
+                    tens_sum += lis[1]
+                if ones_sum < 10 and tens_sum < 10:
+                    number_list = numbers
+                    valid_problem = True
+
+            negative_chance = random.randint(0, 99)
+            if negative_chance < current_set["negative_percent"] and negative_numbers < CHALLENGED_NEGATIVE_MAX_COUNT:
+                negative_numbers += 1
+                random_index = random.randint(1, current_set["number_count"] - 1)
+                problem_copy = number_list
+                valid_negative = False
+                while valid_negative == False:
+                    negative_int = (random.randint(10, 77)) * -1
+                    problem_copy[random_index] = negative_int
+                    list_sum = 0
+                    for k in range(0, random_index):
+                        list_sum += problem_copy[k]
+                    if list_sum < 0:
+                        while list_sum < 0:
+                            negative_int = (random.randint(10, 77)) * -1
+                            problem_copy[random_index] = negative_int
+                            list_sum = 0
+                            for l in range(0, random_index):
+                                list_sum += problem_copy[l]
+                    sum_pos = get_pos_nums(list_sum)
+                    if len(sum_pos) < 2:
+                        sum_pos.insert(0, 0)
+                    negative_pos = get_pos_nums(negative_int*-1)
+                    if (sum_pos[0] - negative_pos[0] >= 0) and (sum_pos[1] - negative_pos[1] >= 0):
+                        number_list[random_index] = negative_int
+                        valid_negative = True 
+                
+            new_problem["numbers"] = number_list
+            new_problem["answer"] = sum(number_list)
+            key_query = ""
+            for number in number_list:
+                key_query += str(number)
+            key_query += str(new_problem["answer"])
+            if not dupcheck.get(key_query):
+                problems.append(new_problem)
+                dupcheck[key_query] = True
+                problem_counter += 1
+        counter += current_set["set_problems"]
+        data = [
+            {
+                'levelName': 'Level 1',
+                'numberSet': problems[0:10]
+            },
+            {
+                'levelName': 'Level 2',
+                'numberSet': problems[10:40]
+            },
+            {
+                'levelName': 'Level 3',
+                'numberSet': problems[40:60]
+            }
+        ]
+    return data
+
+# Creating the arithmetic data for the challenged group with only addition problems(random problems generated with guidelines)
+CHALLENGED_ADDITION_NEGATIVE_MAX_COUNT = 0
+def newChallengedAdditionData():
+    problems = []
+    dupcheck = {}
+    c_config = config["challenged"]
+    config_keys = list(c_config.keys())
+    counter = 0
+    problem_counter = 0
+    for key in config_keys:
+        current_set = c_config[key]
+        negative_numbers = 0
+        while len(problems) < (counter + current_set["set_problems"]):
+            new_problem = dict()
+            new_problem["number"] = problem_counter + 1
+
+            number_list = []
+            valid_problem = False
+            while valid_problem == False:
+                numbers = []
+                for i in range(0, current_set["number_count"]):
+                    numbers.append(random.randint(10, current_set["max"]))
+                number_lis = []
+                for number in numbers:
+                    number_lis.append(get_pos_nums(number))
+                tens_sum = 0
+                ones_sum = 0
+                for lis in number_lis:
+                    ones_sum += lis[0]
+                    tens_sum += lis[1]
+                if ones_sum < 10 and tens_sum < 10:
+                    number_list = numbers
+                    valid_problem = True
+
+            negative_chance = random.randint(0, 99)
+            if negative_chance < current_set["negative_percent"] and negative_numbers < CHALLENGED_ADDITION_NEGATIVE_MAX_COUNT:
+                negative_numbers += 1
+                random_index = random.randint(1, current_set["number_count"] - 1)
+                problem_copy = number_list
+                valid_negative = False
+                while valid_negative == False:
+                    negative_int = (random.randint(10, 77)) * -1
+                    problem_copy[random_index] = negative_int
+                    list_sum = 0
+                    for k in range(0, random_index):
+                        list_sum += problem_copy[k]
+                    if list_sum < 0:
+                        while list_sum < 0:
+                            negative_int = (random.randint(10, 77)) * -1
+                            problem_copy[random_index] = negative_int
+                            list_sum = 0
+                            for l in range(0, random_index):
+                                list_sum += problem_copy[l]
+                    sum_pos = get_pos_nums(list_sum)
+                    if len(sum_pos) < 2:
+                        sum_pos.insert(0, 0)
+                    negative_pos = get_pos_nums(negative_int*-1)
+                    if (sum_pos[0] - negative_pos[0] >= 0) and (sum_pos[1] - negative_pos[1] >= 0):
+                        number_list[random_index] = negative_int
+                        valid_negative = True 
+                
+            new_problem["numbers"] = number_list
+            new_problem["answer"] = sum(number_list)
+            key_query = ""
+            for number in number_list:
+                key_query += str(number)
+            key_query += str(new_problem["answer"])
+            if not dupcheck.get(key_query):
+                problems.append(new_problem)
+                dupcheck[key_query] = True
+                problem_counter += 1
+        counter += current_set["set_problems"]
+        data = [
+            {
+                'levelName': 'Level 1',
+                'numberSet': problems[0:10]
+            },
+            {
+                'levelName': 'Level 2',
+                'numberSet': problems[10:40]
+            },
+            {
+                'levelName': 'Level 3',
+                'numberSet': problems[40:60]
+            }
+        ]
+    return data
+
 # Showing all the user's arithmetic sheets
 @login_required(login_url="/login")
 def arithmetic(request):
@@ -673,37 +933,61 @@ def arithmetic_view(request, id, action):
 
     if action == "print":
         pageTemplate = "sheetmaker/sheet_item_print.html"
-        flat_list = []
-        # Adding all of the problems to a flat list to make it easier for splicing and printing
-        for problem in data.problem_data:
-            flat_list += problem["numberSet"]
+        if data.sheet_subtype == "Mitori" or data.sheet_subtype == "Mitori Addition":
+            flat_list = []
+            # Adding all of the problems to a flat list to make it easier for splicing and printing
+            for problem in data.problem_data:
+                flat_list += problem["numberSet"]
 
-        # Creating print data for the answers
-        for i in range(0, 25):
-            printData1.append([flat_list[i], flat_list[i+25]])
-    
-        for i in range(50, 75):
-            printData2.append([flat_list[i], flat_list[i+25]])
+            # Creating print data for the answers
+            for i in range(0, 25):
+                printData1.append([flat_list[i], flat_list[i+25]])
+        
+            for i in range(50, 75):
+                printData2.append([flat_list[i], flat_list[i+25]])
 
-        return render(request, pageTemplate, {
-            "sheet_type": "Arithmetic",
-            "breadcrumb": "arithmetic", # Shown in the nav bar
-            "sheet_data": data,
-            # All of the problems divided into their levels
-            "sheet_print_data1": flat_list[0:10],
-            "sheet_print_data2": flat_list[10:20],
-            "sheet_print_data3": flat_list[20:30],
-            "sheet_print_data4": flat_list[30:40],
-            "sheet_print_data5": flat_list[40:50],
-            "sheet_print_data6": flat_list[50:60],
-            "sheet_print_data7": flat_list[60:70],
-            "sheet_print_data8": flat_list[70:80],
-            "sheet_print_data9": flat_list[80:90],
-            "sheet_print_data10": flat_list[90:100],
-            "sheet_answer_data1": printData1,
-            "sheet_answer_data2": printData2,
-            "answer_sheet": answer_sheet_name
-        })
+            return render(request, pageTemplate, {
+                "sheet_type": "Arithmetic",
+                "breadcrumb": "arithmetic", # Shown in the nav bar
+                "sheet_data": data,
+                # All of the problems divided into their levels
+                "sheet_print_data1": flat_list[0:10],
+                "sheet_print_data2": flat_list[10:20],
+                "sheet_print_data3": flat_list[20:30],
+                "sheet_print_data4": flat_list[30:40],
+                "sheet_print_data5": flat_list[40:50],
+                "sheet_print_data6": flat_list[50:60],
+                "sheet_print_data7": flat_list[60:70],
+                "sheet_print_data8": flat_list[70:80],
+                "sheet_print_data9": flat_list[80:90],
+                "sheet_print_data10": flat_list[90:100],
+                "sheet_answer_data1": printData1,
+                "sheet_answer_data2": printData2,
+                "answer_sheet": answer_sheet_name
+            })
+        elif data.sheet_subtype == "Challenged" or data.sheet_subtype == "Challenged Addition":
+            flat_list = []
+            for problem in data.problem_data:
+                flat_list += problem["numberSet"]
+
+            for i in range(0, 30):
+                printData1.append([flat_list[i], flat_list[i+30]])
+            
+            return render(request, pageTemplate, {
+                "sheet_type": "Arithmetic",
+                "breadcrumb": "arithmetic",
+                "sheet_data": data,
+                "sheet_print_data1": flat_list[0:10],
+                "sheet_print_data2": flat_list[10:20],
+                "sheet_print_data3": flat_list[20:30],
+                "sheet_print_data4": flat_list[30:40],
+                "sheet_print_data5": flat_list[40:50],
+                "sheet_print_data6": flat_list[50:60],
+                "sheet_answer_data1": printData1,
+                "answer_sheet": answer_sheet_name
+
+            })
+
     
     return render(request, pageTemplate, {
         "sheet_type": "Arithmetic",
@@ -728,3 +1012,11 @@ def factors(x, min, max):
         if x % i == 0:
             factors.append(i)
     return factors
+
+# Function to return a list of numbers originating from their positions in the inputted numnber
+def get_pos_nums(num):
+    pos_nums = []
+    while num != 0:
+        pos_nums.append(num % 10)
+        num = num // 10
+    return pos_nums

@@ -130,3 +130,27 @@ config["arithmetic"] = {
         "negative_percent": 100 # It's 100 because it's based off the digits of the numbers in the level which is three digits in this case
     }
 }
+
+config["challenged"] = {
+    "first_set": {
+        "set_problems": 10,
+        "number_count": 3,
+        "min": 10,
+        "max": 77, 
+        "negative_percent": 10
+    },
+    "second_set": {
+        "set_problems": 30,
+        "number_count": 4,
+        "min": 10,
+        "max": 66,
+        "negative_percent": 10
+    },
+    "third_set": {
+        "set_problems": 20,
+        "number_count": 5,
+        "min": 10,
+        "max": 55,
+        "negative_percent": 10
+    }
+}

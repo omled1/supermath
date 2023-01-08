@@ -15,5 +15,6 @@ class Sheet(models.Model):
     sheet_answer_name = models.CharField(max_length=50, default="Answer Sheet") # Name for answer sheet
     problem_data = models.JSONField() # All of the problem data of the sheet
     sheet_type = models.CharField(max_length=20) # Type of sheet (multiplication, division, arithmetic)
+    sheet_subtype = models.CharField(max_length=50, default="")
     created = models.DateTimeField(default=datetime.utcnow()) # Time sheet was created
     modified = models.DateTimeField(default=datetime.utcnow()) # Time sheet was modified
