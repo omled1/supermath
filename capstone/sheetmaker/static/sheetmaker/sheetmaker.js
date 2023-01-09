@@ -66,7 +66,17 @@ const utils = (() => {
     //  The answer is negative
     const _validateArithmeticForm = (frm) => {
         let formValid = true
-        for (let idx=0; idx<6; idx++) {
+
+        let subtype = frm.getAttribute("data-subtype")
+        let levels = 0
+        if (subtype === "Mitori" || subtype === "Mitori Addition") {
+            levels = 6
+        }
+        else if (subtype === "Challenged" || subtype === "Challenged Addition") {
+            levels = 3
+        }
+
+        for (let idx=0; idx<levels; idx++) {
             const answers = frm.elements[`Level ${idx+1}_answer`]
             answers.forEach((item) => {
                 const expContainer = item.closest('.a_expression')

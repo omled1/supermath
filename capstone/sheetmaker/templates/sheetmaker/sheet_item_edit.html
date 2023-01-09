@@ -163,7 +163,7 @@
                 </div>
             </form>
         {% elif sheet_type == "Arithmetic" %} 
-        <form class="form-editing arithmetic needs-validation" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}" novalidate>
+        <form data-subtype="{{ sheet_data.sheet_subtype }}" class="form-editing arithmetic needs-validation" onsubmit="return utils.validateArithmeticForm(this)" method="POST" action="{% url 'editArithmetic' %}" novalidate>
             {% csrf_token %}
             <input type="hidden" value="{{ sheet_data.id }}" name="sheet_id">
             <div class="table-action-top-panel shadow-sm">

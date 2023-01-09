@@ -525,50 +525,85 @@ def editArithmeticSet(request):
         new_sheet_name = request.POST.get("sheet_name")
         new_sheet_subname = request.POST.get("sheet_subname")
         new_answer_sheet_name = request.POST.get("sheet_answer_name")
-        # Different number of levels and different problems to multiplicaion and division 
-        levels = [[] for i in range(0, 6)]
 
-        # Each level has a specific number of numbers per problem which can be found through
-        # number of numbers in the level / number of answers in the level 
-        # which can then be used to update the data of the arithmetic sheet object
-        problem_counter = 1
-        for i in range(0, len(levels)):
-            current_level_numbers = request.POST.getlist(f"Level {i+1}_numbers")
-            current_level_answers = request.POST.getlist(f"Level {i+1}_answer")
-            splice = int(len(current_level_numbers) / len(current_level_answers))
-            for j in range(0, len(current_level_answers)):
-                problem_numbers = current_level_numbers[splice*j:splice*(j+1)]
-                problem_answer = current_level_answers[j]
-                problem = {"number": problem_counter, "numbers": problem_numbers, "answer": problem_answer}
-                levels[i].append(problem)
-                problem_counter += 1
+        if current_sheet.sheet_subtype == "Mitori" or current_sheet.sheet_subtype == "Mitori Addition":
+            # Different number of levels and different problems to multiplication and division 
+            levels = [[] for i in range(0, 6)]
 
-        jsonData = [
-            {
-                'levelName': 'Level 1',
-                'numberSet': levels[0]
-            },
-            {
-                'levelName': 'Level 2',
-                'numberSet': levels[1]
-            },
-            {
-                'levelName': 'Level 3',
-                'numberSet': levels[2]
-            },
-            {
-                'levelName': 'Level 4',
-                'numberSet': levels[3]
-            },
-            {
-                'levelName': 'Level 5',
-                'numberSet': levels[4]
-            },
-            {
-                'levelName': 'Level 6',
-                'numberSet': levels[5]
-            }
-        ]
+            # Each level has a specific number of numbers per problem which can be found through
+            # number of numbers in the level / number of answers in the level 
+            # which can then be used to update the data of the arithmetic sheet object
+            problem_counter = 1
+            for i in range(0, len(levels)):
+                current_level_numbers = request.POST.getlist(f"Level {i+1}_numbers")
+                current_level_answers = request.POST.getlist(f"Level {i+1}_answer")
+                splice = int(len(current_level_numbers) / len(current_level_answers))
+                for j in range(0, len(current_level_answers)):
+                    problem_numbers = current_level_numbers[splice*j:splice*(j+1)]
+                    problem_answer = current_level_answers[j]
+                    problem = {"number": problem_counter, "numbers": problem_numbers, "answer": problem_answer}
+                    levels[i].append(problem)
+                    problem_counter += 1
+
+            jsonData = [
+                {
+                    'levelName': 'Level 1',
+                    'numberSet': levels[0]
+                },
+                {
+                    'levelName': 'Level 2',
+                    'numberSet': levels[1]
+                },
+                {
+                    'levelName': 'Level 3',
+                    'numberSet': levels[2]
+                },
+                {
+                    'levelName': 'Level 4',
+                    'numberSet': levels[3]
+                },
+                {
+                    'levelName': 'Level 5',
+                    'numberSet': levels[4]
+                },
+                {
+                    'levelName': 'Level 6',
+                    'numberSet': levels[5]
+                }
+            ]
+        elif current_sheet.sheet_subtype == "Challenged" or current_sheet.sheet_subtype == "Challenged Addition":
+            # Different number of levels and different problems to multiplication and division 
+            levels = [[] for i in range(0, 3)]
+
+            # Each level has a specific number of numbers per problem which can be found through
+            # number of numbers in the level / number of answers in the level 
+            # which can then be used to update the data of the arithmetic sheet object
+            problem_counter = 1
+            for i in range(0, len(levels)):
+                current_level_numbers = request.POST.getlist(f"Level {i+1}_numbers")
+                current_level_answers = request.POST.getlist(f"Level {i+1}_answer")
+                splice = int(len(current_level_numbers) / len(current_level_answers))
+                for j in range(0, len(current_level_answers)):
+                    problem_numbers = current_level_numbers[splice*j:splice*(j+1)]
+                    problem_answer = current_level_answers[j]
+                    problem = {"number": problem_counter, "numbers": problem_numbers, "answer": problem_answer}
+                    levels[i].append(problem)
+                    problem_counter += 1
+            
+            jsonData = [
+                {
+                    'levelName': 'Level 1',
+                    'numberSet': levels[0]
+                },
+                {
+                    'levelName': 'Level 2',
+                    'numberSet': levels[1]
+                },
+                {
+                    'levelName': 'Level 3',
+                    'numberSet': levels[2]
+                }
+            ]
 
         # Updating sheet object
         current_sheet.problem_data = jsonData
@@ -985,7 +1020,6 @@ def arithmetic_view(request, id, action):
                 "sheet_print_data6": flat_list[50:60],
                 "sheet_answer_data1": printData1,
                 "answer_sheet": answer_sheet_name
-
             })
 
     
