@@ -1,5 +1,5 @@
 ## IMPORTANT INFORMATION
-#### I made this application mainly for the founder of SuperMath. Hence, I restricted which users could access the features of this website which I am hosting on PythonEverywhere. TO TEST OUT THIS APPLICATION, PLEASE USE THE USERNAME "cs50w" WHEN REGISTERING AN ACCOUNT.
+#### I made this application mainly for the founder of SuperMath. Hence, I restricted which users could access the features of this website which I am hosting on PythonAnywhere. TO TEST OUT THIS APPLICATION, PLEASE USE THE USERNAME "cs50w" WHEN REGISTERING AN ACCOUNT.
 
 ## HOW TO RUN THE APPLICATION
 1. Ensure that all of the libraries are installed through “pip install -r requirements.txt”
