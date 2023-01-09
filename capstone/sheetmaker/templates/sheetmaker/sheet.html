@@ -150,6 +150,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Sheet Name</th>
                         <th scope="col">Subtitle</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Created Date</th>
                         <th scope="col">Modified Date</th>
                         <th scope="col" class="action-col">Action</th>
@@ -161,6 +162,9 @@
                         <td>{{ sheet.id }}</td>
                         <td class="text-start">{{ sheet.sheet_name }}</td>
                         <td class="text-start">{{ sheet.sheet_subname }}</td>
+                        <td class="text-start">
+                            <span class="badge text-bg-info">{{sheet.sheet_subtype}}</span>
+                        </td>
                         <td>{{ sheet.created|timezone:localtimezone }}</td>
                         <td>{{ sheet.modified|timezone:localtimezone }}</td>
                         <td class="action-col">

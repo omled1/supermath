@@ -339,6 +339,7 @@ div.for-printing .table-for-print {
 
 div.for-printing .table-for-print td {
     padding: 5px;
+    border: 1px solid black;
 }
 
 div.for-printing .table-for-print td.number {
