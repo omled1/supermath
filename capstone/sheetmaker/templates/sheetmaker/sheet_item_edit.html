@@ -21,6 +21,7 @@
                         <a href="/multiplication/{{ sheet_data.id }}/view" class="btn">
                             <i class="bi bi-chevron-left"></i>&nbsp;Back
                         </a>
+                        <span class="badge text-bg-info">Sheet ID#: {{sheet_data.id}}</span>
                     </div>
                     <div id="sheetNameContainer" class="d-flex gap-1">
                         <div class="col">
@@ -47,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div  class="table-main-panel">
                 <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
                     <div class="animate__animated animate__fadeIn">
@@ -82,30 +83,6 @@
                     </div>
                     {% endfor %}
                 </div>
-                <!-- <div class="footer-action-panel">
-                            <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                                <div class="col-4">
-                                    <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)" aria-label="Sheet name"
-                                        value="{{sheet_data.sheet_name}}" required>
-                                </div>
-                                <div class="col-2">
-                                    <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)" aria-label="Subtitle"
-                                        value="{{sheet_data.sheet_subname}}">
-                                </div>
-                                <div class="col-2">
-                                    <input name="sheet_answer_name" type="text" class="form-control" placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
-                                        value="{{sheet_data.sheet_answer_name}}">
-                                </div>
-                                <div class="flex-none w-auto">
-                                    <button class="btn btn-success" type="submit">
-                                        <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
-                                    </button>
-                                    <a class="btn btn-danger" href="/multiplication/{{ sheet_data.id }}/view">
-                                        <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
-                                    </a>
-                                </div>
-                            </div>
-                        </div> -->
             </div>
         </form>
 
@@ -120,6 +97,7 @@
                             <a href="/division/{{ sheet_data.id }}/view" class="btn">
                                 <i class="bi bi-chevron-left"></i>&nbsp;Back
                             </a>
+                            <span class="badge text-bg-info">Sheet ID#: {{sheet_data.id}}</span>
                         </div>
                         <div id="sheetNameContainer" class="d-flex gap-1">
                             <div class="col">
@@ -146,8 +124,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div>
+                <div class="table-main-panel">
                     <div id="alertContainerForDivisionEl"></div>
                     <div class='grid item-detail-panel editing'>
                         {% for data in sheet_data.problem_data %}
@@ -195,6 +172,7 @@
                         <a href="/arithmetic/{{ sheet_data.id }}/view" class="btn">
                             <i class="bi bi-chevron-left"></i>&nbsp;Back
                         </a>
+                        <span class="badge text-bg-info">Sheet ID#: {{sheet_data.id}}</span>
                     </div>
                     <div id="sheetNameContainer" class="d-flex gap-1">
                         <div class="col">
@@ -221,7 +199,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="table-main-panel">
                 <div id="alertContainerForArithmeticEl"></div>
                 <div class='grid item-detail-panel editing'>
                     {% for data in sheet_data.problem_data %}
@@ -258,30 +236,6 @@
                     </div>
                     {% endfor %}
                 </div>
-                <!-- <div class="footer-action-panel">
-                    <div id="sheetNameContainer" class="row g-3 mt-2 p-1">
-                        <div class="col-4">
-                            <input name="sheet_name" type="text" class="form-control" placeholder="Enter sheet name (required)" aria-label="Sheet name"
-                                value="{{sheet_data.sheet_name}}" required>
-                        </div>
-                        <div class="col-2">
-                            <input name="sheet_subname" type="text" class="form-control" placeholder="Enter subtitle (optional)" aria-label="Subtitle"
-                                value="{{sheet_data.sheet_subname}}">
-                        </div>
-                        <div class="col-2">
-                            <input name="sheet_answer_name" type="text" class="form-control" placeholder="Enter answer sheet name (optional)" aria-label="Answer sheet name"
-                                value="{{sheet_data.sheet_answer_name}}">
-                        </div>
-                        <div class="flex-none w-auto">
-                            <button class="btn btn-success" type="submit">
-                                <i class="bi bi-box-arrow-down"></i>&nbsp;&nbsp;Save
-                            </button>
-                            <a class="btn btn-danger" href="/arithmetic/{{ sheet_data.id }}/view">
-                                <i class="bi bi-x-square"></i>&nbsp;&nbsp;Cancel
-                            </a>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </form>
         {% endif %}

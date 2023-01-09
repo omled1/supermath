@@ -52,12 +52,15 @@
                             <a href="/multiplication/{{ sheet.id }}/view" class="btn btn-primary">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <form action="{% url 'deleteMultiplication' %}" method="POST">
+                            <button class="btn btn-danger delete-action" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-bs-api-name="deleteMultiplication" data-bs-sheet-id="{{ sheet.id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <form id="deleteMultiplicationForm_{{ sheet.id }}" action="{% url 'deleteMultiplication' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
-                                <button type="submit" class="btn btn-danger">
+                                <!-- <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                                </button> -->
                             </form>   
                         </td>
                     {% endfor %}
@@ -103,12 +106,15 @@
                             <a href="/division/{{ sheet.id }}/view" class="btn btn-primary">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <form action="{% url 'deleteDivision' %}" method="POST">
+                            <button class="btn btn-danger delete-action" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-bs-api-name="deleteDivision" data-bs-sheet-id="{{ sheet.id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <form id="deleteDivisionForm_{{ sheet.id }}" action="{% url 'deleteDivision' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
-                                <button type="submit" class="btn btn-danger">
+                                <!-- <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                                </button> -->
                             </form>
                         </td>
                         {% endfor %}
@@ -161,17 +167,39 @@
                             <a href="/arithmetic/{{ sheet.id }}/view" class="btn btn-primary">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <form action="{% url 'deleteArithmetic' %}" method="POST">
+                            <button class="btn btn-danger delete-action" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-bs-api-name="deleteArithmetic" data-bs-sheet-id="{{ sheet.id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <form id="deleteArithmeticForm_{{ sheet.id }}" action="{% url 'deleteArithmetic' %}" method="POST">
                                 {% csrf_token %}
                                 <input name="sheet_id" type="hidden" value="{{ sheet.id }}">
-                                <button type="submit" class="btn btn-danger">
+                                <!-- <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                                </button> -->
                             </form>
                         </td>
                         {% endfor %}
                 </tbody>
             </table>
         {% endif %}
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="No"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to permanently delete this sheet?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary confirm">Yes</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

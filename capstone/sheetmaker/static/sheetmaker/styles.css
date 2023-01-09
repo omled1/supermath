@@ -162,9 +162,10 @@ html, body {
     height: calc(100vh - 140px); */
 }
 
-.problem-sheet > div {
+.problem-sheet div.table-main-panel {
     display: flex;
     flex-direction: column;
+    padding-top: 0.5em;
 }
 
 .problem-sheet div.grid.item-detail-panel {
@@ -228,15 +229,32 @@ iframe.print {
 .grid td, 
 .grid tr {
     border:1px solid black;
+    padding: 0.25em;
+}
+.grid {
+    display: flex;
+    gap: 1em;
+    flex-wrap:nowrap;
+    justify-content: start;
 }
 
-.grid {
+/* .grid {
     display: grid;
     gap: 1rem;
-    grid-auto-flow: column;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
+  .grid.editing {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .grid.arithmetic {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+  
+  .grid.arithmetic table.main-table {
+    width: auto;
+  } */
+  
   .grid table {
       width: 100%;
       min-width: 180px;

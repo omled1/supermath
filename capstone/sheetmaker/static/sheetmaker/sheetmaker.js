@@ -273,4 +273,28 @@ $().ready(() => {
             }, false)
         })
 
+    // for listening to opening of the modal dialog
+    const deleteConfirmModal = document.getElementById('deleteConfirmModal')
+    deleteConfirmModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const apiName = button.getAttribute('data-bs-api-name')
+        const sheetId = button.getAttribute('data-bs-sheet-id')
+
+        const confirmButton = deleteConfirmModal.querySelector('.btn.confirm')
+        const form = document.querySelector(`#${apiName}Form_${sheetId}`)
+        $(confirmButton).click(() => {
+            form && form.submit()
+        })
+        // // If necessary, you could initiate an AJAX request here
+        // // and then do the updating in a callback.
+        // //
+        // // Update the modal's content.
+        // const modalTitle = deleteConfirmModal.querySelector('.modal-title')
+        // const modalBodyInput = deleteConfirmModal.querySelector('.modal-body input')
+        // modalTitle.textContent = `New message to ${recipient}`
+        // modalBodyInput.value = recipient
+    })
+
 })
