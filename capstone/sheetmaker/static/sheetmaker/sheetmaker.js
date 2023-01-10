@@ -1,7 +1,14 @@
 const utils = (() => {
     let _iframe = null
     let _url = ''
-
+    const _sheetTypeMapOperator = {
+        'Multiplication': 'x',
+        'multiplication': 'x',
+        'Division': '÷',
+        'division': '÷',
+        'Arithmetic': '',
+        'arithmetic': ''
+    }
     // Function to print the sheet
     const _printSheet = () => {
         let printFrame = _iframe.get(0)
@@ -113,6 +120,89 @@ const utils = (() => {
             alertContainer.append(wrapper)
         }
     }
+    
+    const _generateNewNumberSetByLevelHTML = (data, sheetType) => {
+        const operator = _sheetTypeMapOperator[sheetType]
+        const { numberSet, levelName } = data
+        const html = numberSet.map(d => {
+            const { number, numbers, first, second, answer } = d
+            const isEditMode = window.location.pathname.endsWith('edit') ? true : false
+            let tmpHtml = ''
+            if (operator) {
+                // Multiplication / Division
+                tmpHtml = isEditMode 
+                    ? `<tr>
+                            <td>
+                                ${ number }
+                            </td>
+                            <td class="m_expression">
+                                <span>
+                                    <input type="number" name="first" value="${first}" min="0" max="99999" />
+                                    x
+                                    <input type="number" name="second" value="${second}" min="0" max="99999" />
+                                </span>
+                                <span>=</span>
+                                <span class="answer">${answer}</span>
+                                <input type="hidden" name="answer" value="${answer}" />
+                            </td>
+                        </tr>`
+                    : `<tr>
+                        <td>
+                            ${ number }
+                        </td>
+                        <td>
+                            <span>
+                                ${first} ${operator} ${second }
+                            </span>
+                            <span>=</span>
+                            <span>${answer}</span>
+                        </td>
+                    </tr>
+                    `
+            } else {
+                // Arithmetic
+                tmpHtml = isEditMode 
+                ? `<tr>
+                        <td>${number}</td>
+                        <td class="a_expression">
+                            <table>
+                                <tr>
+                                    ${numbers.map(num => {
+                                        return `
+                                            <td class="px-2">
+                                                <input type="number" name="${levelName}_numbers" value="${num}" min="-99999" max="99999" />
+                                            </td>
+                                        `    
+                                    }).join('')}
+                                    <td class="equal">=</td>
+                                    <td class="answer">${answer}</td>
+                                    <input type="hidden" name="${levelName}_answer" value="${answer}" />
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>`
+                : `<tr>
+                        <td>${number}</td>
+                        <td>
+                            <table>
+                                <tr>
+                                    ${numbers.map(num => {
+                                        return `
+                                            <td class="px-2">${num}</td>
+                                        `    
+                                    }).join('')}
+                                    <td class="equal">=</td>
+                                    <td class="answer">${answer}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                `
+            }
+            return tmpHtml
+        }).join('')
+        return html
+    }
 
     return {
         print: _print,
@@ -120,7 +210,8 @@ const utils = (() => {
         toNumber: _toNumber,
         validateDivisionForm: _validateDivisionForm,
         validateArithmeticForm: _validateArithmeticForm,
-        alertMessage: _alertMessage
+        alertMessage: _alertMessage,
+        generateNewNumberSetByLevelHTML: _generateNewNumberSetByLevelHTML
     }
 })()
 
@@ -129,7 +220,11 @@ $().ready(() => {
     // When the forward or backward button is pressed, the window reloads to show the new data
     if (window.performance.navigation.type === 2) {
         window.location.reload()
+        return
     }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
     // To get the user's timezone
     $('#localTimezoneName').val(Intl.DateTimeFormat().resolvedOptions().timeZone)
@@ -269,6 +364,13 @@ $().ready(() => {
         utils.print(url)
     })
 
+    $('button.print-action').click((e) => {
+        console.log('e.currentTarget.dataset', e.currentTarget.dataset)
+        const {sheetType, sheetId} = e.currentTarget.dataset
+        let url  = `/${sheetType}/${sheetId}/print`
+        utils.print(url)
+    })
+
     // For registering and logging in to force the users to input all fields of the form
     let forms = document.querySelectorAll('form.needs-validation')
     // Loop over them and prevent submission
@@ -285,44 +387,55 @@ $().ready(() => {
 
     // for listening to opening of the modal dialog
     const deleteConfirmModal = document.getElementById('deleteConfirmModal')
-    deleteConfirmModal.addEventListener('show.bs.modal', event => {
-        // Button that triggered the modal
-        const button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        const apiName = button.getAttribute('data-bs-api-name')
-        const sheetId = button.getAttribute('data-bs-sheet-id')
-
-        const confirmButton = deleteConfirmModal.querySelector('.btn.confirm')
-        const form = document.querySelector(`#${apiName}Form_${sheetId}`)
-        $(confirmButton).click(() => {
-            form && form.submit()
+    if (deleteConfirmModal) {
+        deleteConfirmModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const apiName = button.getAttribute('data-bs-api-name')
+            const sheetId = button.getAttribute('data-bs-sheet-id')
+    
+            const confirmButton = deleteConfirmModal.querySelector('.btn.confirm')
+            const form = document.querySelector(`#${apiName}Form_${sheetId}`)
+            $(confirmButton).click(() => {
+                form && form.submit()
+            })
+            // // If necessary, you could initiate an AJAX request here
+            // // and then do the updating in a callback.
+            // //
+            // // Update the modal's content.
+            // const modalTitle = deleteConfirmModal.querySelector('.modal-title')
+            // const modalBodyInput = deleteConfirmModal.querySelector('.modal-body input')
+            // modalTitle.textContent = `New message to ${recipient}`
+            // modalBodyInput.value = recipient
         })
-        // // If necessary, you could initiate an AJAX request here
-        // // and then do the updating in a callback.
-        // //
-        // // Update the modal's content.
-        // const modalTitle = deleteConfirmModal.querySelector('.modal-title')
-        // const modalBodyInput = deleteConfirmModal.querySelector('.modal-body input')
-        // modalTitle.textContent = `New message to ${recipient}`
-        // modalBodyInput.value = recipient
-    })
+    }
 
+    $('button.action-refresh').click((e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!e.currentTarget) return
 
-    $('#ajaxButton').click(() => {
-        // get the token
         let tokenEl = document.querySelector('input[name="csrfmiddlewaretoken"]')
-        if (tokenEl) {
+        if (tokenEl && e.currentTarget.dataset) {
+            const parentTable = e.currentTarget.closest('table')
+            const tableBody = parentTable.querySelector('tbody')
+            const { sheetId, sheetType, levelId } = e.currentTarget.dataset
+            const autosave = window.location.pathname.endsWith('view') ? true : false
             const url = '/generateNewSet'
-            const bearer = 'Bearer ' + tokenEl.value
-            console.log(bearer)
             fetch(url, {
-                body: JSON.stringify({ sheetId: 43, level: 1, autosave: true}),
+                body: JSON.stringify({ sheetId: utils.toNumber(sheetId), level: utils.toNumber(levelId), autosave: autosave}),
                 method: 'POST',
                 headers: { "X-CSRFToken": tokenEl.value}
-            }).then((data) => { 
+            })
+            .then((response) => response.json())
+            .then((data) => { 
                 console.log(data)
+                if (data?.numberSet) {
+                    const newNumberSetHTML = utils.generateNewNumberSetByLevelHTML(data, sheetType)
+                    $(tableBody).html(newNumberSetHTML)
+                }
             })
         }
-
     })
 })

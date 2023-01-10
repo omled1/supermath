@@ -9,15 +9,13 @@
     <span class="sub-title">/&nbsp;{{ sheet_type }}</span>
 {% endblock %}
 
+{% block subtitleSmall %}
+    <span class="sub-title">{{ sheet_type }}</span>
+{% endblock %}
+
 {% block body %}
     <div class="problem-sheet">
         {% if sheet_type == "Multiplication" %}
-
-        {% csrf_token %}
-        <button id="ajaxButton" class="btn btn-success">
-            <i class="bi bi-plus-square"></i>&nbsp;Testing generate numbers via ajax
-        </button>
-
             <div class="table-action-top-panel shadow-sm">
                 <div class="container d-flex justify-content-between align-items-end">
                     <div>
@@ -60,6 +58,9 @@
                             </a>
                             <button class="btn btn-danger delete-action" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" data-bs-api-name="deleteMultiplication" data-bs-sheet-id="{{ sheet.id }}">
                                 <i class="bi bi-trash"></i>
+                            </button>
+                            <button class="btn btn-warning print-action" data-sheet-type="{{ sheet.sheet_type }}" data-sheet-id="{{ sheet.id }}">
+                                <i class="bi bi-printer"></i>
                             </button>
                             <form id="deleteMultiplicationForm_{{ sheet.id }}" action="{% url 'deleteMultiplication' %}" method="POST">
                                 {% csrf_token %}

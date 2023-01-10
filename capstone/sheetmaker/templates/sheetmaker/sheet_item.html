@@ -8,8 +8,13 @@
     <span class="sub-title"><span class="px-1">/</span><a class="text-decoration-none text-nowrap text-dark" href="/{{breadcrumb}}">{{ sheet_type }}</a><span class="px-1">/</span><span class="text-nowrap">{{ sheet_data.sheet_name}}</span></span>
 {% endblock %}
 
+{% block subtitleSmall %}
+    <span class="sub-title"><a class="text-decoration-none text-nowrap text-dark" href="/{{breadcrumb}}">{{ sheet_type }}</a><span class="px-1">/</span><span class="text-nowrap">{{ sheet_data.sheet_name}}</span></span>
+{% endblock %}
+
 {% block body %}
     <div class="problem-sheet">
+        {% csrf_token %}
         {% if sheet_type == "Multiplication" %} 
             <div class="table-action-top-panel shadow-sm">
                 <div class="container d-flex justify-content-between align-items-end">
@@ -24,7 +29,7 @@
                             <a class="btn btn-primary" href="/multiplication/{{ sheet_data.id }}/edit">
                                 <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                             </a>
-                            <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="printSheetEl">
+                            <button class="btn btn-warning" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="printSheetEl">
                                 <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                             </button>
                         </div>
@@ -37,9 +42,13 @@
                     <div class="animate__animated animate__fadeIn">
                         <table>
                             <thead>
-                                
                                 <tr>
-                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}</th>
+                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">
+                                        <div class="level-header">
+                                            <div>{{ data.levelName }}</div>
+                                            <div><button class="btn action-refresh" data-bs-toggle="tooltip" data-bs-title="Generate a new set of numbers" data-sheet-id="{{ sheet_data.id }}" data-sheet-type="{{ sheet_data.sheet_type }}" data-level-id="{{ forloop.counter }}"><i class="bi bi-arrow-clockwise"></i></button></div>
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,7 +87,7 @@
                             <a class="btn btn-primary" href="/division/{{ sheet_data.id }}/edit">
                                 <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                             </a>
-                            <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="division" id="printSheetEl">
+                            <button class="btn btn-warning" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="division" id="printSheetEl">
                                 <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                             </button>
                         </div>
@@ -92,7 +101,12 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}</th>
+                                    <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">
+                                        <div class="level-header">
+                                            <div>{{ data.levelName }}</div>
+                                            <div><button class="btn action-refresh" data-bs-toggle="tooltip" data-bs-title="Generate a new set of numbers" data-sheet-id="{{ sheet_data.id }}" data-sheet-type="{{ sheet_data.sheet_type }}" data-level-id="{{ forloop.counter }}"><i class="bi bi-arrow-clockwise"></i></button></div>
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,7 +145,7 @@
                             <a class="btn btn-primary" href="/arithmetic/{{ sheet_data.id }}/edit">
                                 <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                             </a>
-                            <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="arithmetic" id="printSheetEl">
+                            <button class="btn btn-warning" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="arithmetic" id="printSheetEl">
                                 <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                             </button>
                         </div>
@@ -145,7 +159,12 @@
                     <table class="main-table">
                         <thead>
                             <tr>
-                                <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">{{ data.levelName }}</th>
+                                <th class="text-light bg-danger bg-gradient bg-opacity-100" colspan="2">
+                                    <div class="level-header">
+                                        <div>{{ data.levelName }}</div>
+                                        <div><button class="btn action-refresh" data-bs-toggle="tooltip" data-bs-title="Generate a new set of numbers" data-sheet-id="{{ sheet_data.id }}" data-sheet-type="{{ sheet_data.sheet_type }}" data-level-id="{{ forloop.counter }}"><i class="bi bi-arrow-clockwise"></i></button></div>
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

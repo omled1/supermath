@@ -32,6 +32,7 @@ def index(request):
 # Log in page
 def login_view(request):
     authenticated_users = ["kyledelmo", "mwatanabe", "cs50w", "ldelmo", "demo"] # Only restricting access to this program to myself, the SuperMath founder, and CS50 grader(s)
+    
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -45,7 +46,17 @@ def login_view(request):
             if username in authenticated_users: # Only allowing some users to use this 
                 login(request, user)
                 request.session['localtimezone'] = timezone # Set the timezone for the entire session
-                return HttpResponseRedirect(reverse("index"))
+
+                redirect_uri = request.POST['next']
+                logger.info('redirect_uri')
+                logger.info(redirect_uri)
+                if redirect_uri  == request.path or redirect_uri == None:
+                    # avoid loops
+                    redirect_uri = "/"
+                
+                return redirect(redirect_uri)
+
+                # return HttpResponseRedirect(reverse("index"))
             else:
                 return render(request, "sheetmaker/login.html", {
                     "message": "Unauthorized user."

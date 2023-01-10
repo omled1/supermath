@@ -8,7 +8,7 @@
 
 <div class="container sub-main">
     <div class="card" style="width: 25rem;">
-        <div class="card-body">
+        <div class="card-body p-4">
             <h5 class="card-title">Login</h5>
             {% if message %}
             <div class="text-danger pb-3">{{ message }}</div>
@@ -29,6 +29,7 @@
                     </div>
                 </div>
                 <input id="localTimezoneName" name="localtimezone" type="hidden" />
+                <input type="hidden" name="next" value="{{ request.GET.next }}" />
                 <input class="btn btn-primary" type="submit" value="Login">
             </form>
             <p class='pt-4'>
