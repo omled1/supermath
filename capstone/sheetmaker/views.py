@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from .models import User, Sheet
@@ -12,6 +12,7 @@ from django.views.decorators.http import require_http_methods
 from datetime import datetime
 import random
 import logging
+import json
 
 # For debugging purposes
 logger = logging.getLogger('django')
@@ -1028,6 +1029,54 @@ def arithmetic_view(request, id, action):
         "breadcrumb": "arithmetic", # Shown in the nav bar
         "sheet_data": data
     })
+
+# Generate new set
+@require_http_methods(["POST"])
+def generateNewSet(request):
+    if request.method == "POST":
+        
+        data = json.loads(request.body)
+        sheet_id = data.get("sheetId")
+        level = data.get("level")
+        autosave = data.get("autosave")
+
+        current_sheet = Sheet.objects.get(id=sheet_id)
+        type = current_sheet.sheet_type
+        data = current_sheet.problem_data
+
+        new_data = {}
+        if type == "multiplication":
+            new_data = newMultiplicationData()
+        elif type == "division":
+            new_data = newDivisionData()
+        elif type == "arithmetic":
+            subtype = current_sheet.sheet_subtype
+            if subtype == "Mitori":
+                new_data = newArithmeticData()
+            elif subtype == "Mitori Addition":
+                new_data = newArithmeticAdditionData()
+            elif subtype == "Challenged":
+                new_data = newChallengedData()
+            elif subtype == "Challenged Addition":
+                new_data = newChallengedAdditionData()
+
+        if autosave == True:
+            current_sheet.problem_data[level-1] = new_data[level-1]
+            current_sheet.save()
+        
+        return JsonResponse(new_data[level-1], safe=False)
+
+        # def spliceData(start, end):
+        #     data = []
+        #     for i in range(start, end):
+        #         data.append({
+        #             "number": i+1,
+        #             "first": first_numbers[i],
+        #             "second": second_numbers[i],
+        #             "answer": answer_numbers[i]
+        #         })
+        #     return data
+
 
 # Function to find if the inputted number is a prime number
 def is_prime_number(x):

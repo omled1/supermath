@@ -307,4 +307,22 @@ $().ready(() => {
         // modalBodyInput.value = recipient
     })
 
+
+    $('#ajaxButton').click(() => {
+        // get the token
+        let tokenEl = document.querySelector('input[name="csrfmiddlewaretoken"]')
+        if (tokenEl) {
+            const url = '/generateNewSet'
+            const bearer = 'Bearer ' + tokenEl.value
+            console.log(bearer)
+            fetch(url, {
+                body: JSON.stringify({ sheetId: 43, level: 1, autosave: true}),
+                method: 'POST',
+                headers: { "X-CSRFToken": tokenEl.value}
+            }).then((data) => { 
+                console.log(data)
+            })
+        }
+
+    })
 })

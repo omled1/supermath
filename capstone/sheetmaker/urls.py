@@ -9,6 +9,8 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
     path('register', views.register, name='register'),
 
+    path('generateNewSet', views.generateNewSet, name='generateNewSet'),
+
     # Paths for everything regarding multiplication
     path('multiplication', views.multiplication, name='multiplication'),
     path('multiplication/<int:id>/<str:action>', views.multiplication_view, name='multiplication_view'),

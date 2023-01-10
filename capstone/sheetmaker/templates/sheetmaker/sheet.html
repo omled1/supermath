@@ -12,6 +12,12 @@
 {% block body %}
     <div class="problem-sheet">
         {% if sheet_type == "Multiplication" %}
+
+        {% csrf_token %}
+        <button id="ajaxButton" class="btn btn-success">
+            <i class="bi bi-plus-square"></i>&nbsp;Testing generate numbers via ajax
+        </button>
+
             <div class="table-action-top-panel shadow-sm">
                 <div class="container d-flex justify-content-between align-items-end">
                     <div>
