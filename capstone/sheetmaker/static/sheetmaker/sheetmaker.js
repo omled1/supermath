@@ -138,7 +138,7 @@ const utils = (() => {
                             <td class="m_expression">
                                 <span>
                                     <input type="number" name="first" value="${first}" min="0" max="99999" />
-                                    x
+                                    ${operator}
                                     <input type="number" name="second" value="${second}" min="0" max="99999" />
                                 </span>
                                 <span>=</span>
