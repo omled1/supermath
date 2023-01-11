@@ -161,9 +161,6 @@ html, body {
 .problem-sheet {
     text-align: center;
     margin-top: 115px;
-    padding-bottom: 20px;
-    /* overflow: scroll;
-    height: calc(100vh - 140px); */
 }
 
 .problem-sheet div.table-main-panel {
@@ -342,6 +339,8 @@ iframe.print {
 div.for-printing {
     font-size: 1.25em;
     font-family: Arial, Helvetica, sans-serif;
+    padding-left: 0.4in;
+    padding-right: 0.05in;
 }
 
 div.for-printing h3 {
