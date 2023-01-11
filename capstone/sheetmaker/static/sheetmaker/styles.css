@@ -173,7 +173,7 @@ html, body {
 }
 
 .problem-sheet div.grid.item-detail-panel {
-    margin-bottom: 80px;
+    /* margin-bottom: 80px; */
 }
 
 .problem-sheet div.footer-action-panel {
