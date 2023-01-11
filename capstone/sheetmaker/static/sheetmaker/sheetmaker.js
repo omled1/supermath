@@ -385,7 +385,7 @@ $().ready(() => {
             }, false)
         })
 
-    // for listening to opening of the modal dialog
+    // For listening to opening of the modal dialog
     const deleteConfirmModal = document.getElementById('deleteConfirmModal')
     if (deleteConfirmModal) {
         deleteConfirmModal.addEventListener('show.bs.modal', event => {
@@ -400,17 +400,10 @@ $().ready(() => {
             $(confirmButton).click(() => {
                 form && form.submit()
             })
-            // // If necessary, you could initiate an AJAX request here
-            // // and then do the updating in a callback.
-            // //
-            // // Update the modal's content.
-            // const modalTitle = deleteConfirmModal.querySelector('.modal-title')
-            // const modalBodyInput = deleteConfirmModal.querySelector('.modal-body input')
-            // modalTitle.textContent = `New message to ${recipient}`
-            // modalBodyInput.value = recipient
         })
     }
 
+    // For refreshing the levels of data
     $('button.action-refresh').click((e) => {
         e.preventDefault()
         e.stopPropagation()
