@@ -48,15 +48,11 @@ def login_view(request):
                 request.session['localtimezone'] = timezone # Set the timezone for the entire session
 
                 redirect_uri = request.POST['next']
-                logger.info('redirect_uri')
-                logger.info(redirect_uri)
-                if redirect_uri  == request.path or redirect_uri == None:
-                    # avoid loops
+                if redirect_uri  == request.path or redirect_uri == "":
+                    # Avoid loops and prevent errors
                     redirect_uri = "/"
-                
+                    
                 return redirect(redirect_uri)
-
-                # return HttpResponseRedirect(reverse("index"))
             else:
                 return render(request, "sheetmaker/login.html", {
                     "message": "Unauthorized user."
@@ -1041,20 +1037,23 @@ def arithmetic_view(request, id, action):
         "sheet_data": data
     })
 
-# Generate new set
+# Generating a new set of data whenever the user presses the "refresh" button
 @require_http_methods(["POST"])
 def generateNewSet(request):
     if request.method == "POST":
         
+        # Getting the data from the fetch request
         data = json.loads(request.body)
         sheet_id = data.get("sheetId")
         level = data.get("level")
         autosave = data.get("autosave")
 
+        # Querying the correct sheet from the database
         current_sheet = Sheet.objects.get(id=sheet_id)
         type = current_sheet.sheet_type
         data = current_sheet.problem_data
 
+        # Generating the new problem data
         new_data = {}
         if type == "multiplication":
             new_data = newMultiplicationData()
@@ -1071,22 +1070,12 @@ def generateNewSet(request):
             elif subtype == "Challenged Addition":
                 new_data = newChallengedAdditionData()
 
+        # Only autosavess if the user is not in edit mode
         if autosave == True:
             current_sheet.problem_data[level-1] = new_data[level-1]
             current_sheet.save()
         
         return JsonResponse(new_data[level-1], safe=False)
-
-        # def spliceData(start, end):
-        #     data = []
-        #     for i in range(start, end):
-        #         data.append({
-        #             "number": i+1,
-        #             "first": first_numbers[i],
-        #             "second": second_numbers[i],
-        #             "answer": answer_numbers[i]
-        #         })
-        #     return data
 
 
 # Function to find if the inputted number is a prime number
