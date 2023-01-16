@@ -229,133 +229,143 @@ $().ready(() => {
     // To get the user's timezone
     $('#localTimezoneName').val(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
-    // Preventing pressing the enter key from submitting the edited form
-    // Pressing enter is used to update the number box when the user has entered a new number
-    $('.problem-sheet form.form-editing').bind("keypress", function (e) {
-        if (e.keyCode == 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
+    // Bind events...
+    const bindKeyEvents = () => {
+        // Select all contents of textbox when it receives focus 
+        $("input:text, input[type='number']").focus(function () {
+            $(this).select();
+        });
 
-    // When the user inputs a number in the multiplicaion edit screen
-    // Prevents all numbers less than zero from being entered
-    // Dynamically updates the answer to the expression
-    $('.grid.editing td.m_expression input').keyup((e) => {
-        let input1 = e.currentTarget // Can either be the first or second number
-        let parentEl = input1.closest('.m_expression') // Container of the expression
-        let inputName1 = input1.attributes['name'].value
-        let inputName2 = (inputName1 === 'first') ? 'second' : 'first'
-        let input2 = parentEl.querySelector(`input[name=${inputName2}]`)
-        let spanAnswer = parentEl.querySelector('span.answer')
-        let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
-
-        // Getting integer values of the first and second operands
-        const input1Value = utils.toNumber(input1.value)
-        if (input1Value < 0) {
-            input1.value = 0
-            return
-        }
-        const input2Value = utils.toNumber(input2.value)
-        const answerValue = input1Value * input2Value // Obtaining the answer
-
-        // Changing the answer that is being shown and the answer that is being accessed when the form is submitted
-        spanAnswer.innerText = answerValue
-        hiddenAnswer.value = answerValue
-    })
-
-    // When the user inputs a number in the division edit screen
-    // Prevents both first and second numbers from becoming 0
-    // Dynamically updates the answer to the expression
-    $('.grid.editing td.d_expression input').keyup((e) => {
-        let input1 = e.currentTarget
-        let parentEl = input1.closest('.d_expression')
-        let inputName1 = input1.attributes['name'].value
-        let inputName2 = (inputName1 === 'first') ? 'second' : 'first'
-        let input2 = parentEl.querySelector(`input[name=${inputName2}]`)
-        let spanAnswer = parentEl.querySelector('span.answer')
-        let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
-
-        // Not letting either number be equal to 0; changing it to 1
-        const input1Value = utils.toNumber(input1.value)
-        if (input1Value <= 0) {
-            input1.value = 1
-            return
-        }
-
-        const input2Value = utils.toNumber(input2.value)
-
-        // Integer answers only; non integers are flagged by setting the answer to zero
-        let answerValue = 0
-        if (inputName2 === "first") {
-            if ((input2Value % input1Value) !== 0) {
-                answerValue = 0
+        // Preventing pressing the enter key from submitting the edited form
+        // Pressing enter is used to update the number box when the user has entered a new number
+        $('.problem-sheet form.form-editing').bind("keypress", function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                return false;
             }
-            else {
-                answerValue = (input2Value / input1Value)
+        });
+
+        // When the user inputs a number in the multiplicaion edit screen
+        // Prevents all numbers less than zero from being entered
+        // Dynamically updates the answer to the expression
+        $('.grid.editing td.m_expression input').keyup((e) => {
+            let input1 = e.currentTarget // Can either be the first or second number
+            let parentEl = input1.closest('.m_expression') // Container of the expression
+            let inputName1 = input1.attributes['name'].value
+            let inputName2 = (inputName1 === 'first') ? 'second' : 'first'
+            let input2 = parentEl.querySelector(`input[name=${inputName2}]`)
+            let spanAnswer = parentEl.querySelector('span.answer')
+            let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
+
+            // Getting integer values of the first and second operands
+            const input1Value = utils.toNumber(input1.value)
+            if (input1Value < 0) {
+                input1.value = 0
+                return
             }
-        }
-        else {
-            if ((input1Value % input2Value) !== 0) {
-                answerValue = 0
-            }
-            else {
-                answerValue = Math.floor(input1Value / input2Value)
-            }
-        }
+            const input2Value = utils.toNumber(input2.value)
+            const answerValue = input1Value * input2Value // Obtaining the answer
 
-        // Adding styling as a visual flag that the problem is invalid
-        if (answerValue === 0) {
-            $(parentEl).addClass('bg-danger')
-        } else {
-            $(parentEl).removeClass('bg-danger')
-
-            // Form validation (calling the validation form function)
-            const frm = input1.closest('form')
-            utils.validateDivisionForm(frm)
-        }
-
-        // Changing the displayed and hidden answer
-        spanAnswer.innerText = answerValue
-        hiddenAnswer.value = answerValue
-    })
-
-    // When the user inputs a number in the arithmetic edit screen
-    // Prevents the answer from being less than 0
-    // Dynamically updates the answer to the expression
-    $('.grid.editing td.a_expression input').keyup((e) => {
-        let currentInput = e.currentTarget
-        let parentEl = currentInput.closest('.a_expression')
-        let tdAnswer = parentEl.querySelector('td.answer')
-        let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
-        let numberInputs = parentEl.querySelectorAll('input[type="number"]') // Because there is not just a first or second number
-
-        // Gettting the total number
-        let total = 0
-        numberInputs.forEach(item => {
-            total += utils.toNumber(item.value)
+            // Changing the answer that is being shown and the answer that is being accessed when the form is submitted
+            spanAnswer.innerText = answerValue
+            hiddenAnswer.value = answerValue
         })
 
-        // Answer cannot be negative; answer is changed to negative infinity to flag it if it is
-        if (total < 0) {
-            total = -Infinity
-        }
+        // When the user inputs a number in the division edit screen
+        // Prevents both first and second numbers from becoming 0
+        // Dynamically updates the answer to the expression
+        $('.grid.editing td.d_expression input').keyup((e) => {
+            let input1 = e.currentTarget
+            let parentEl = input1.closest('.d_expression')
+            let inputName1 = input1.attributes['name'].value
+            let inputName2 = (inputName1 === 'first') ? 'second' : 'first'
+            let input2 = parentEl.querySelector(`input[name=${inputName2}]`)
+            let spanAnswer = parentEl.querySelector('span.answer')
+            let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
 
-        // Adding styling as a visual flag that the problem is invalid
-        if (total < 0) {
-            $(parentEl).addClass('bg-danger')
-        } else {
-            $(parentEl).removeClass('bg-danger')
+            // Not letting either number be equal to 0; changing it to 1
+            const input1Value = utils.toNumber(input1.value)
+            if (input1Value <= 0) {
+                input1.value = 1
+                return
+            }
 
-            // Validating form
-            const frm = currentInput.closest('form')
-            utils.validateArithmeticForm(frm)
-        }
+            const input2Value = utils.toNumber(input2.value)
 
-        // Changing the displayed and hidden anwer
-        hiddenAnswer.value = total
-        tdAnswer.innerText = total
-    })
+            // Integer answers only; non integers are flagged by setting the answer to zero
+            let answerValue = 0
+            if (inputName2 === "first") {
+                if ((input2Value % input1Value) !== 0) {
+                    answerValue = 0
+                }
+                else {
+                    answerValue = (input2Value / input1Value)
+                }
+            }
+            else {
+                if ((input1Value % input2Value) !== 0) {
+                    answerValue = 0
+                }
+                else {
+                    answerValue = Math.floor(input1Value / input2Value)
+                }
+            }
+
+            // Adding styling as a visual flag that the problem is invalid
+            if (answerValue === 0) {
+                $(parentEl).addClass('bg-danger')
+            } else {
+                $(parentEl).removeClass('bg-danger')
+
+                // Form validation (calling the validation form function)
+                const frm = input1.closest('form')
+                utils.validateDivisionForm(frm)
+            }
+
+            // Changing the displayed and hidden answer
+            spanAnswer.innerText = answerValue
+            hiddenAnswer.value = answerValue
+        })
+
+        // When the user inputs a number in the arithmetic edit screen
+        // Prevents the answer from being less than 0
+        // Dynamically updates the answer to the expression
+        $('.grid.editing td.a_expression input').keyup((e) => {
+            let currentInput = e.currentTarget
+            let parentEl = currentInput.closest('.a_expression')
+            let tdAnswer = parentEl.querySelector('td.answer')
+            let hiddenAnswer = parentEl.querySelector('input[type="hidden"]')
+            let numberInputs = parentEl.querySelectorAll('input[type="number"]') // Because there is not just a first or second number
+
+            // Gettting the total number
+            let total = 0
+            numberInputs.forEach(item => {
+                total += utils.toNumber(item.value)
+            })
+
+            // Answer cannot be negative; answer is changed to negative infinity to flag it if it is
+            if (total < 0) {
+                total = -Infinity
+            }
+
+            // Adding styling as a visual flag that the problem is invalid
+            if (total < 0) {
+                $(parentEl).addClass('bg-danger')
+            } else {
+                $(parentEl).removeClass('bg-danger')
+
+                // Validating form
+                const frm = currentInput.closest('form')
+                utils.validateArithmeticForm(frm)
+            }
+
+            // Changing the displayed and hidden anwer
+            hiddenAnswer.value = total
+            tdAnswer.innerText = total
+        })
+    }
+
+    bindKeyEvents()
 
     // On-click event listener for the print buttons for the sheets
     $('#printSheetEl').click((e) => {
@@ -427,6 +437,8 @@ $().ready(() => {
                 if (data?.numberSet) {
                     const newNumberSetHTML = utils.generateNewNumberSetByLevelHTML(data, sheetType)
                     $(tableBody).html(newNumberSetHTML)
+
+                    bindKeyEvents()
                 }
             })
         }
