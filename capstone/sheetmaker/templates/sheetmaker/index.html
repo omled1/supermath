@@ -7,15 +7,27 @@
 {% block body %} 
     <div class="container home">
         <div class="menu-item btn btn-danger d-flex align-items-center justify-content-center">
-            <a href="{% url 'multiplication' %}">x</a>
+            <a href="{% url 'multiplication' %}" data-operation="multiplication">x</a>
         </div>
         <div class="menu-item btn btn-primary d-flex align-items-center justify-content-center">
-            <a href="{% url 'division' %}">÷</a>
+            <a href="{% url 'division' %}" data-operation="division">÷</a>
         </div>
-        <div class="menu-item btn btn-success d-flex align-items-center justify-content-center">
-            <a href="{% url 'arithmetic' %}">+ / -</a>
+        <div class="menu-item btn btn-success d-flex align-items-center justify-content-center" >
+            <a href="{% url 'arithmetic' %}" data-operation="arithmetic">+ / -</a>
         </div>
     </div>
+    <ul id="circlesAnimateEl" class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
     <div class="ocean">
         <div class="wave"></div>
         <div class="wave"></div>

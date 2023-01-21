@@ -443,4 +443,21 @@ $().ready(() => {
             })
         }
     })
+
+    // For showing the background animation....
+    const $circlesAnimateEl = $('#circlesAnimateEl')
+    $('.container.home .menu-item a').mouseenter((e) => {
+        // console.log('mounenter', e.currentTarget.dataset.operation)
+        const { operation} = e.currentTarget.dataset
+        $circlesAnimateEl.addClass(operation)
+        $circlesAnimateEl.fadeIn('slow')
+    }).mouseout((e) => {
+        // console.log('mouseout', e.currentTarget.dataset)
+        const { operation} = e.currentTarget.dataset
+        // $circlesAnimateEl.removeClass(operation).addClass('d-none')
+        $circlesAnimateEl.fadeOut('slow')
+        $circlesAnimateEl.removeClass(operation)
+    })
+
+
 })
