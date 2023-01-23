@@ -5,11 +5,6 @@ html, body {
     /* background-color: #f2f2f2; */
 }
 
-/* https://matthewjamestaylor.com/responsive-font-size */
-/* body.responsive-font {
-    font-size: calc(15px + 0.390625vw);
-} */
-
 /* scrollbars total width */
 ::-webkit-scrollbar {
     background-color: rgba(0,0,0,0);
@@ -470,7 +465,7 @@ iframe.print {
 
 div.for-printing {
     font-size: 1.25em;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
     margin: 1mm 5mm 1mm 15mm;
 }
 
@@ -558,18 +553,24 @@ div.for-printing.arithmetic .table-for-print  .table-cell .number {
     text-align: center;
     font-weight: bold;
     font-style: italic;
-    font-size: 0.8em;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list {
     text-align: right;
-    font-family: sans-serif;
     font-size: 1.35em;
     font-weight: 100;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list div {
     padding: 3px;
+}
+
+div.for-printing div.answer-page {
+    font-size: 1.15em;
+}
+
+div.for-printing.arithmetic div.answer-page {
+    font-size: 1.8em;
 }
 
 div.for-printing div.answer-page h3 {
