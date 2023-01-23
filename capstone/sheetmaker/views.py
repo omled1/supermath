@@ -17,6 +17,9 @@ import json
 # For debugging purposes
 logger = logging.getLogger('django')
 
+# List of superusers
+SUPERUSERS = [2, 5]
+
 # Creating views
 
 def error_404_view(request, exception):
@@ -232,7 +235,8 @@ def newMultiplicationData():
 # Showing all the user's multiplication sheets
 @login_required(login_url="/login")
 def multiplication(request):
-    if request.user.id == 2:
+    global SUPERUSERS
+    if request.user.id in SUPERUSERS:
         sheets = Sheet.objects.filter(sheet_type="multiplication")
     else:  
         sheets = Sheet.objects.filter(sheet_type="multiplication", user_id=request.user.id)
@@ -445,7 +449,8 @@ def newDivisionData():
 # Showing all the user's division sheets
 @login_required(login_url="/login")
 def division(request):
-    if request.user.id == 2:
+    global SUPERUSERS
+    if request.user.id in SUPERUSERS:
         sheets = Sheet.objects.filter(sheet_type="division")
     else:
         sheets = Sheet.objects.filter(sheet_type="division", user_id=request.user.id)
@@ -948,7 +953,8 @@ def newChallengedAdditionData():
 # Showing all the user's arithmetic sheets
 @login_required(login_url="/login")
 def arithmetic(request):
-    if request.user.id == 2:
+    global SUPERUSERS
+    if request.user.id in SUPERUSERS:
         sheets = Sheet.objects.filter(sheet_type="arithmetic")
     else:   
         sheets = Sheet.objects.filter(sheet_type="arithmetic", user_id=request.user.id)
