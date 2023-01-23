@@ -557,8 +557,8 @@ div.for-printing.arithmetic .table-for-print  .table-cell .number {
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list {
     text-align: right;
-    font-size: 1.35em;
-    font-weight: 100;
+    font-size: 1.30em;
+    /* font-weight: 100; */
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list div {

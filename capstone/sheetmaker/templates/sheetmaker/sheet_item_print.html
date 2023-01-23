@@ -480,7 +480,7 @@
         <h3>{{ answer_sheet }} (+/-)</h3>
         <table>
             <tr>
-                <td>
+                <td style="vertical-align:top">
                     <table class="table-for-print">
                         <tbody>
                             {% for problem in sheet_answer_data1 %}
@@ -494,15 +494,17 @@
                         </tbody>
                     </table>
                 </td>
-                <td>
+                <td style="vertical-align:top">
                     <table class="table-for-print">
                         <tbody>
                             {% for problem in sheet_answer_data2 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
                                 <td class="expression">{{problem.0.answer}}</td>
-                                <td class="number">{{problem.1.number}}</td>
-                                <td class="expression">{{problem.1.answer}}</td>
+                                {% if problem.1 %}
+                                    <td class="number">{{problem.1.number}}</td>
+                                    <td class="expression">{{problem.1.answer}}</td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
