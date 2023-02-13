@@ -463,12 +463,27 @@ iframe.print {
     padding: 0px 0.25em;
 }
 
+@media print {
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    html,
+    body {
+        overflow: hidden;
+        background: #FFF;
+        font-size: 1em;
+    }
+}
+
 div.for-printing {
     font-size: 1.25em;
     font-family: sans-serif;
     margin: 1mm 5mm 1mm 15mm;
 }
-
+div.for-printing.arithmetic {
+    font-size: 1em;
+}
 div.for-printing h3 {
    text-align: center; 
    font-weight: lighter;
@@ -478,10 +493,11 @@ div.for-printing h3 {
 div.for-printing .table-for-print {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 5px;
 }
 
 div.for-printing .table-for-print td {
-    padding: 3px;
+    padding: 4px;
     border: 1px solid black;
 }
 
@@ -534,7 +550,8 @@ div.for-printing.arithmetic table  {
 }
 
 div.for-printing.arithmetic .table-for-print {
-    margin-bottom: 10px;
+    font-size: 0.85em;
+    margin-bottom: 5px;
 }
 
 div.for-printing.arithmetic .table-for-print td {
@@ -542,35 +559,43 @@ div.for-printing.arithmetic .table-for-print td {
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell {
-    width: 100px;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell td {
-    padding: 3px;
+    padding: 2px;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number {
     text-align: center;
     font-weight: bold;
     font-style: italic;
+    border: none;
+    border-bottom: 1px solid black;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list {
     text-align: right;
-    font-size: 1.30em;
-    /* font-weight: 100; */
+    font-size: 1em;
+    border: none;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list div {
     padding: 3px;
 }
 
+div.for-printing.arithmetic .table-for-print  .table-cell .answer-box {
+    border: none;
+    border-top: 1px solid black;
+}
+
 div.for-printing div.answer-page {
-    font-size: 1.15em;
+    font-size: 1em;
 }
 
 div.for-printing.arithmetic div.answer-page {
-    font-size: 1.8em;
+    font-size: 1.5em;
 }
 
 div.for-printing div.answer-page h3 {
@@ -583,7 +608,7 @@ div.for-printing div.answer-page .table-for-print {
 }
 
 div.for-printing div.answer-page .table-for-print td {
-    padding: 5px;
+    padding: 4px;
 }
 
 .tooltip-inner {
@@ -593,6 +618,7 @@ div.for-printing div.answer-page .table-for-print td {
 @media print {
     @page {
       size: A4 portrait;
+      margin: 0;
     }
     .pagebreak { page-break-before: always; }
   }

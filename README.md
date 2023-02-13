@@ -7,6 +7,13 @@
 3. Run “python3 manage.py runserver” or “python manage.py runserver” to run the application
 4. “CTRL + C” to close the application
 
+## HOW TO RUN THE APPLICATAION USING Virtual Environment
+1. Run source venv/supermath_env/bin/activate
+2. Run “cd supermath/capstone”
+3. Run “python3 manage.py runserver” or “python manage.py runserver” to run the application
+4. “CTRL + C” to close the application
+
+
 ## WHAT’S CONTAINED IN EACH FILE
 
 - Settings.dev.py
