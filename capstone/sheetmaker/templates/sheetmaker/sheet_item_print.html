@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+<input type="hidden" id="pdfDownloadFilename" value="SuperMath Correspondence Content Form_{{sheet_data.id}}.pdf" />
 {% if sheet_type == "Multiplication" %}
 <div class="for-printing">
     <h3>{{sheet_data.sheet_name}} (X-1)</h3>
@@ -443,7 +444,7 @@
             <h3>{{ answer_sheet }} (+/-)</h3>
             <table>
                 <tr>
-                    <td>
+                    <td style="padding-right: 3px;">
                         <table class="table-for-print">
                             <tbody>
                                 {% for problem in sheet_answer_data1 %}
@@ -480,7 +481,7 @@
         <h3>{{ answer_sheet }} (+/-)</h3>
         <table>
             <tr>
-                <td style="vertical-align:top">
+                <td style="vertical-align:top; padding-right: 3px;">
                     <table class="table-for-print">
                         <tbody>
                             {% for problem in sheet_answer_data1 %}

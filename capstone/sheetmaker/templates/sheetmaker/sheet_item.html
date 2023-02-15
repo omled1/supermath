@@ -29,9 +29,12 @@
                             <a class="btn btn-primary" href="/multiplication/{{ sheet_data.id }}/edit">
                                 <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                             </a>
-                            <button class="btn btn-warning" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="printSheetEl">
+                            <button class="btn btn-warning print-action" data-sheet-id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="printSheetEl">
                                 <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                             </button>
+                            <!-- <button class="btn btn-success" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="multiplication" id="downloadSheetEl">
+                                <i class="bi bi-download"></i>&nbsp;&nbsp;Download
+                            </button> -->
                         </div>
                     </div>
                </div>
@@ -87,7 +90,7 @@
                             <a class="btn btn-primary" href="/division/{{ sheet_data.id }}/edit">
                                 <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                             </a>
-                            <button class="btn btn-warning" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="division" id="printSheetEl">
+                            <button class="btn btn-warning print-action" data-sheet-id="{{ sheet_data.id }}" data-sheet-type="division" id="printSheetEl">
                                 <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                             </button>
                         </div>
@@ -145,7 +148,7 @@
                             <a class="btn btn-primary" href="/arithmetic/{{ sheet_data.id }}/edit">
                                 <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Edit
                             </a>
-                            <button class="btn btn-warning" data-sheet_id="{{ sheet_data.id }}" data-sheet-type="arithmetic" id="printSheetEl">
+                            <button class="btn btn-warning print-action" data-sheet-id="{{ sheet_data.id }}" data-sheet-type="arithmetic" id="printSheetEl">
                                 <i class="bi bi-printer"></i>&nbsp;&nbsp;Print
                             </button>
                         </div>

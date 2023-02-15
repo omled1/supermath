@@ -223,6 +223,30 @@ $().ready(() => {
         return
     }
 
+    const searchParams = new URLSearchParams(window.location.search)
+    console.log('DEBUG:LLD', searchParams, searchParams.get('print'))
+    const isDownload = searchParams.get('download') || 'no'
+    if (isDownload === 'yes') {
+        // https://github.com/eKoopmans/html2pdf.js#image-type-and-quality
+        // https://rawgit.com/MrRio/jsPDF/master/docs/jsPDF.html
+
+        // // This will implicitly create the canvas and PDF objects before saving.
+        // var worker = html2pdf().from(document.body).save();
+        const element = document.body;
+        const opt = {
+            margin: 0,
+            filename: $('#pdfDownloadFilename').val(),
+            // image: { type: 'jpeg', quality: 1.0 },
+            image: { type: 'png' },
+            html2canvas: { scale: 1 },
+            jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+        };
+
+        // New Promise-based usage:
+        html2pdf().set(opt).from(element).save();
+        return
+    }
+
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
@@ -368,14 +392,7 @@ $().ready(() => {
     bindKeyEvents()
 
     // On-click event listener for the print buttons for the sheets
-    $('#printSheetEl').click((e) => {
-        const {sheetType, sheet_id} = e.currentTarget.dataset
-        let url  = `/${sheetType}/${sheet_id}/print`
-        utils.print(url)
-    })
-
     $('button.print-action').click((e) => {
-        console.log('e.currentTarget.dataset', e.currentTarget.dataset)
         const {sheetType, sheetId} = e.currentTarget.dataset
         let url  = `/${sheetType}/${sheetId}/print`
         utils.print(url)

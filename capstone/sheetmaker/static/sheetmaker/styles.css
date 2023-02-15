@@ -477,12 +477,14 @@ iframe.print {
 }
 
 div.for-printing {
-    font-size: 1.25em;
+    font-size: 1.3em;
     font-family: sans-serif;
-    margin: 1mm 5mm 1mm 15mm;
+    /* margin: 1mm 5mm 1mm 10mm; */
+    margin: 0mm 5mm 0mm 10mm;
+    width: 7.5in;
 }
 div.for-printing.arithmetic {
-    font-size: 1em;
+    font-size: 1.15em;
 }
 div.for-printing h3 {
    text-align: center; 
@@ -559,12 +561,13 @@ div.for-printing.arithmetic .table-for-print td {
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell {
-    width: 100%;
+    /* width: 100%; */
+    width: 1.9cm;
     border-collapse: collapse;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell td {
-    padding: 2px;
+    padding: 0px;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number {
@@ -573,11 +576,12 @@ div.for-printing.arithmetic .table-for-print  .table-cell .number {
     font-style: italic;
     border: none;
     border-bottom: 1px solid black;
+    font-size: 0.8em;
 }
 
 div.for-printing.arithmetic .table-for-print  .table-cell .number-list {
     text-align: right;
-    font-size: 1em;
+    font-size: 1.1em;
     border: none;
 }
 
