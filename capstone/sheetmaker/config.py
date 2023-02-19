@@ -131,26 +131,50 @@ config["arithmetic"] = {
     }
 }
 
+# config["challenged"] = {
+#     "first_set": {
+#         "set_problems": 10,
+#         "number_count": 3,
+#         "min": 10,
+#         "max": 77, 
+#         "negative_percent": 10
+#     },
+#     "second_set": {
+#         "set_problems": 30,
+#         "number_count": 4,
+#         "min": 10,
+#         "max": 66,
+#         "negative_percent": 10
+#     },
+#     "third_set": {
+#         "set_problems": 10,
+#         "number_count": 5,
+#         "min": 10,
+#         "max": 55,
+#         "negative_percent": 10
+#     }
+# }
+
 config["challenged"] = {
     "first_set": {
-        "set_problems": 10,
-        "number_count": 3,
-        "min": 10,
-        "max": 77, 
-        "negative_percent": 10
+        "set_problems": 30,
+        "number_count": 5,
+        "min": 1,
+        "max": 9, 
+        "negative_percent": 20
     },
     "second_set": {
-        "set_problems": 30,
+        "set_problems": 10,
         "number_count": 4,
-        "min": 10,
-        "max": 66,
-        "negative_percent": 10
+        "min": 11,
+        "max": 99,
+        "negative_percent": 20
     },
     "third_set": {
         "set_problems": 10,
         "number_count": 5,
-        "min": 10,
-        "max": 55,
-        "negative_percent": 10
+        "min": 11,
+        "max": 99,
+        "negative_percent": 20
     }
 }

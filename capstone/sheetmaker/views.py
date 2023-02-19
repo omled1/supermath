@@ -775,7 +775,7 @@ def newArithmeticAdditionData():
     return data
 
 # Creating the arithmetic data for the challenged group (random problems generated with guidelines)
-CHALLENGED_NEGATIVE_MAX_COUNT = 2
+CHALLENGED_NEGATIVE_MAX_COUNT = 3
 def newChallengedData():
     problems = []
     dupcheck = {}
@@ -786,84 +786,126 @@ def newChallengedData():
     for key in config_keys:
         current_set = c_config[key]
         negative_numbers = 0
-        while len(problems) < (counter + current_set["set_problems"]):
-            new_problem = dict()
-            new_problem["number"] = problem_counter + 1
 
-            number_list = []
-            valid_problem = False
-            while valid_problem == False:
-                numbers = []
-                for i in range(0, current_set["number_count"]):
-                    numbers.append(random.randint(10, current_set["max"]))
-                number_lis = []
-                for number in numbers:
-                    number_lis.append(get_pos_nums(number))
-                tens_sum = 0
-                ones_sum = 0
-                for lis in number_lis:
-                    ones_sum += lis[0]
-                    tens_sum += lis[1]
-                if ones_sum < 10 and tens_sum < 10:
-                    number_list = numbers
-                    valid_problem = True
+        if key == "first_set":
+            negative_challenge_count = 3
+            negative_chance = 20
+            while len(problems) < (counter + current_set["set_problems"]):
+                new_problem = dict()
+                new_problem["number"] = problem_counter + 1
+                negative_number_count = 0
 
-            negative_chance = random.randint(0, 99)
-            if negative_chance < current_set["negative_percent"] and negative_numbers < CHALLENGED_NEGATIVE_MAX_COUNT:
-                negative_numbers += 1
-                random_index = random.randint(1, current_set["number_count"] - 1)
-                problem_copy = number_list
-                valid_negative = False
-                while valid_negative == False:
-                    negative_int = (random.randint(10, 77)) * -1
-                    problem_copy[random_index] = negative_int
-                    list_sum = 0
-                    for k in range(0, random_index):
-                        list_sum += problem_copy[k]
-                    if list_sum < 0:
-                        while list_sum < 0:
-                            negative_int = (random.randint(10, 77)) * -1
-                            problem_copy[random_index] = negative_int
-                            list_sum = 0
-                            for l in range(0, random_index):
-                                list_sum += problem_copy[l]
-                    sum_pos = get_pos_nums(list_sum)
-                    if len(sum_pos) < 2:
-                        sum_pos.insert(0, 0)
-                    negative_pos = get_pos_nums(negative_int*-1)
-                    if (sum_pos[0] - negative_pos[0] >= 0) and (sum_pos[1] - negative_pos[1] >= 0):
-                        number_list[random_index] = negative_int
-                        valid_negative = True 
+                number_list = []
+                for j in range(0, current_set["number_count"]):
+                    negative_number = random.randint(0, 99)
+                    if negative_number < negative_chance and j != 0 and negative_number_count < negative_challenge_count and (sum(number_list) > 1):
+                        negative_number_count += 1
+                        number = random.randint(current_set["min"], current_set["max"])
+                        if (sum(number_list) - number) < 0:
+                            valid_negative = False
+                            while valid_negative == False:
+                                number = random.randint(current_set["min"], current_set["max"])
+                                if (sum(number_list) - number) >= 0:
+                                    valid_negative = True
+                            number *= -1
+                            number_list.append(number)
+                        else:
+                            number *= -1
+                            number_list.append(number)
+                    else:
+                        number = random.randint(current_set["min"], current_set["max"])
+                        number_list.append(number)
+
+                new_problem["numbers"] = number_list
+                new_problem["answer"] = sum(number_list)
+                key_query = ""
+                for number in number_list:
+                    key_query += str(number)
+                key_query += str(new_problem["answer"])
+                if not dupcheck.get(key_query):
+                    problems.append(new_problem)
+                    dupcheck[key_query] = True
+                    problem_counter += 1
+            counter += current_set["set_problems"]
+        else:
+            while len(problems) < (counter + current_set["set_problems"]):
+                new_problem = dict()
+                new_problem["number"] = problem_counter + 1
+
+                number_list = []
+                valid_problem = False
+                while valid_problem == False:
+                    numbers = []
+                    for i in range(0, current_set["number_count"]):
+                        numbers.append(random.randint(10, current_set["max"]))
+                    number_lis = []
+                    for number in numbers:
+                        number_lis.append(get_pos_nums(number))
+                    tens_sum = 0
+                    ones_sum = 0
+                    for lis in number_lis:
+                        ones_sum += lis[0]
+                        tens_sum += lis[1]
+                    if ones_sum < 10 and tens_sum < 10:
+                        number_list = numbers
+                        valid_problem = True
+
+                negative_chance = random.randint(0, 99)
+                if negative_chance < current_set["negative_percent"] and negative_numbers < CHALLENGED_NEGATIVE_MAX_COUNT:
+                    negative_numbers += 1
+                    random_index = random.randint(1, current_set["number_count"] - 1)
+                    problem_copy = number_list
+                    valid_negative = False
+                    while valid_negative == False:
+                        negative_int = (random.randint(10, 77)) * -1
+                        problem_copy[random_index] = negative_int
+                        list_sum = 0
+                        for k in range(0, random_index):
+                            list_sum += problem_copy[k]
+                        if list_sum < 0:
+                            while list_sum < 0:
+                                negative_int = (random.randint(10, 77)) * -1
+                                problem_copy[random_index] = negative_int
+                                list_sum = 0
+                                for l in range(0, random_index):
+                                    list_sum += problem_copy[l]
+                        sum_pos = get_pos_nums(list_sum)
+                        if len(sum_pos) < 2:
+                            sum_pos.insert(0, 0)
+                        negative_pos = get_pos_nums(negative_int*-1)
+                        if (sum_pos[0] - negative_pos[0] >= 0) and (sum_pos[1] - negative_pos[1] >= 0):
+                            number_list[random_index] = negative_int
+                            valid_negative = True 
                 
-            new_problem["numbers"] = number_list
-            new_problem["answer"] = sum(number_list)
-            key_query = ""
-            for number in number_list:
-                key_query += str(number)
-            key_query += str(new_problem["answer"])
-            if not dupcheck.get(key_query):
-                problems.append(new_problem)
-                dupcheck[key_query] = True
-                problem_counter += 1
-        counter += current_set["set_problems"]
-        data = [
-            {
-                'levelName': 'Level 1',
-                'numberSet': problems[0:10]
-            },
-            {
-                'levelName': 'Level 2',
-                'numberSet': problems[10:40]
-            },
-            {
-                'levelName': 'Level 3',
-                'numberSet': problems[40:60]
-            }
-        ]
+                new_problem["numbers"] = number_list
+                new_problem["answer"] = sum(number_list)
+                key_query = ""
+                for number in number_list:
+                    key_query += str(number)
+                key_query += str(new_problem["answer"])
+                if not dupcheck.get(key_query):
+                    problems.append(new_problem)
+                    dupcheck[key_query] = True
+                    problem_counter += 1
+            counter += current_set["set_problems"]
+    data = [
+        {
+            'levelName': 'Level 1',
+            'numberSet': problems[0:30]
+        },
+        {
+            'levelName': 'Level 2',
+            'numberSet': problems[30:40]
+        },
+        {
+            'levelName': 'Level 3',
+            'numberSet': problems[40:50]
+        }
+    ]
     return data
 
-# Creating the arithmetic data for the challenged group with only addition problems(random problems generated with guidelines)
-CHALLENGED_ADDITION_NEGATIVE_MAX_COUNT = 0
+# Creating the arithmetic data for the challenged group (random problems generated with guidelines)
+CHALLENGED_NEGATIVE_MAX_COUNT = 0
 def newChallengedAdditionData():
     problems = []
     dupcheck = {}
@@ -873,81 +915,76 @@ def newChallengedAdditionData():
     problem_counter = 0
     for key in config_keys:
         current_set = c_config[key]
-        negative_numbers = 0
-        while len(problems) < (counter + current_set["set_problems"]):
-            new_problem = dict()
-            new_problem["number"] = problem_counter + 1
 
-            number_list = []
-            valid_problem = False
-            while valid_problem == False:
-                numbers = []
-                for i in range(0, current_set["number_count"]):
-                    numbers.append(random.randint(10, current_set["max"]))
-                number_lis = []
-                for number in numbers:
-                    number_lis.append(get_pos_nums(number))
-                tens_sum = 0
-                ones_sum = 0
-                for lis in number_lis:
-                    ones_sum += lis[0]
-                    tens_sum += lis[1]
-                if ones_sum < 10 and tens_sum < 10:
-                    number_list = numbers
-                    valid_problem = True
+        if key == "first_set":
+            while len(problems) < (counter + current_set["set_problems"]):
+                new_problem = dict()
+                new_problem["number"] = problem_counter + 1
 
-            negative_chance = random.randint(0, 99)
-            if negative_chance < current_set["negative_percent"] and negative_numbers < CHALLENGED_ADDITION_NEGATIVE_MAX_COUNT:
-                negative_numbers += 1
-                random_index = random.randint(1, current_set["number_count"] - 1)
-                problem_copy = number_list
-                valid_negative = False
-                while valid_negative == False:
-                    negative_int = (random.randint(10, 77)) * -1
-                    problem_copy[random_index] = negative_int
-                    list_sum = 0
-                    for k in range(0, random_index):
-                        list_sum += problem_copy[k]
-                    if list_sum < 0:
-                        while list_sum < 0:
-                            negative_int = (random.randint(10, 77)) * -1
-                            problem_copy[random_index] = negative_int
-                            list_sum = 0
-                            for l in range(0, random_index):
-                                list_sum += problem_copy[l]
-                    sum_pos = get_pos_nums(list_sum)
-                    if len(sum_pos) < 2:
-                        sum_pos.insert(0, 0)
-                    negative_pos = get_pos_nums(negative_int*-1)
-                    if (sum_pos[0] - negative_pos[0] >= 0) and (sum_pos[1] - negative_pos[1] >= 0):
-                        number_list[random_index] = negative_int
-                        valid_negative = True 
+                number_list = []
+                for j in range(0, current_set["number_count"]):
+                    number = random.randint(current_set["min"], current_set["max"])
+                    number_list.append(number)
+
+                new_problem["numbers"] = number_list
+                new_problem["answer"] = sum(number_list)
+                key_query = ""
+                for number in number_list:
+                    key_query += str(number)
+                key_query += str(new_problem["answer"])
+                if not dupcheck.get(key_query):
+                    problems.append(new_problem)
+                    dupcheck[key_query] = True
+                    problem_counter += 1
+            counter += current_set["set_problems"]
+        else:
+            while len(problems) < (counter + current_set["set_problems"]):
+                new_problem = dict()
+                new_problem["number"] = problem_counter + 1
+
+                number_list = []
+                valid_problem = False
+                while valid_problem == False:
+                    numbers = []
+                    for i in range(0, current_set["number_count"]):
+                        numbers.append(random.randint(current_set["min"], current_set["max"]))
+                    number_lis = []
+                    for number in numbers:
+                        number_lis.append(get_pos_nums(number))
+                    tens_sum = 0
+                    ones_sum = 0
+                    for lis in number_lis:
+                        ones_sum += lis[0]
+                        tens_sum += lis[1]
+                    if ones_sum < 10 and tens_sum < 10:
+                        number_list = numbers
+                        valid_problem = True
                 
-            new_problem["numbers"] = number_list
-            new_problem["answer"] = sum(number_list)
-            key_query = ""
-            for number in number_list:
-                key_query += str(number)
-            key_query += str(new_problem["answer"])
-            if not dupcheck.get(key_query):
-                problems.append(new_problem)
-                dupcheck[key_query] = True
-                problem_counter += 1
-        counter += current_set["set_problems"]
-        data = [
-            {
-                'levelName': 'Level 1',
-                'numberSet': problems[0:10]
-            },
-            {
-                'levelName': 'Level 2',
-                'numberSet': problems[10:40]
-            },
-            {
-                'levelName': 'Level 3',
-                'numberSet': problems[40:60]
-            }
-        ]
+                new_problem["numbers"] = number_list
+                new_problem["answer"] = sum(number_list)
+                key_query = ""
+                for number in number_list:
+                    key_query += str(number)
+                key_query += str(new_problem["answer"])
+                if not dupcheck.get(key_query):
+                    problems.append(new_problem)
+                    dupcheck[key_query] = True
+                    problem_counter += 1
+            counter += current_set["set_problems"]
+    data = [
+        {
+            'levelName': 'Level 1',
+            'numberSet': problems[0:30]
+        },
+        {
+            'levelName': 'Level 2',
+            'numberSet': problems[30:40]
+        },
+        {
+            'levelName': 'Level 3',
+            'numberSet': problems[40:50]
+        }
+    ]
     return data
 
 # Showing all the user's arithmetic sheets
