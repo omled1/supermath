@@ -1024,8 +1024,8 @@ def arithmetic_view(request, id, action):
             for i in range(0, 25):
                 printData1.append([flat_list[i], flat_list[i+25]])
         
-            for i in range(50, 60):
-                printData2.append([flat_list[i], []])
+            # for i in range(50, 60):
+            #     printData2.append([flat_list[i], []])
 
             return render(request, pageTemplate, {
                 "sheet_type": "Arithmetic",
@@ -1036,7 +1036,7 @@ def arithmetic_view(request, id, action):
                 "sheet_print_data3": flat_list[20:30],
                 "sheet_print_data4": flat_list[30:40],
                 "sheet_print_data5": flat_list[40:50],
-                "sheet_print_data6": flat_list[50:60],
+                # "sheet_print_data6": flat_list[50:60],
                 "sheet_answer_data1": printData1,
                 "sheet_answer_data2": printData2,
                 "answer_sheet": answer_sheet_name

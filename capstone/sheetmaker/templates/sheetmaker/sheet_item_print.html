@@ -153,7 +153,7 @@
     </div>
 </div>
 {% elif sheet_type == "Arithmetic" %} 
-<div class="for-printing arithmetic">
+<div class="for-printing arithmetic {{ sheet_data.sheet_subtype }}">
     {% if sheet_data.sheet_subtype == "Mitori" or sheet_data.sheet_subtype == "Mitori Addition" %}
         <h3>{{sheet_data.sheet_name}} (M-1)</h3>
     {% elif sheet_data.sheet_subtype == "Challenged" or sheet_data.sheet_subtype == "Challenged Addition" %}

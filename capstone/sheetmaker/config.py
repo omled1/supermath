@@ -147,7 +147,7 @@ config["challenged"] = {
         "negative_percent": 10
     },
     "third_set": {
-        "set_problems": 20,
+        "set_problems": 10,
         "number_count": 5,
         "min": 10,
         "max": 55,
