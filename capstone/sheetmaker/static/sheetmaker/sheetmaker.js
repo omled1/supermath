@@ -291,7 +291,7 @@ $().ready(() => {
             const answerValue = input1Value * input2Value // Obtaining the answer
 
             // Changing the answer that is being shown and the answer that is being accessed when the form is submitted
-            spanAnswer.innerText = answerValue
+            spanAnswer.innerText = answerValue.toLocaleString('en-US')
             hiddenAnswer.value = answerValue
         })
 
@@ -347,7 +347,7 @@ $().ready(() => {
             }
 
             // Changing the displayed and hidden answer
-            spanAnswer.innerText = answerValue
+            spanAnswer.innerText = answerValue.toLocaleString('en-US')
             hiddenAnswer.value = answerValue
         })
 
@@ -385,7 +385,7 @@ $().ready(() => {
 
             // Changing the displayed and hidden anwer
             hiddenAnswer.value = total
-            tdAnswer.innerText = total
+            tdAnswer.innerText = total.toLocaleString('en-US')
         })
     }
 

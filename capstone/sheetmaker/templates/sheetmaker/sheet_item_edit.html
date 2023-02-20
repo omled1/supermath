@@ -1,4 +1,5 @@
 {% extends "sheetmaker/layout.html" %}
+{% load humanize %}
 
 {% block title %}
     {{ sheet_type }} - {{ sheet_data.sheet_name }} - Edit
@@ -80,7 +81,7 @@
                                             <input type="number" name="second" value="{{problem.second}}" min="0" max="99999" />
                                         </span>
                                         <span>=</span>
-                                        <span class="answer">{{ problem.answer }}</span>
+                                        <span class="answer">{{ problem.answer|intcomma }}</span>
                                         <input type="hidden" name="answer" value="{{ problem.answer }}" />
                                     </td>
                                 </tr>
@@ -161,7 +162,7 @@
                                                 <input type="number" name="second" value="{{problem.second}}" min="0" max="99999" />
                                             </span>
                                             <span>=</span>
-                                            <span class="answer">{{ problem.answer }}</span>
+                                            <span class="answer">{{ problem.answer|intcomma }}</span>
                                             <input type="hidden" name="answer" value="{{ problem.answer }}" />
                                         </td>
                                     </tr>
@@ -240,7 +241,7 @@
                                                 </td>
                                                 {% endfor %}
                                                 <td class="equal">=</td>
-                                                <td class="answer">{{ problem.answer }}</td>
+                                                <td class="answer">{{ problem.answer|intcomma }}</td>
                                                 <input type="hidden" name="{{data.levelName}}_answer" value="{{ problem.answer }}" />
                                             </tr>
                                         </table>

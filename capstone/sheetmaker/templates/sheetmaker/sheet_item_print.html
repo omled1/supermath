@@ -1,4 +1,5 @@
 {% extends "sheetmaker/layout_print.html" %}
+{% load humanize %}
 
 {% block title %}
     {{ sheet_type }} - {{ sheet_data.sheet_name }} - Print
@@ -15,9 +16,9 @@
             {% for problem in sheet_print_data_1 %}
             <tr>
                 <td class="number">{{problem.0.number}}</td>
-                <td class="expression">{{problem.0.first}} x {{problem.0.second}} = </td>
+                <td class="expression">{{problem.0.first|intcomma}} x {{problem.0.second|intcomma}} = </td>
                 <td class="number">{{problem.1.number}}</td>
-                <td class="expression">{{problem.1.first}} x {{problem.1.second}} = </td>
+                <td class="expression">{{problem.1.first|intcomma}} x {{problem.1.second|intcomma}} = </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -32,9 +33,9 @@
             {% for problem in sheet_print_data_2 %}
             <tr>
                 <td class="number">{{problem.0.number}}</td>
-                <td class="expression">{{problem.0.first}} x {{problem.0.second}} = </td>
+                <td class="expression">{{problem.0.first|intcomma}} x {{problem.0.second|intcomma}} = </td>
                 <td class="number">{{problem.1.number}}</td>
-                <td class="expression">{{problem.1.first}} x {{problem.1.second}} = </td>
+                <td class="expression">{{problem.1.first|intcomma}} x {{problem.1.second|intcomma}} = </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -52,9 +53,9 @@
                             {% for problem in sheet_print_data_1 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
-                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="expression">{{problem.0.answer|intcomma}}</td>
                                 <td class="number">{{problem.1.number}}</td>
-                                <td class="expression">{{problem.1.answer}}</td>
+                                <td class="expression">{{problem.1.answer|intcomma}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -66,9 +67,9 @@
                             {% for problem in sheet_print_data_2 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
-                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="expression">{{problem.0.answer|intcomma}}</td>
                                 <td class="number">{{problem.1.number}}</td>
-                                <td class="expression">{{problem.1.answer}}</td>
+                                <td class="expression">{{problem.1.answer|intcomma}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -88,9 +89,9 @@
             {% for problem in sheet_print_data_1 %}
             <tr>
                 <td class="number">{{problem.0.number}}</td>
-                <td class="expression">{{problem.0.first}} ÷ {{problem.0.second}} = </td>
+                <td class="expression">{{problem.0.first|intcomma}} ÷ {{problem.0.second|intcomma}} = </td>
                 <td class="number">{{problem.1.number}}</td>
-                <td class="expression">{{problem.1.first}} ÷ {{problem.1.second}} = </td>
+                <td class="expression">{{problem.1.first|intcomma}} ÷ {{problem.1.second|intcomma}} = </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -105,9 +106,9 @@
             {% for problem in sheet_print_data_2 %}
             <tr>
                 <td class="number">{{problem.0.number}}</td>
-                <td class="expression">{{problem.0.first}} ÷ {{problem.0.second}} = </td>
+                <td class="expression">{{problem.0.first|intcomma}} ÷ {{problem.0.second|intcomma}} = </td>
                 <td class="number">{{problem.1.number}}</td>
-                <td class="expression">{{problem.1.first}} ÷ {{problem.1.second}} = </td>
+                <td class="expression">{{problem.1.first|intcomma}} ÷ {{problem.1.second|intcomma}} = </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -125,9 +126,9 @@
                             {% for problem in sheet_print_data_1 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
-                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="expression">{{problem.0.answer|intcomma}}</td>
                                 <td class="number">{{problem.1.number}}</td>
-                                <td class="expression">{{problem.1.answer}}</td>
+                                <td class="expression">{{problem.1.answer|intcomma}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -139,9 +140,9 @@
                             {% for problem in sheet_print_data_2 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
-                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="expression">{{problem.0.answer|intcomma}}</td>
                                 <td class="number">{{problem.1.number}}</td>
-                                <td class="expression">{{problem.1.answer}}</td>
+                                <td class="expression">{{problem.1.answer|intcomma}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -173,7 +174,7 @@
                                 <td class="number-list">
                                     {% for number in problem.numbers %}
                                         <div>
-                                            {{ number }}
+                                            {{ number|intcomma }}
                                         </div>
                                     {% endfor %}
                                 </td>
@@ -200,7 +201,7 @@
                                 <td class="number-list">
                                     {% for number in problem.numbers %}
                                         <div>
-                                            {{ number }}
+                                            {{ number|intcomma }}
                                         </div>
                                     {% endfor %}
                                 </td>
@@ -227,7 +228,7 @@
                                 <td class="number-list">
                                     {% for number in problem.numbers %}
                                         <div>
-                                            {{ number }}
+                                            {{ number|intcomma }}
                                         </div>
                                     {% endfor %}
                                 </td>
@@ -254,7 +255,7 @@
                                 <td class="number-list">
                                     {% for number in problem.numbers %}
                                         <div>
-                                            {{ number }}
+                                            {{ number|intcomma }}
                                         </div>
                                     {% endfor %}
                                 </td>
@@ -281,7 +282,7 @@
                                 <td class="number-list">
                                     {% for number in problem.numbers %}
                                         <div>
-                                            {{ number }}
+                                            {{ number|intcomma }}
                                         </div>
                                     {% endfor %}
                                 </td>
@@ -308,7 +309,7 @@
                                 <td class="number-list">
                                     {% for number in problem.numbers %}
                                         <div>
-                                            {{ number }}
+                                            {{ number|intcomma }}
                                         </div>
                                     {% endfor %}
                                 </td>
@@ -342,7 +343,7 @@
                                     <td class="number-list">
                                         {% for number in problem.numbers %}
                                             <div>
-                                                {{ number }}
+                                                {{ number|intcomma }}
                                             </div>
                                         {% endfor %}
                                     </td>
@@ -369,7 +370,7 @@
                                     <td class="number-list">
                                         {% for number in problem.numbers %}
                                             <div>
-                                                {{ number }}
+                                                {{ number|intcomma }}
                                             </div>
                                         {% endfor %}
                                     </td>
@@ -396,7 +397,7 @@
                                     <td class="number-list">
                                         {% for number in problem.numbers %}
                                             <div>
-                                                {{ number }}
+                                                {{ number|intcomma }}
                                             </div>
                                         {% endfor %}
                                     </td>
@@ -423,7 +424,7 @@
                                     <td class="number-list">
                                         {% for number in problem.numbers %}
                                             <div>
-                                                {{ number }}
+                                                {{ number|intcomma }}
                                             </div>
                                         {% endfor %}
                                     </td>
@@ -450,9 +451,9 @@
                                 {% for problem in sheet_answer_data1 %}
                                 <tr>
                                     <td class="number">{{problem.0.number}}</td>
-                                    <td class="expression">{{problem.0.answer}}</td>
+                                    <td class="expression">{{problem.0.answer|intcomma}}</td>
                                     <td class="number">{{problem.1.number}}</td>
-                                    <td class="expression">{{problem.1.answer}}</td>
+                                    <td class="expression">{{problem.1.answer|intcomma}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -464,9 +465,9 @@
                                 {% for problem in sheet_answer_data2 %}
                                 <tr>
                                     <td class="number">{{problem.0.number}}</td>
-                                    <td class="expression">{{problem.0.answer}}</td>
+                                    <td class="expression">{{problem.0.answer|intcomma}}</td>
                                     <td class="number">{{problem.1.number}}</td>
-                                    <td class="expression">{{problem.1.answer}}</td>
+                                    <td class="expression">{{problem.1.answer|intcomma}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -487,9 +488,9 @@
                             {% for problem in sheet_answer_data1 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
-                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="expression">{{problem.0.answer|intcomma}}</td>
                                 <td class="number">{{problem.1.number}}</td>
-                                <td class="expression">{{problem.1.answer}}</td>
+                                <td class="expression">{{problem.1.answer|intcomma}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -501,10 +502,10 @@
                             {% for problem in sheet_answer_data2 %}
                             <tr>
                                 <td class="number">{{problem.0.number}}</td>
-                                <td class="expression">{{problem.0.answer}}</td>
+                                <td class="expression">{{problem.0.answer|intcomma}}</td>
                                 {% if problem.1 %}
                                     <td class="number">{{problem.1.number}}</td>
-                                    <td class="expression">{{problem.1.answer}}</td>
+                                    <td class="expression">{{problem.1.answer|intcomma}}</td>
                                 {% endif %}
                             </tr>
                             {% endfor %}

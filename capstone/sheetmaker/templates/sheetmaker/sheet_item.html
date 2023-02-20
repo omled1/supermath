@@ -1,4 +1,5 @@
 {% extends "sheetmaker/layout.html" %}
+{% load humanize %}
 
 {% block title %}
     {{ sheet_type }} - {{ sheet_data.sheet_name }}
@@ -62,10 +63,10 @@
                                     </td>
                                     <td>
                                         <span>
-                                            {{ problem.first }} x {{ problem.second }}
+                                            {{ problem.first|intcomma }} x {{ problem.second|intcomma }}
                                         </span>
                                         <span>=</span>
-                                        <span>{{ problem.answer }}</span>
+                                        <span>{{ problem.answer|intcomma }}</span>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -120,10 +121,10 @@
                                     </td>
                                     <td>
                                         <span>
-                                            {{ problem.first }} ÷ {{ problem.second }}
+                                            {{ problem.first|intcomma }} ÷ {{ problem.second|intcomma }}
                                         </span>
                                         <span>=</span>
-                                        <span>{{ problem.answer }}</span>
+                                        <span>{{ problem.answer|intcomma }}</span>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -178,10 +179,10 @@
                                     <table>
                                         <tr>
                                             {% for num in problem.numbers %}
-                                            <td class="px-2">{{ num }}</td>
+                                            <td class="px-2">{{ num|intcomma }}</td>
                                             {% endfor %}
                                             <td class="equal">=</td>
-                                            <td class="answer">{{ problem.answer }}</td>
+                                            <td class="answer">{{ problem.answer|intcomma }}</td>
                                         </tr>
                                     </table>
                                 </td>
