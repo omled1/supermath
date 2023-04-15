@@ -49,35 +49,40 @@ config["division"] = {
         "first_max": 999,
         "second_min": 2,
         "second_max": 9,
-        "outlier_count": 3
+        "outlier_count": 4,
+        "answer_length": 2
     },
     "second_set": {
         "first_min": 1000,
         "first_max": 9999,
         "second_min": 2,
         "second_max": 9,
-        "outlier_count": 3
+        "outlier_count": 4,
+        "answer_length": 3
     },
     "third_set": {
         "first_min": 1000,
         "first_max": 9999,
         "second_min": 10,
         "second_max": 99,
-        "outlier_count": 3
+        "outlier_count": 4,
+        "answer_length": 2
     },
     "fourth_set": {
         "first_min": 10000,
         "first_max": 99999,
         "second_min": 10,
         "second_max": 99,
-        "outlier_count": 4
+        "outlier_count": 4,
+        "answer_length": 3
     },
     "fifth_set": {
         "first_min": 10000,
         "first_max": 99999,
         "second_min": 100,
         "second_max": 999,
-        "outlier_count": 3
+        "outlier_count": 4,
+        "answer_length": 2
     }
 }
 

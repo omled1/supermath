@@ -386,16 +386,14 @@ def newDivisionData():
             new_problem["number"] = problem_counter + 1
             new_problem["first"] = random.randint(current_set["first_min"], current_set["first_max"])
             if (is_prime_number(new_problem["first"]) == True): # Do not want the first number to a prime number
-                while is_prime_number(new_problem["first"] == True): # Re-call the randint function until the number is not a prime number
+                while (is_prime_number(new_problem["first"]) == True): # Re-call the randint function until the number is not a prime number
                     new_problem["first"] = random.randint(current_set["first_min"], current_set["first_max"])
-            new_problem["second"] = random.randint(current_set["second_min"], current_set["second_max"])
-            if (new_problem["first"] % new_problem["second"] != 0): # Do not want the numbers to produce a non-integer
-                first_factors = factors(new_problem["first"], current_set["second_min"], current_set["second_max"] + 1) # Getting the factors of the first number from a certain range as defined in config
-                if (not first_factors): # In case first number does not have any factors
-                    while not first_factors:
-                        new_problem["first"] = random.randint(current_set["first_min"], current_set["first_max"]) # Chooses a new first number
-                        first_factors = factors(new_problem["first"], current_set["second_min"], current_set["second_max"] + 1) # Gets factors again
-                new_problem["second"] = random.choice(first_factors) # Chooses a random factor from first_factors to be thes second number
+            first_factors = factors(new_problem["first"], current_set["second_min"], current_set["second_max"] + 1, current_set["answer_length"]) # Getting the factors of the first number from a certain range as defined in config
+            if (not first_factors): # In case first number does not have any factors
+                while not first_factors:
+                    new_problem["first"] = random.randint(current_set["first_min"], current_set["first_max"]) # Chooses a new first number
+                    first_factors = factors(new_problem["first"], current_set["second_min"], current_set["second_max"] + 1, current_set["answer_length"]) # Gets factors again
+            new_problem["second"] = random.choice(first_factors) # Chooses a random factor from first_factors to be the second number
             new_problem["answer"] = new_problem["first"] // new_problem["second"]
             key_query = "%i-%i-%i" % (new_problem["first"], new_problem["second"], new_problem["answer"]) # Creates a unique query to log in the problem to prevent duplicates
             if not dupcheck.get(key_query):
@@ -410,11 +408,11 @@ def newDivisionData():
                 while index in index_list:
                     index = random.randint(counter, len(problems) - 1)
             problems[index]["first"] = random.randint(current_set["first_min"] // 10, current_set["first_max"] // 10) # Picking a smaller number depending on the level
-            first_factors = factors(problems[index]["first"], current_set["second_min"], current_set["second_max"] + 1) # Getting the factors of the new number
+            first_factors = factors(problems[index]["first"], current_set["second_min"], current_set["second_max"] + 1, current_set["answer_length"]) # Getting the factors of the new number
             if (not first_factors): # Generating new first numbers if there are no factors for the current first number
                 while not first_factors:
                     problems[index]["first"] = random.randint(current_set["first_min"] // 10, current_set["first_max"] // 10)
-                    first_factors = factors(problems[index]["first"], current_set["second_min"], current_set["second_max"] + 1)
+                    first_factors = factors(problems[index]["first"], current_set["second_min"], current_set["second_max"] + 1, current_set["answer_length"])
             problems[index]["second"] = random.choice(first_factors) # Picking second number from first factor
             problems[index]["answer"] = problems[index]["first"] // problems[index]["second"] # Answer
             key_query = "%i-%i-%i" % (problems[index]["first"], problems[index]["second"], problems[index]["answer"]) # Create a unique query to log in the problem to prevent duplicates
@@ -1138,11 +1136,13 @@ def is_prime_number(x):
     return True
 
 # Function to find the factors of a number within a given range
-def factors(x, min, max):
+def factors(x, min, max, length):
     factors = []
     for i in range(min, max):
         if x % i == 0:
-            factors.append(i)
+            quotient = str(int(x / i))
+            if len(quotient) == length:
+                factors.append(i)
     return factors
 
 # Function to return a list of numbers originating from their positions in the inputted numnber
