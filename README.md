@@ -1,5 +1,5 @@
 ## IMPORTANT INFORMATION
-#### I made this application mainly for the founder of SuperMath. Hence, I restricted which users could access the features of this website which I am hosting on PythonAnywhere. TO TEST OUT THIS APPLICATION, PLEASE USE THE USERNAME "cs50w" WHEN REGISTERING AN ACCOUNT.
+#### I created this application mainly for the founder of SuperMath. Thus, even though I have published this application on the web, I refrain from sharing the link since I prefer that the access and use of the website be limited to me and the founder only. This is also why I limited the valid usernames a user could use to register an account. So, if you want to try out this web application's features on your own machine, please use the username "demo" when registering an account. Any e-mail address and password will suffice.
 
 ## HOW TO RUN THE APPLICATION
 1. Ensure that all of the libraries are installed through “pip install -r requirements.txt”
@@ -75,13 +75,3 @@
     
 - Requirements.txt 
     - Contains all of the required libraries needed to run this application.
-
-## DISTINCTIVENESS AND COMPLEXITY
-
-I think my program satisfies the distinctiveness and complexity requirement because:
-
-1. The product and business logic of the application is unique. No past projects created a math problem sheet model that featured multiplication, division, and addition/subtraction questions. These problem sheets are primarily found in SuperMath, the mental math program I was formerly a part of. Since I wanted to make the sheets the same structure as the ones found in SuperMath, I had to follow many guidelines. It was more complex than generating random integers, with the problems getting progressively more challenging. As seen in how I generate the data in my views.py, I had to ensure that there were no negative answers for all problem sheets, no non-integer answers for division sheets, and limited negative operands for addition and subtraction sheets. I also had to ensure that these rules were enforced whenever a user edited a sheet.
-
-2. Ability to print conveniently. These sheets were meant to be done on physical paper, so I needed to add the ability to print. I had to ensure that the printing page looked identical to past problem sheets from SuperMath, so it wasn’t as simple as just printing whatever was being shown on sheet.html. No past projects had this feature to print data in a formatted and convenient way like this.
-
-3. Implementing obtaining the browser’s timezone, a fundamental feature that Django surprisingly lacks. Django has a library called tz, which allows you to convert DateTime objects to a specific timezone or to “local time” by using a filter. However, applying this filter would only convert the time to the timezone defined in settings.py, which by default, was UTC. Of course, users of my website could be anywhere in the world, which is why I had to find a way to convert the created/modified times in sheet.html to be respectful of the browser’s timezone. Django had no simple way to do this, so I devised an elegant and efficient way to handle this limitation. I created a JavaScript function that would inject the browser’s timezone as a value in a hidden input field in the login form. Whenever a valid user logs in, the browser’s timezone is passed in the POST request to views.py, which I then set as the timezone to be used when filtering the created/modified times in sheet.html.
